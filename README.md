@@ -1,2 +1,2 @@
 # Knarr
-Projet informatique àl'Esigelec
+Projet informatique à l'Esigelec
