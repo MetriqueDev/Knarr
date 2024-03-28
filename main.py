@@ -6,7 +6,7 @@ from  classes.player import Player
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((900,600),pygame.RESIZABLE) #(1280, 720))
+screen = pygame.display.set_mode((1600,900)) #(1280, 720))
 clock = pygame.time.Clock()
 running = True
 
