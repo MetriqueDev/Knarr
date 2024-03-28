@@ -10,7 +10,9 @@ class Player():
         print("name:",self.name)
         print("level:",self.level)
 
+    def game_init(self):
+        self.score = 0
+        self.renome = 0
 
-#Question :
-#   La classe palyer est la même pendant la partie ? ou on crée un différence?
-#   On crée un class account et une class joueur ?
+    def get_renome(self):
+        return self.renome

@@ -1,9 +1,11 @@
 import pygame
-from  fichiers.card import Card
+from  classes.card import Card
+from  classes.board import Board
+from  classes.boat import Boat
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((800,500)) #(1280, 720))
+screen = pygame.display.set_mode((900,600),pygame.RESIZABLE) #(1280, 720))
 clock = pygame.time.Clock()
 running = True
 
@@ -15,6 +17,11 @@ for card_type in card_types:
     card.init_image()
     cards.append(card)
 
+
+board = Board()
+board.init_image()
+boat = Boat()
+boat.init_image()
 while running:
     
     # poll for events
@@ -30,7 +37,10 @@ while running:
 
     #afficher les cartes
     for i in range(len(cards)):
-        cards[i].print(screen,(i*125,0))
+        cards[i].print(screen,(i*125,400))
+
+    board.print(screen, (200,70))
+    boat.print(screen, (500,400))
     # flip() the display to put your work on screen
     pygame.display.flip()
 
