@@ -6,9 +6,12 @@ from  classes.player import Player
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((900,600),pygame.RESIZABLE) #(1280, 720))
+screen = pygame.display.set_mode((1600,900)) #(1280, 720))
 clock = pygame.time.Clock()
 running = True
+
+background_load = pygame.image.load(f".\images\\fond.jpg").convert_alpha()
+background= pygame.transform.scale(background_load, (1600,900))
 
 #initialisation des cartes
 cards=[]
@@ -33,7 +36,7 @@ players[0].info()
 
 
 while running:
-    
+    screen.blit(background,(0,0))
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
@@ -48,19 +51,19 @@ while running:
             print(players[0].get_renome())
 
     # fill the screen with a color to wipe away anything from last frame
-    screen.fill("darkgreen")
+
 
     # RENDER YOUR GAME HERE
 
     #afficher les cartes
     for i in range(len(cards)):
-        cards[i].print(screen,(i*125,400))
+        cards[i].print(screen,(int(1600/2-len(cards)*125/2)+i*125,500))
 
 
 
     board.print(screen, (200,70))
     board.update_renome_pos(screen,players)
-    boat.print(screen, (500,400))
+    boat.print(screen, (600,700))
     # flip() the display to put your work on screen
     pygame.display.flip()
 
