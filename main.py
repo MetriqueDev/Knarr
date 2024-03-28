@@ -10,6 +10,8 @@ screen = pygame.display.set_mode((1600,900)) #(1280, 720))
 clock = pygame.time.Clock()
 running = True
 
+#pygame.mixer.music.load()
+#pygame.mixer.music.play()
 background_load = pygame.image.load(f".\images\\fond.jpg").convert_alpha()
 background= pygame.transform.scale(background_load, (1600,900))
 
