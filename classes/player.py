@@ -21,7 +21,7 @@ class Player():
         if ((self.renome + add)<15) and ((self.renome+add)>(-1)):
             self.renome+=add
 
-    def add_scoe(self,add):
+    def add_score(self,add):
         if ((self.score+add)>(-1)):
             self.score+=add
 

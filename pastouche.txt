@@ -1,0 +1,3 @@
+chaque c destination a :
+    un cout --> nombre et couleur
+    un 
