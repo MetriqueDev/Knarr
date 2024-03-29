@@ -10,8 +10,8 @@ screen = pygame.display.set_mode((1600,900),pygame.RESIZABLE) #(1280, 720))
 clock = pygame.time.Clock()
 running = True
 
-#pygame.mixer.music.load()
-#pygame.mixer.music.play()
+pygame.mixer.music.load(".\musique\\Dragonborn.mp3")
+pygame.mixer.music.play()
 background_load = pygame.image.load(".\images\\fond.jpg").convert_alpha()
 background= pygame.transform.scale(background_load, (1600,900))
 
@@ -35,13 +35,14 @@ players=[Player("Vladimir Ilitch",50)]
 players[0].game_init()
 players[0].info()
 
-
+musique = True
 
 while running:
-    screen.blit(background,(0,0))
+    
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
+        background= pygame.transform.scale(background_load, (screen.get_width(),screen.get_height()))
         if event.type == pygame.QUIT:
             running = False
 
@@ -50,10 +51,18 @@ while running:
                 players[0].add_renome(1)
             elif event.key == pygame.K_DOWN:
                 players[0].add_renome(-1)
+            elif event.key == pygame.K_SPACE:
+                if musique == True:
+                    musique = False
+                    pygame.mixer.music.pause()
+                elif musique == False:
+                    musique = True
+                    pygame.mixer.music.play()
+
             print(players[0].get_renome())
 
     # fill the screen with a color to wipe away anything from last frame
-
+    screen.blit(background,(0,0))
 
     # RENDER YOUR GAME HERE
 
