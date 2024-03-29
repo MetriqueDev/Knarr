@@ -6,13 +6,13 @@ from  classes.player import Player
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1600,900)) #(1280, 720))
+screen = pygame.display.set_mode((1600,900),pygame.RESIZABLE) #(1280, 720))
 clock = pygame.time.Clock()
 running = True
 
 #pygame.mixer.music.load()
 #pygame.mixer.music.play()
-background_load = pygame.image.load(f".\images\\fond.jpg").convert_alpha()
+background_load = pygame.image.load(".\images\\fond.jpg").convert_alpha()
 background= pygame.transform.scale(background_load, (1600,900))
 
 #initialisation des cartes
@@ -59,13 +59,13 @@ while running:
 
     #afficher les cartes
     for i in range(len(cards)):
-        cards[i].print(screen,(int(1600/2-len(cards)*125/2)+i*125,500))
+        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125,screen.get_height()-400))
 
 
 
-    board.print(screen, (200,70))
+    board.print(screen)
     board.update_renome_pos(screen,players)
-    boat.print(screen, (600,700))
+    boat.print(screen)
     # flip() the display to put your work on screen
     pygame.display.flip()
 
