@@ -8,6 +8,8 @@ class Card_bateau():
 		self.name=name
 		self.face="F"
 
+		self.init_image()
+
 	def init_image(self):
 		if self.echange:
 			self.image_echange_front_load = pygame.image.load(f".\\images\\echange\\{self.name}.png").convert_alpha() #pour la transaprance on utilise convert_alpha

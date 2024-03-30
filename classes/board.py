@@ -5,10 +5,12 @@ class Board():
     def __init__(self):
         self.size=(600,250)#(250,400)
 
+        self.init_image()
+
     def init_image(self):
-        self.image_board_load = pygame.image.load(f".\images\\plateau.png").convert_alpha() #pour la transaprance on utilise convert_alpha
+        self.image_board_load = pygame.image.load(f".\\images\\plateau.png").convert_alpha() #pour la transaprance on utilise convert_alpha
         self.image_board = pygame.transform.scale(self.image_board_load, self.size) #changement de taille
-        self.image_renome_piece_load = pygame.image.load(f".\images\\renome_piece.png").convert_alpha()
+        self.image_renome_piece_load = pygame.image.load(f".\\images\\renome_piece.png").convert_alpha()
         self.image_renome_piece = pygame.transform.rotate(pygame.transform.scale(self.image_renome_piece_load, (20,20)),45)
 
     def print(self,screen):

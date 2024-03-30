@@ -8,6 +8,8 @@ class Player():
         self.nombre_de_vicoire=0
         self.nombre_de_defaite=0
 
+        
+
 
     def info(self):
         print("name:",self.name)
