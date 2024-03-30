@@ -18,13 +18,33 @@ class Board():
         for player in players:
             renome = player.get_renome()
             if renome%2 == 0:
-                screen.blit(self.image_renome_piece, (int(screen.get_width()/2)+16 + int(31/2)*renome ,360))
+                screen.blit(self.image_renome_piece, (int(screen.get_width()/2-self.size[0]/2)+317+15*renome,screen.get_height()-660+122))
             else:
-                screen.blit(self.image_renome_piece, (int(screen.get_width()/2)+16 + int(31/2)*renome ,360-1))
+                screen.blit(self.image_renome_piece, (int(screen.get_width()/2-self.size[0]/2)+317+15*renome,screen.get_height()-660+122-17))
 
 
+    def update_renome_pos(self,screen,players):
+        for player in players:
+            renome = player.get_renome()
+            if renome%2 == 0:
+                screen.blit(self.image_renome_piece, (int(screen.get_width()/2-self.size[0]/2)+317+15*renome,screen.get_height()-660+122))
+            else:
+                screen.blit(self.image_renome_piece, (int(screen.get_width()/2-self.size[0]/2)+317+15*renome,screen.get_height()-660+122-17))
 
 
+    def update_score_pos(self,screen,players):
+
+        for player in players:
+    
+            score = player.get_score()
+            if score <= 16:
+                pygame.draw.circle(screen, ( 169, 50, 38 ), (int(screen.get_width()/2-self.size[0]/2)+20 +35*score ,screen.get_height()-660+47), 15)
+            elif score <=20:
+                pygame.draw.circle(screen, ( 169, 50, 38 ), (int(screen.get_width()/2-self.size[0]/2)+20 +35*16 ,screen.get_height()-660+47 +40*(score-16) ), 15)
+            elif score <= 36:
+                pygame.draw.circle(screen, ( 169, 50, 38 ), (int(screen.get_width()/2-self.size[0]/2)+20 +35*16-35*(score-20) ,screen.get_height()-660+47 +40*(20-16) ), 15)
+            elif score <= 40:
+                pygame.draw.circle(screen, ( 169, 50, 38 ), (int(screen.get_width()/2-self.size[0]/2)+20 +35*16-35*(36-20) ,screen.get_height()-660+47 +40*(20-16)-40*(score-36) ), 15)
 
 #circle()
 

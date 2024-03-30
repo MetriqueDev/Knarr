@@ -24,6 +24,11 @@ class Player():
     def add_score(self,add):
         if ((self.score+add)>(-1)):
             self.score+=add
+        if ((self.score + add)>40):
+            self.score=40
 
     def get_renome(self):
         return self.renome
+
+    def get_score(self):
+        return self.score
