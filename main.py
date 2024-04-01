@@ -4,6 +4,7 @@ from  classes.board import Board
 from  classes.boat import Boat
 from  classes.player import Player
 from  classes.card_bateau import Card_bateau
+from  classes.menu import Menu
 
 pygame.init()
 
@@ -32,6 +33,11 @@ pygame.mouse.set_cursor(*pygame.cursors.diamond)
 
 #-------------------------------------------------------------------------------------
 
+
+menu = Menu("a")
+
+
+
 #initialisation des cartes (impropre)
 cards=[]
 card_types=["bleu1","bleu2","bleu3","bleu4"]
@@ -43,79 +49,76 @@ card_echange=Card_bateau("echange_1")
 
 
 
-
-
 #Initialisation propre
 nbr_player=1
-if nbr_player<5:
-    board = Board()
-    boat = Boat()
-    players=[]
-    for i in range(nbr_player):
-        players.append(Player("Vladimir Ilitch",50))
-        players[i].game_init()
-        players[i].info()
+
+board = Board()
+boat = Boat()
+players=[]
+for i in range(nbr_player):
+    players.append(Player("Vladimir Ilitch",50))
+    players[i].game_init()
+    players[i].info()
 
 
+
+while running:
+    
+    #Gestion des events
+    for event in pygame.event.get():
+        background= pygame.transform.scale(background_load, (screen.get_width(),screen.get_height()))#Mise à jour de la taille du fond ecran a chaque action
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == pygame.KEYDOWN:
+
+            #Gestion pointq
+            if event.key == pygame.K_UP:
+                players[0].add_score(1)
+            elif event.key == pygame.K_DOWN:
+                players[0].add_score(-1)
+
+            #Gestion musique (Temporaire)
+            elif event.key == pygame.K_SPACE:
+                if musique == True:
+                    musique = False
+                    pygame.mixer.music.pause()
+                elif musique == False:
+                    musique = True
+                    pygame.mixer.music.play()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print(event)
+            menu.menu_interaction(event.pos)
+        
+
+    # RENDER YOUR GAME HERE
+    screen.blit(background,(0,0))
 
     
-
-    while running:
-        
-        #Gestion des events
-        for event in pygame.event.get():
-            background= pygame.transform.scale(background_load, (screen.get_width(),screen.get_height()))#Mise à jour de la taille du fond ecran a chaque action
-            if event.type == pygame.QUIT:
-                running = False
-
-            if event.type == pygame.KEYDOWN:
-
-                #Gestion pointq
-                if event.key == pygame.K_UP:
-                    players[0].add_score(1)
-                elif event.key == pygame.K_DOWN:
-                    players[0].add_score(-1)
-
-                #Gestion musique (Temporaire)
-                elif event.key == pygame.K_SPACE:
-                    if musique == True:
-                        musique = False
-                        pygame.mixer.music.pause()
-                    elif musique == False:
-                        musique = True
-                        pygame.mixer.music.play()
-
-        # RENDER YOUR GAME HERE
-        screen.blit(background,(0,0))
-
-        
-        #Afficher les cartes
-        for i in range(len(cards)):
-            cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125,screen.get_height()-400))
+    #Afficher les cartes
+    for i in range(len(cards)):
+        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125,screen.get_height()-400))
 
 
-        #Afficher board
-        board.print(screen)
-        ##Afficher points bateau
-        board.update_renome_pos(screen,players)
-        board.update_score_pos(screen,players)
+    #Afficher board
+    board.print(screen)
+    ##Afficher points bateau
+    board.update_renome_pos(screen,players)
+    board.update_score_pos(screen,players)
 
-        #Afficher bateau
-        boat.print(screen)
-        boat.print_object(screen)
-
-
-        #Afficher carte échange et influence
-        card_echange.print(screen)
+    #Afficher bateau
+    boat.print(screen)
+    boat.print_object(screen)
 
 
-        pygame.display.flip()
+    #Afficher carte échange et influence
+    card_echange.print(screen)
 
-        clock.tick(60) # limits FPS to 60
+    #menu.print(screen)
+    pygame.display.flip()
+
+    clock.tick(60) # limits FPS to 60
 
     
-
-else:
-    print("Trop de joueur.")
-
 pygame.quit()
