@@ -13,6 +13,7 @@ screen = pygame.display.set_mode((1600,900),pygame.RESIZABLE) #(1280, 720))
 pygame.display.set_caption("Knarr")
 clock = pygame.time.Clock()
 running = True
+step = "Menu"
 
 #Musique
 pygame.mixer.music.load(".\\musique\\Dragonborn.mp3")
@@ -88,8 +89,9 @@ while running:
                     pygame.mixer.music.play()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print(event)
-            menu.menu_interaction(event.pos)
+            clic=menu.menu_interaction(event.pos)
+            if clic :
+                step="other"
         
 
     # RENDER YOUR GAME HERE
@@ -114,7 +116,8 @@ while running:
 
     #Afficher carte échange et influence
     card_echange.print(screen)
-
+    if step == "Menu":
+        menu.print(screen)
     #menu.print(screen)
     pygame.display.flip()
 

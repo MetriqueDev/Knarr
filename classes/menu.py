@@ -28,19 +28,21 @@ class Menu():
 		self.background_menu_image=pygame.transform.scale(self.background_menu_load, (screen.get_width(),screen.get_height()))
 		screen.blit(self.background_menu_image,(0,0))
 
-		screen.blit(self.inscription_image, (int(screen.get_width()/2-self.size[0]/2),int(screen.get_height()/2-self.size[1]/2-10)))
-		screen.blit(self.connexion_image, (int(screen.get_width()/2-self.size[0]/2),int(screen.get_height()/2+self.size[1]/2+10)))
+		self.inscription_rect.x=int(screen.get_width()/2-self.size[0]/2)
+		self.inscription_rect.y=int(screen.get_height()/2-self.size[1]/2-10)
+		screen.blit(self.inscription_image, (self.inscription_rect.x,self.inscription_rect.y))
+
+		self.connexion_rect.x=int(screen.get_width()/2-self.size[0]/2)
+		self.connexion_rect.y=int(screen.get_height()/2+self.size[1]/2+10)
+		screen.blit(self.connexion_image, (self.connexion_rect.x,self.connexion_rect.y))
 
 
 	def menu_interaction(self,mouse_pos):
-		print("test")
-		self.connexion_rect = self.connexion_image.get_rect()
-		print(self.connexion_rect)
-		print(self.inscription_rect.collidepoint(mouse_pos))
 		if self.inscription_rect.collidepoint(mouse_pos):
-			print("inscription")
+			return True
 		elif self.connexion_rect.collidepoint(mouse_pos):
-			print("connexion")
+			return True
+		return False
 
 
       
