@@ -11,21 +11,33 @@ class Card_bateau():
 
 	def init_image(self):
 		if self.echange:
-			self.image_echange_front_load = pygame.image.load(f".\\images\\echange\\{self.name}.png").convert_alpha() #pour la transaprance on utilise convert_alpha
-			self.image_echange_front = pygame.transform.scale(self.image_echange_front_load, self.size) #changement de taille
-			self.image_echange_back_load = pygame.image.load(f".\\images\\echange\\echange_verso.png").convert_alpha() 
-			self.image_echange_back = pygame.transform.scale(self.image_echange_back_load, self.size)
+			self.image_front_load = pygame.image.load(f".\\images\\echange\\{self.name}.png").convert_alpha() #pour la transaprance on utilise convert_alpha
+			self.image_front = pygame.transform.scale(self.image_front_load, self.size) #changement de taille
+			self.front_rect = self.image_front.get_rect()
+
+			self.image_back_load = pygame.image.load(f".\\images\\echange\\echange_verso.png").convert_alpha() 
+			self.image_back = pygame.transform.scale(self.image_back_load, self.size)
+			self.back_rect = self.image_back.get_rect()
 		else:
-			self.image_influence_front_load = pygame.image.load(f".\\images\\influence\\{self.name}.png").convert_alpha() #pour la transaprance on utilise convert_alpha
-			self.image_influence_front = pygame.transform.scale(self.image_influence_load, self.size) #changement de taille
-			self.image_influence_back_load = pygame.image.load(f".\\images\\influence\\influence_verso.png").convert_alpha() 
-			self.image_influence_back = pygame.transform.scale(self.image_influence_back_load, self.size)
+			self.image_front_load = pygame.image.load(f".\\images\\influence\\{self.name}.png").convert_alpha() #pour la transaprance on utilise convert_alpha
+			self.image_front = pygame.transform.scale(self.image_front_load, self.size) #changement de taille
+			self.front_rect = self.image_front.get_rect()
+
+			self.image_back_load = pygame.image.load(f".\\images\\influence\\influence_verso.png").convert_alpha() 
+			self.image_back = pygame.transform.scale(self.image_back_load, self.size)
+			self.back_rect = self.image_back.get_rect()
+
 
 	def print(self,screen):
-		if self.echange:
-			if  self.face =="F":
-				screen.blit(self.image_echange_front, (10,10))
-				screen.blit(self.image_echange_back, (10,150+10))
+		if  self.face =="F":
+			self.front_rect.x=10
+			self.front_rect.y=10
+			screen.blit(self.image_front, (self.front_rect.x,self.front_rect.y))
+		else:
+			self.back_rect.x=10
+			self.back_rect.y=150+10
+			screen.blit(self.image_back, (self.back_rect.x,self.back_rect.y))
+
 
 def liste(ech,infl):
 	for i in range(20):

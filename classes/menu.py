@@ -21,7 +21,6 @@ class Menu():
 		self.connexion_image_load=pygame.image.load(f".\\images\\MENU\\connexion.png").convert_alpha() 
 		self.connexion_image=pygame.transform.scale(self.connexion_image_load, self.size)
 		self.connexion_rect = self.connexion_image.get_rect()
-		print(self.inscription_rect)
 
 	def print(self,screen):
 		#affichage

@@ -13,15 +13,21 @@ class Card():
     def init_image(self):
         self.front=pygame.image.load(f".\\images\\vikings\\{self.card_type}.png").convert_alpha() #pour la transaprance on utilise convert_alpha
         self.front=pygame.transform.scale(self.front, self.size) #changement de taille
+        self.front_rect=self.front.get_rect()
 
         self.back=pygame.image.load(f".\\images\\vikings\\dosdecarte.png").convert_alpha() #pour la transaprance on utilise convert_alpha
         self.back=pygame.transform.scale(self.back, self.size) #changement de taille
+        self.back_rect=self.back.get_rect()
 
     def print(self,screen,pos):
         if self.face == "F":
-            screen.blit(self.front, pos)
+            self.front_rect.x=pos[0]
+            self.front_rect.y=pos[1]
+            screen.blit(self.front, (self.front_rect.x,self.front_rect.y))
         else:
-            screen.blit(self.back, pos)
+            self.back_rect.x=pos[0]
+            self.back_rect.y=pos[1]
+            screen.blit(self.back, (self.back_rect.x,self.back_rect.y))
 
     def print_info(self):
         print(f"Type:{self.card_type}\nNumero:{self.num}")
