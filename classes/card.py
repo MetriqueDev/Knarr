@@ -2,10 +2,11 @@ import pygame
 
 class Card():
 
-    def __init__(self,card_type):
+    def __init__(self,card_type,num=0):
         self.card_type=card_type
-        self.face="B" #F for Front & B for Back
+        self.face="F" #F for Front & B for Back
         self.size=(125,200)#(250,400)
+        self.num=num
 
         self.init_image()
 
@@ -21,3 +22,6 @@ class Card():
             screen.blit(self.front, pos)
         else:
             screen.blit(self.back, pos)
+
+    def print_info(self):
+        print(f"Type:{self.card_type}\nNumero:{self.num}")

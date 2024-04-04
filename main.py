@@ -42,15 +42,24 @@ menu = Menu("a")
 
 #initialisation des cartes (impropre)
 cards=[]
-card_types=["bleu1","bleu2","bleu3","bleu4"]
-for card_type in card_types:
-    card=Card(card_type)
+card_types=["bleu1","bleu2","bleu3","bleu4",    "jaune1","jaune2","jaune3","jaune4",    "rouge1","rouge2","rouge3","rouge4",    "vert1","vert2","vert3","vert4",    "violet1","violet2","violet3","violet4"]
+card_num=[0,0,3,3,3,0,4,0,3,0,0,0,0,0,4,0,0,3,0,4]
+for i in range(len(card_types)):
+    card=Card(card_types[i],card_num[i])
     cards.append(card)
 
-e, i = [],[]
-liste
+
+for card in cards:
+    print()
+    card.print_info()
 
 
+e,i=[],[]
+liste(e,i)
+for element in e:
+    Card_bateau(element,True)
+for element in i:
+    Card_bateau(element,False)
 
 #Initialisation propre
 nbr_player=1
@@ -62,6 +71,13 @@ for i in range(nbr_player):
     players.append(Player("Vladimir Ilitch",50))
     players[i].game_init()
     players[i].info()
+
+
+#focntion de jeu
+def game_process(players):
+    for player in players:
+        player.add_renome_to_score()
+
 
 
 
@@ -118,10 +134,11 @@ while running:
 
 
     #Afficher carte échange et influence
-    card_echange.print(screen)
+
+    #menu
     if step == "Menu":
         menu.print(screen)
-    #menu.print(screen)
+
     pygame.display.flip()
 
     clock.tick(60) # limits FPS to 60

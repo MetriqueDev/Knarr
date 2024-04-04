@@ -8,9 +8,6 @@ class Player():
         self.nombre_de_vicoire=0
         self.nombre_de_defaite=0
 
-        
-
-
     def info(self):
         print("name:",self.name)
         print("niveau:",self.niveau)
@@ -31,6 +28,16 @@ class Player():
 
     def get_renome(self):
         return self.renome
+
+    def add_renome_to_score(self):
+        if self.renome<=3:
+            self.score+=1
+        elif self.renome<=6:
+            self.score+=2
+        elif self.renome<=10:
+            self.score+=3
+        elif self.renome<=14:
+            self.score+=4
 
     def get_score(self):
         return self.score
