@@ -7,6 +7,10 @@ class Player():
         self.niveau=niveau
         self.nombre_de_vicoire=0
         self.nombre_de_defaite=0
+        self.bracelet=3
+        self.recrue=3
+
+        self.equipage={"Vert":[],"Rouge":[],"Bleu":[],"Violet":[],"Jaune":[]}
 
     def info(self):
         print("name:",self.name)
@@ -41,3 +45,9 @@ class Player():
 
     def get_score(self):
         return self.score
+
+    def get_recrue(self):
+        return self.recrue
+    
+    def get_bracelet(self):
+        return self.bracelet
