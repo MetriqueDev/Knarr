@@ -3,7 +3,8 @@ from  classes.card import Card
 from  classes.board import Board
 from  classes.boat import Boat
 from  classes.player import Player
-from  classes.card_bateau import Card_bateau
+from  classes.destination import Card_bateau
+from  classes.destination import liste
 from  classes.menu import Menu
 
 pygame.init()
@@ -46,7 +47,8 @@ for card_type in card_types:
     card=Card(card_type)
     cards.append(card)
 
-card_echange=Card_bateau("echange_1")
+e, i = [],[]
+liste
 
 
 
@@ -101,6 +103,7 @@ while running:
     #Afficher les cartes
     for i in range(len(cards)):
         cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125,screen.get_height()-400))
+
 
 
     #Afficher board
