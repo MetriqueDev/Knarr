@@ -10,7 +10,7 @@ class Player():
         self.bracelet=3
         self.recrue=3
 
-        self.equipage={"Vert":[],"Rouge":[],"Bleu":[],"Violet":[],"Jaune":[]}
+        self.equipage={"vert":[],"rouge":[],"bleu":[],"violet":[],"jaune":[]}
 
     def info(self):
         print("name:",self.name)
@@ -51,3 +51,15 @@ class Player():
     
     def get_bracelet(self):
         return self.bracelet
+
+
+    def add_equipage(self,card):
+        self.equipage[card.couleur].append(card)
+
+    def print_equipage(self,screen):
+        taille=30
+        x=0
+        for couleur in self.equipage.keys():
+            for i in range(len(self.equipage[couleur])):
+                self.equipage[couleur][i].print(screen,(5+125*x,int(screen.get_height()-taille*len(self.equipage[couleur])+i*taille-self.equipage[couleur][i].size[1])))
+            x+=1

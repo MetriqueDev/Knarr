@@ -4,6 +4,8 @@ class Card():
 
     def __init__(self,card_type,num=0):
         self.card_type=card_type
+        self.couleur=self.card_type[0:-1]
+        print(self.couleur)
         self.face="F" #F for Front & B for Back
         self.size=(125,200)#(250,400)
         self.num=num

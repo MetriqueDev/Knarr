@@ -4,12 +4,12 @@ from  classes.board import Board
 from  classes.boat import Boat
 from  classes.player import Player
 from  classes.destination import Card_bateau
-from  classes.destination import liste
 from  classes.menu import Menu
 
 pygame.init()
 
 # pygame setup
+
 screen = pygame.display.set_mode((1600,900),pygame.RESIZABLE) #(1280, 720))
 pygame.display.set_caption("Knarr")
 clock = pygame.time.Clock()
@@ -37,21 +37,17 @@ menu = Menu("a")
 
 #initialisation des cartes (impropre)
 cards=[]
+cards2=[]
 card_types=["bleu1","bleu2","bleu3","bleu4",    "jaune1","jaune2","jaune3","jaune4",    "rouge1","rouge2","rouge3","rouge4",    "vert1","vert2","vert3","vert4",    "violet1","violet2","violet3","violet4"]
 card_num=[0,0,3,3,3,0,4,0,3,0,0,0,0,0,4,0,0,3,0,4]
-for i in range(5):
+for i in range(len(card_num)):
     card=Card(card_types[i],card_num[i])
-    cards.append(card)
+    if i <5:
+        cards.append(card)
+    cards2.append(card)
 
 
 
-
-e,i=[],[]
-liste(e,i)
-for element in e:
-    Card_bateau(element,True)
-for element in i:
-    Card_bateau(element,False)
 
 #Initialisation propre
 nbr_player=1
@@ -64,6 +60,9 @@ for i in range(nbr_player):
     players[i].game_init()
     players[i].info()
 
+
+for card in cards2:
+    players[0].add_equipage(card)
 
 #focntion de jeu
 def game_process(players):
@@ -112,7 +111,8 @@ while running:
     for i in range(len(cards)):
         cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125,screen.get_height()-400))
 
-
+    for player in players:
+        player.print_equipage(screen)
 
     #Afficher board
     board.print(screen)
