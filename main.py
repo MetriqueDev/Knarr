@@ -69,8 +69,22 @@ def game_process(players):
     for player in players:
         player.add_renome_to_score()
 
+#initialisation cartes destinations
+card_d=[]
+card_i=[]
+card_id=['1','2','3','4','5','6']
+card_cout=[('violet', 'violet'),('vert', 'vert'),('rouge', 'rouge'),
+('different', 'different', 'different'),('different', 'different', 'different'),('vert', 'vert')]
+card_gain=[('pioche'),('recrue','recrue'),('recrue'),('bracelet'),('bracelet','recrue','pioche'),('bracelet','recrue')]
+card_gain_col=['raf','raf','raf','raf','raf','raf']
+card_ech=[True,True,True,False,False,False]
 
 
+for i in range(len(card_d)):
+    card=Card_bateau(card_id[i], card_cout[i], card_gain[i], card_gain_col[i], echange=card_ech[i])
+    if i < 3:
+        card_d.append(card)
+    card_i.append(card)
 
 while running:
     
@@ -109,7 +123,7 @@ while running:
     
     #Afficher les cartes
     for i in range(len(cards)):
-        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125,screen.get_height()-400))
+        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, screen.get_height()-400))
 
     for player in players:
         player.print_equipage(screen)
@@ -126,6 +140,9 @@ while running:
 
 
     #Afficher carte échange et influence
+    #+315
+    for i in range(len(card_d)):
+        card_d[i].print(screen, int(i*300+315,15))
 
     #menu
     if step == "Menu":
