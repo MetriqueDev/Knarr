@@ -3,14 +3,19 @@ from  classes.card import Card
 
 
 #rouge bleu vert violet jaune
-for i in range(20):
-    ok=False
-    while ok == False:
-        print(f"Vous êtes à l'id {i+1}")
-        viking=Card_bateau(i+1,tuple(input("cout : rouge bleu vert violet jaune ->").split(" ")),int(input("gain->")),tuple(input("gain colonne: ->").split(" ")))
-        viking.info()
-        ok=bool(input("Vous convient ?"))
-    file1 = open(f"destinations\\echange_{i+1}", "wb")
+card_types=["bleu1","bleu2","bleu3","bleu4",    "jaune1","jaune2","jaune3","jaune4",    "rouge1","rouge2","rouge3","rouge4",    "vert1","vert2","vert3","vert4",    "violet1","violet2","violet3","violet4"]
+card_num=[0,0,3,3,3,0,4,0,3,0,0,0,0,0,4,0,0,3,0,4]
+for i in range(len(card_types)):
+    print(f"Vous êtes à l'id {card_types[i]}")
+    viking=Card(card_types[i],input("gain->"),card_num[i])
+    viking.print_info()
+    src = "vikings\\viking"+str(i)+".pkl"
+    file1 = open(src, "wb")
     pickle.dump(viking, file1)
+    file1.close()
+    f=open(src,'rb')
+    vik = pickle.load(f)
+    f.close()
+    vik.print_info()
 
 

@@ -2,15 +2,15 @@ import pygame
 
 class Card():
 
-    def __init__(self,card_type,num=0):
+    def __init__(self,card_type,gain,num=0):
         self.card_type=card_type
         self.couleur=self.card_type[0:-1]
-        print(self.couleur)
+        self.gain=gain
+
         self.face="F" #F for Front & B for Back
         self.size=(125,200)#(250,400)
         self.num=num
 
-        self.init_image()
 
     def init_image(self):
         self.front=pygame.image.load(f".\\images\\vikings\\{self.card_type}.png").convert_alpha() #pour la transaprance on utilise convert_alpha
@@ -33,3 +33,4 @@ class Card():
 
     def print_info(self):
         print(f"Type:{self.card_type}\nNumero:{self.num}")
+        print(self.couleur)
