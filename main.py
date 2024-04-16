@@ -81,12 +81,14 @@ card_gain_col=['raf','raf','raf','raf','raf','raf']
 card_ech=[True,True,True,False,False,False]
 
 
-for i in range(len(card_d)):
+for i in range(6):
     card=Card_bateau(card_id[i], card_cout[i], card_gain[i], card_gain_col[i], echange=card_ech[i])
     card.init_image()
     if i < 3:
         card_d.append(card)
     card_i.append(card)
+
+print(card_d)
 
 while running:
     
@@ -144,7 +146,7 @@ while running:
     #Afficher carte échange et influence
     #+315
     for i in range(len(card_d)):
-        card_d[i].print(screen, int(i*300+315,15))
+        card_d[i].print(screen, (int(i*300+315),15))
 
     #menu
     if step == "Menu":
