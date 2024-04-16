@@ -42,6 +42,7 @@ card_types=["bleu1","bleu2","bleu3","bleu4",    "jaune1","jaune2","jaune3","jaun
 card_num=[0,0,3,3,3,0,4,0,3,0,0,0,0,0,4,0,0,3,0,4]
 for i in range(len(card_num)):
     card=Card(card_types[i],card_num[i])
+    card.init_image()
     if i <5:
         cards.append(card)
     cards2.append(card)
@@ -82,6 +83,7 @@ card_ech=[True,True,True,False,False,False]
 
 for i in range(len(card_d)):
     card=Card_bateau(card_id[i], card_cout[i], card_gain[i], card_gain_col[i], echange=card_ech[i])
+    card.init_image()
     if i < 3:
         card_d.append(card)
     card_i.append(card)
