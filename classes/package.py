@@ -23,11 +23,11 @@ class Package():
         for vik in self.package:
             vik.print_info()
 
-    def pioche(self):
+    def pioche_hand(self,hand):
         if len(self.package) >0:
             vik = self.package[-1]
             del self.package[-1]
-            return vik
+            hand.main.append(vik)
         else:
             return False
 
