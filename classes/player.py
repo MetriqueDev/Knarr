@@ -1,9 +1,10 @@
-
+from boat import Boat
 
 class Player():
 
-    def __init__(self,name,niveau):
+    def __init__(self,name,niveau,ia=False):
         self.name=name
+        self.ia=ia
         self.niveau=niveau
         self.nombre_de_vicoire=0
         self.nombre_de_defaite=0
@@ -11,6 +12,9 @@ class Player():
         self.recrue=3
 
         self.equipage={"vert":[],"rouge":[],"bleu":[],"violet":[],"jaune":[]}
+
+    def init_boat(self):
+        self.boat=Boat()
 
     def info(self):
         print("name:",self.name)
