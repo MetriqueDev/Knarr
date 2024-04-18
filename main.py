@@ -134,7 +134,8 @@ while running:
 
     #Afficher board
     board.print(screen)
-    ##Afficher points bateau
+
+    #Afficher points bateau
     board.update_renome_pos(screen,players)
     board.update_score_pos(screen,players)
 
