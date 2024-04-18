@@ -47,7 +47,7 @@ class Card_bateau():
 			else:
 				self.back_rect.x=pos[0]
 				self.back_rect.y=pos[1]
-				screen.blit(self.image_influence_back, (self.front_rect.x,self.front_rect.y))
+				screen.blit(self.image_influence_back, (self.back_rect.x,self.back_rect.y))
 	
 
 	def info(self):
