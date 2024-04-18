@@ -71,7 +71,7 @@ def game_process(players):
         player.add_renome_to_score()
 
 #initialisation cartes destinations
-card_d=[]
+card_e=[]
 card_i=[]
 card_id=['1','2','3','4','5','6']
 card_cout=[('violet', 'violet'),('vert', 'vert'),('rouge', 'rouge'),
@@ -85,13 +85,55 @@ for i in range(6):
     card=Card_bateau(card_id[i], card_cout[i], card_gain[i], card_gain_col[i], echange=card_ech[i])
     card.init_image()
     if i < 3:
-        card_d.append(card)
-    card_i.append(card)
+        card_e.append(card)
+    else :
+        card_i.append(card)
 
-print(card_d)
+verso=[]
+verso.append(Card_bateau(1, "rien", "rien", "rien", echange=True))
+verso.append(Card_bateau(1, "rien", "rien", "rien", echange=False))
+verso[0].face="V"
+verso[1].face="V"
+
+print(card_e)
+print(verso)
+active_card=None
 
 while running:
+
+    # RENDER YOUR GAME HERE
+    screen.blit(background,(0,0))
+
     
+    #Afficher les cartes
+    for i in range(len(cards)):
+        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, screen.get_height()-400))
+
+    for player in players:
+        player.print_equipage(screen)
+
+    #Afficher board
+    board.print(screen)
+    ##Afficher points bateau
+    board.update_renome_pos(screen,players)
+    board.update_score_pos(screen,players)
+
+    #Afficher bateau
+    boat.print(screen)
+    boat.print_object(screen)
+
+
+    #Afficher carte échange et influence
+    #+315
+    verso[0].print(screen, (5,5))
+    verso[1].print(screen, (5,155))
+
+    for i in range(len(card_e)):
+        card_e[i].print(screen, (int(i*300+305),5))
+    for i in range(len(card_i)):
+        card_i[i].print(screen, (int(i*300+305),155))
+
+
     #Gestion des events
     for event in pygame.event.get():
         background= pygame.transform.scale(background_load, (screen.get_width(),screen.get_height()))#Mise à jour de la taille du fond ecran a chaque action
@@ -120,35 +162,25 @@ while running:
             if clic :
                 step="other"
         
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print("clic")
+            if event.button == 1:
+                for num, card in enumerate(card_e):
+                    print(num,card)
+                    if card.front_rect.collidepoint(event.pos):
+                        print("Uwu")
+                        active_card=num
+                        mouse_x, mouse_y = event.pos
+        
+        elif event.type == pygame.MOUSEBUTTONUP:            
+            if event.button==1:
+                active_card=None
 
-    # RENDER YOUR GAME HERE
-    screen.blit(background,(0,0))
-
-    
-    #Afficher les cartes
-    for i in range(len(cards)):
-        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, screen.get_height()-400))
-
-    for player in players:
-        player.print_equipage(screen)
-
-    #Afficher board
-    board.print(screen)
-
-    #Afficher points bateau
-    board.update_renome_pos(screen,players)
-    board.update_score_pos(screen,players)
-
-    #Afficher bateau
-    boat.print(screen)
-    boat.print_object(screen)
-
-
-    #Afficher carte échange et influence
-    #+315
-    for i in range(len(card_d)):
-        card_d[i].print(screen, (int(i*300+315),15))
-
+        elif event.type == pygame.MOUSEMOTION:
+            if active_card != None:
+                print('ca bouge')
+                card_e[active_card].print(screen,event.pos)
+        
     #menu
     if step == "Menu":
         menu.print(screen)
