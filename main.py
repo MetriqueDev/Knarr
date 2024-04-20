@@ -1,10 +1,11 @@
 import pygame
-from  classes.card import Card
-from  classes.board import Board
-from  classes.boat import Boat
-from  classes.player import Player
-from  classes.destination import Card_bateau
-from  classes.menu import Menu
+from classes.card import Card
+from classes.board import Board
+from classes.boat import Boat
+from classes.player import Player
+from classes.destination import Card_bateau
+from classes.menu import Menu
+from classes.package import Package
 
 pygame.init()
 
@@ -95,10 +96,12 @@ verso.append(Card_bateau(1, "rien", "rien", "rien", echange=False))
 verso[0].face="V"
 verso[1].face="V"
 
-print(card_e)
-print(verso)
-active_card=None
+package=Package(4)
+package.shuffle()
 
+
+active_card=None
+mouse_pos=[0,0]
 while running:
 
     # RENDER YOUR GAME HERE
@@ -133,6 +136,8 @@ while running:
     for i in range(len(card_i)):
         card_i[i].print(screen, (int(i*300+305),155))
 
+    package.print_package(screen)
+
 
     #Gestion des events
     for event in pygame.event.get():
@@ -158,19 +163,20 @@ while running:
                     pygame.mixer.music.play()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            clic=menu.menu_interaction(event.pos)
-            if clic :
-                step="other"
-        
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            print("clic")
-            if event.button == 1:
-                for num, card in enumerate(card_e):
-                    print(num,card)
-                    if card.front_rect.collidepoint(event.pos):
-                        print("Uwu")
-                        active_card=num
-                        mouse_x, mouse_y = event.pos
+            if step =="Menu":
+                clic=menu.menu_interaction(event.pos)
+                if clic :
+                    step="other"
+            else:
+                if event.button == 1:
+                    for num, card in enumerate(card_e):
+                        if card.front_rect.collidepoint(event.pos):
+                            active_card=num
+                            mouse_x, mouse_y = event.pos
+
+                            #position de la souris sur l'image
+                            offset_x=mouse_x-card_e[active_card].pos[0]
+                            offset_y=mouse_y-card_e[active_card].pos[1]
         
         elif event.type == pygame.MOUSEBUTTONUP:            
             if event.button==1:
@@ -178,9 +184,12 @@ while running:
 
         elif event.type == pygame.MOUSEMOTION:
             if active_card != None:
-                print('ca bouge')
-                card_e[active_card].print(screen,event.pos)
-        
+                card_e[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+    
+    #afficher l'image à la souris pendant le drag and drop si on bouge pas
+    if active_card !=None:
+        card_e[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y)) 
+
     #menu
     if step == "Menu":
         menu.print(screen)
@@ -191,3 +200,5 @@ while running:
 
     
 pygame.quit()
+
+

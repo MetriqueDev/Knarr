@@ -10,6 +10,7 @@ class Card_bateau():
 		self.cout_coul = cout_coul
 		self.gain = gain
 		self.gain_col = gain_col
+		self.pos=None
 		self.init_image()
 		
 
@@ -48,6 +49,7 @@ class Card_bateau():
 				self.back_rect.x=pos[0]
 				self.back_rect.y=pos[1]
 				screen.blit(self.image_influence_back, (self.back_rect.x,self.back_rect.y))
+		self.pos=pos
 	
 
 	def info(self):

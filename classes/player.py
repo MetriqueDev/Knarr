@@ -1,4 +1,4 @@
-from boat import Boat
+from classes.boat import Boat
 
 class Player():
 

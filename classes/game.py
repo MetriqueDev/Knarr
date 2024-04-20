@@ -1,17 +1,20 @@
 import pygame
-from card import Card
-from board import Board
-from boat import Boat
-from player import Player
-from destination import Card_bateau
-from menu import Menu
-from package import Package
+from classes.card import Card
+from classes.board import Board
+from classes.boat import Boat
+from classes.player import Player
+from classes.destination import Card_bateau
+from classes.menu import Menu
+from classes.package import Package
+
+
 
 class Game():
     def __init__(self,players):
         self.nbr_player=len(players)
         self.players=players
-        self.package=Package(self.nbr_player).shuffle()
+        self.package=Package(self.nbr_player)
+        self.package.shuffle()
         self.board=Board()
         self.turn=0
   
