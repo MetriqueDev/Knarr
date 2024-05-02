@@ -198,6 +198,16 @@ while running:
 
     clock.tick(60) # limits FPS to 60
 
+
+        
+               #à rajouter ligne 170. for i, card in enumerate(player.main):
+                    #if card.front_rect.collidepoint(event.pos):
+                        # Le joueur a cliqué sur cette carte
+                        #card_selected = player.main.pop(i)  # Retire la carte de la main du joueur
+                       # player.add_equipage(card_selected)  # Ajoute la carte à l'équipage du joueur
+                        
+
+
     
 pygame.quit()
 
