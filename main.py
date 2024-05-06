@@ -107,7 +107,7 @@ while running:
     
     #Afficher les cartes
     for i in range(len(cards)):
-        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, screen.get_height()-400))
+        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, 310))
 
     for player in players:
         player.print_equipage(screen)
