@@ -144,7 +144,11 @@ while running:
     package.print_package(screen)
 
     #afficher la main
+<<<<<<< Updated upstream
       #hand à initialiser "Hand.afficher_main(self, screen)""
+=======
+    Hand.afficher_main(screen)
+>>>>>>> Stashed changes
 
 
     #Gestion des events
