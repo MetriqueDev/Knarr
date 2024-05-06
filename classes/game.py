@@ -8,7 +8,6 @@ from classes.menu import Menu
 from classes.package import Package
 
 
-
 class Game():
     def __init__(self,players):
         self.nbr_player=len(players)
@@ -26,6 +25,8 @@ class Game():
     def init_game(self):
         for player in range(self.players):
             self.player.init_boat()
+
+        
 
     def afficher(self,screen,joueur_name):
         screen.blit(background,(0,0))
