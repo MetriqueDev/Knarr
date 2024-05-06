@@ -178,10 +178,10 @@ while running:
 
             if step =="Menu":
                 step=menu.menu_interaction(event.pos)
-                if step!="Menu":
-                    step="other"
+                #if step!="Menu":
+                    #step="other"
                 if step=="inscription":
-                    pass
+                    step="other"
             else:
                 if event.button == 1:
                     for num, card in enumerate(card_e):

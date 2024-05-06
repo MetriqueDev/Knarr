@@ -3,7 +3,7 @@ import pygame
 class Menu():
 
 	def __init__(self,step):
-		self.step=step
+		self.step="menu_start"
 		self.size=(1059/2,282/2)
 
 		self.init_image()
@@ -41,7 +41,7 @@ class Menu():
 		elif self.step=="inscription":
 			#demander pseudo / mot de passe
 			
-			fenetre.blit(self.text, (100, 100))
+			screen.blit(self.text, (100, 100))
 		
 
 
@@ -49,10 +49,10 @@ class Menu():
 		if self.step=="menu_start":
 			if self.inscription_rect.collidepoint(mouse_pos):
 				self.step="inscription"
-				return "inscription"
+				return "Menu"
 			elif self.connexion_rect.collidepoint(mouse_pos):
-				self.step="self.connexion"
-				return "connexion"
+				self.step="connexion"
+				return "other"
 			return False
 
 
