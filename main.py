@@ -11,7 +11,7 @@ pygame.init()
 
 # pygame setup
 
-screen = pygame.display.set_mode((1600,900),pygame.RESIZABLE) #(1280, 720))
+screen = pygame.display.set_mode((1920,1080),pygame.FULLSCREEN) #(1280, 720))
 pygame.display.set_caption("Knarr")
 clock = pygame.time.Clock()
 running = True
@@ -25,6 +25,13 @@ musique = True
 #Background
 background_load = pygame.image.load(".\\images\\fond.jpg").convert()
 background= pygame.transform.scale(background_load, (1600,900))
+
+
+#fermeture
+fermeture_size=30
+fermeture_load = pygame.image.load(".\\images\\stop.png").convert()
+fermeture= pygame.transform.scale(fermeture_load, (fermeture_size,fermeture_size))
+fermeture_rect=fermeture.get_rect()
 
 #Curseur
 pygame.mouse.set_cursor(*pygame.cursors.diamond)
@@ -160,6 +167,11 @@ while running:
                     pygame.mixer.music.play()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            if fermeture_rect.collidepoint(event.pos):
+                print("stop")
+                pygame.quit()
+                exit()
+
             if step =="Menu":
                 clic=menu.menu_interaction(event.pos)
                 if clic :
@@ -190,6 +202,11 @@ while running:
     #menu
     if step == "Menu":
         menu.print(screen)
+
+
+    fermeture_rect.x=int(screen.get_width()-fermeture_size-10)
+    fermeture_rect.y=10
+    screen.blit(fermeture,(fermeture_rect.x,fermeture_rect.y))
 
     pygame.display.flip()
 
