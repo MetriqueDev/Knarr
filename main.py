@@ -137,7 +137,7 @@ while running:
     package.print_package(screen)
 
     #afficher la main
-    afficher_main(self, screen)
+    Hand.afficher_main(self, screen)
 
 
     #Gestion des events
