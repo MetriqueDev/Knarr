@@ -51,7 +51,6 @@ for i in range(len(card_num)):
 
 
 
-
 #Initialisation propre
 nbr_player=1
 
@@ -80,12 +79,13 @@ card_cout=[('violet', 'violet'),('vert', 'vert'),('rouge', 'rouge'),
 card_gain=[('pioche'),('recrue','recrue'),('recrue'),('bracelet'),('bracelet','recrue','pioche'),('bracelet','recrue')]
 card_gain_col=['raf','raf','raf','raf','raf','raf']
 card_ech=[True,True,True,False,False,False]
-
+liste=[]
 
 for i in range(6):
     card=Card_bateau(card_id[i], card_cout[i], card_gain[i], card_gain_col[i], echange=card_ech[i])
     card.init_image()
     card_e.append(card)
+
 
 verso=[]
 verso.append(Card_bateau(1, "rien", "rien", "rien", echange=True))
@@ -107,7 +107,7 @@ while running:
     
     #Afficher les cartes
     for i in range(len(cards)):
-        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, screen.get_height()-400))
+        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, 310))
 
     for player in players:
         player.print_equipage(screen)
@@ -120,7 +120,7 @@ while running:
 
     #Afficher bateau
     boat.print(screen)
-    boat.print_object(screen)
+    boat.print_object(screen,liste)
 
 
     #Afficher carte échange et influence
