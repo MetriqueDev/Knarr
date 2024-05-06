@@ -6,7 +6,7 @@ class Hand:
     def __init__(self):
         self.main=[]
 
-    def afficher_main(self, screen, position):
+    def afficher_main(self, screen):
         x_offset, y_offset = (400,200)  # Détermine les coordonnées de départ pour afficher les cartes 
 
         for card in self.main:
