@@ -177,12 +177,19 @@ while running:
         
         elif event.type == pygame.MOUSEBUTTONUP:            
             if event.button==1:
-                active_card=None
+                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None:
+                    boat.Cartes_desti(card_e[active_card], liste)
+                    active_card=None
+                else:
+                    active_card=None
 
         elif event.type == pygame.MOUSEMOTION:
             if active_card != None:
                 card_e[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-    
+                print((event.pos[0]-offset_x,event.pos[1]-offset_y))
+                print((screen.get_width()/2-100,screen.get_width()/2+100))
+                print((screen.get_height()/2+100,screen.get_height()/2-100))
+                
     #afficher l'image à la souris pendant le drag and drop si on bouge pas
     if active_card !=None:
         card_e[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y)) 
@@ -207,5 +214,3 @@ while running:
 
     
 pygame.quit()
-
-

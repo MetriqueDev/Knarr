@@ -31,6 +31,7 @@ class Package():
             self.package[0].print(screen,(200,200))
         except:
             print("Oh non!")
+            pass
 
     def pioche_hand(self,hand):
         if len(self.package) >0:
