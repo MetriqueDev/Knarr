@@ -17,7 +17,7 @@ class Boat():
     def print(self,screen):
         screen.blit(self.image, (int(screen.get_width()/2-self.size[0]/2),screen.get_height()-self.size[1]))
 
-    def print_object(self,screen,dest):
+    def print_object(self,screen,liste):
 
         pion = Pion("recrue")
         pos=(int(screen.get_width()/2-self.size[0]/2),screen.get_height()-self.size[1])
@@ -45,7 +45,7 @@ class Boat():
         bracelet.print(screen,pos3_b)
 
         for i in range(len(liste)):
-            dest.print(screen,((screen.get_width()/2)-card.size[0]/2),(400+i*card.size[1]/4))
+            liste[i].print(screen,(((screen.get_width()/2)-liste[i].size[0]/2),(screen.get_height()-300-(i+1)*liste[i].size[1]/4)))
 
     def Cartes_desti(self,obj,liste):
         liste.append(obj)
