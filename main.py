@@ -40,9 +40,10 @@ menu = Menu("a")
 cards=[]
 cards2=[]
 card_types=["bleu1","bleu2","bleu3","bleu4",    "jaune1","jaune2","jaune3","jaune4",    "rouge1","rouge2","rouge3","rouge4",    "vert1","vert2","vert3","vert4",    "violet1","violet2","violet3","violet4"]
+card_gains=["renommee","recrue","victoire","bracelet","recrue","victoire","bracelet","renommee","renommee","bracelet","recrue","victoire","victoire","renommee","bracelet","recrue","bracelet","renommee","recrue","victoire"]
 card_num=[0,0,3,3,3,0,4,0,3,0,0,0,0,0,4,0,0,3,0,4]
 for i in range(len(card_num)):
-    card=Card(card_types[i],card_num[i])
+    card=Card(card_types[i],card_gains[i],card_num[i])
     card.init_image()
     if i <5:
         cards.append(card)
