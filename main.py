@@ -6,6 +6,7 @@ from classes.player import Player
 from classes.destination import Card_bateau
 from classes.menu import Menu
 from classes.package import Package
+from classes.hand import Hand
 
 pygame.init()
 
@@ -134,6 +135,9 @@ while running:
         card_e[i+3].print(screen, (int(i*300+305),155))
 
     package.print_package(screen)
+
+    #afficher la main
+    afficher_main(self, screen)
 
 
     #Gestion des events
