@@ -22,8 +22,12 @@ class Menu():
 		self.connexion_image=pygame.transform.scale(self.connexion_image_load, self.size)
 		self.connexion_rect = self.connexion_image.get_rect()
 
-		font=pygame.font.Font("./font/VIKING-N.TTF", 24)
-		self.text = font.render("Inscription",1,(255,255,255))
+		font_title=pygame.font.Font("./font/VIKING-N.TTF", 50)
+		font__label=pygame.font.Font("./font/VIKING-N.TTF", 30)
+		self.inscription_title = font_title.render("Inscription",True,(255,255,40))
+
+		
+		self.label_name=font__label.render("Nom",True,(255,255,40))
 		
 
 	def print(self,screen):
@@ -39,9 +43,12 @@ class Menu():
 			self.connexion_rect.y=int(screen.get_height()/2+self.size[1]/2+10)
 			screen.blit(self.connexion_image, (self.connexion_rect.x,self.connexion_rect.y))
 		elif self.step=="inscription":
+			self.inscription_title_rect = self.inscription_title.get_rect(center=(screen.get_width()/2, 100))
+			self.label_name_rect = self.label_name.get_rect(center=(screen.get_width()/2, 200))
 			#demander pseudo / mot de passe
 			
-			screen.blit(self.text, (100, 100))
+			screen.blit(self.inscription_title, (self.inscription_title_rect))
+			screen.blit(self.label_name, (self.label_name_rect ))
 		
 
 
