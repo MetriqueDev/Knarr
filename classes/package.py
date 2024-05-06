@@ -22,12 +22,17 @@ class Package():
                 if card.num ==0:
                     self.package.append(card)
         print(self.package)
+    
 
     def init_pioche(self):
         for i in range(5):
             vik = self.package[-1]
             del self.package[-1]
             self.pioche.append(vik)
+        
+    def print_pioche(self,screen):
+            for i in range(len(self.pioche)):
+            self.pioche[i].print(screen,(int(screen.get_width()/2-len(self.pioche)*125/2)+i*125, 310))
         
     def print_package(self,screen):
         try:
