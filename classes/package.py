@@ -31,7 +31,7 @@ class Package():
             self.pioche.append(vik)
         
     def print_pioche(self,screen):
-            for i in range(len(self.pioche)):
+        for i in range(len(self.pioche)):
             self.pioche[i].print(screen,(int(screen.get_width()/2-len(self.pioche)*125/2)+i*125, 310))
         
     def print_package(self,screen):

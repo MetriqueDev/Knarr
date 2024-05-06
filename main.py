@@ -144,7 +144,7 @@ while running:
     package.print_package(screen)
 
     #afficher la main
-    Hand.afficher_main(self, screen)
+    Hand.afficher_main(screen)
 
 
     #Gestion des events
@@ -177,9 +177,11 @@ while running:
                 exit()
 
             if step =="Menu":
-                clic=menu.menu_interaction(event.pos)
-                if clic :
+                step=menu.menu_interaction(event.pos)
+                if step!="Menu":
                     step="other"
+                if step=="inscription":
+                    pass
             else:
                 if event.button == 1:
                     for num, card in enumerate(card_e):
