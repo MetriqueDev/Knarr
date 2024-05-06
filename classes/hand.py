@@ -1,4 +1,4 @@
-from package import package
+from classes.package import Package
 import pygame
 
 class Hand:
