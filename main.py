@@ -74,7 +74,6 @@ def game_process(players):
 
 #initialisation cartes destinations
 card_e=[]
-card_i=[]
 card_id=['1','2','3','4','5','6']
 card_cout=[('violet', 'violet'),('vert', 'vert'),('rouge', 'rouge'),
 ('different', 'different', 'different'),('different', 'different', 'different'),('vert', 'vert')]
@@ -86,10 +85,7 @@ card_ech=[True,True,True,False,False,False]
 for i in range(6):
     card=Card_bateau(card_id[i], card_cout[i], card_gain[i], card_gain_col[i], echange=card_ech[i])
     card.init_image()
-    if i < 3:
-        card_e.append(card)
-    else :
-        card_i.append(card)
+    card_e.append(card)
 
 verso=[]
 verso.append(Card_bateau(1, "rien", "rien", "rien", echange=True))
@@ -132,10 +128,10 @@ while running:
     verso[0].print(screen, (5,5))
     verso[1].print(screen, (5,155))
 
-    for i in range(len(card_e)):
+    for i in range(3):
         card_e[i].print(screen, (int(i*300+305),5))
-    for i in range(len(card_i)):
-        card_i[i].print(screen, (int(i*300+305),155))
+    for i in range(3):
+        card_e[i+3].print(screen, (int(i*300+305),155))
 
     package.print_package(screen)
 

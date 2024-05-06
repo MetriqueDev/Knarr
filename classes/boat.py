@@ -1,5 +1,6 @@
 import pygame
 from  classes.pion import Pion
+from classes.destination import Card_bateau
 
 class Boat():
 
@@ -16,7 +17,7 @@ class Boat():
     def print(self,screen):
         screen.blit(self.image, (int(screen.get_width()/2-self.size[0]/2),screen.get_height()-self.size[1]))
 
-    def print_object(self,screen):
+    def print_object(self,screen,dest):
 
         pion = Pion("recrue")
         pos=(int(screen.get_width()/2-self.size[0]/2),screen.get_height()-self.size[1])
@@ -42,3 +43,9 @@ class Boat():
 
         pos3_b=(pos[0]-25+345,pos[1]+20)
         bracelet.print(screen,pos3_b)
+
+        for i in range(len(liste)):
+            dest.print(screen,((screen.get_width()/2)-card.size[0]/2),(400+i*card.size[1]/4))
+
+    def Cartes_desti(self,obj,liste):
+        liste.append(obj)
