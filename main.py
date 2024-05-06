@@ -144,7 +144,7 @@ while running:
     package.print_package(screen)
 
     #afficher la main
-    Hand.afficher_main(screen)
+      #hand à initialiser "Hand.afficher_main(self, screen)""
 
 
     #Gestion des events

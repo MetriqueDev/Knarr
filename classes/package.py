@@ -42,9 +42,11 @@ class Package():
             self.package[0].print(screen,(200,200))
         except:
             print("Oh non!")
+            print(self.package)
             pass
 
     def pioche_hand(self,hand):
+        print(self.package)
         if len(self.package) >0:
             vik = self.package[-1]
             del self.package[-1]
@@ -53,4 +55,5 @@ class Package():
             return False
 
     def shuffle(self):
-        self.package=random.shuffle(self.package)
+        random.shuffle(self.package)
+        print(self.package)
