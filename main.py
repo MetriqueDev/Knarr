@@ -30,7 +30,7 @@ background= pygame.transform.scale(background_load, (1600,900))
 
 #fermeture
 fermeture_size=30
-fermeture_load = pygame.image.load(".\\images\\stop.png").convert()
+fermeture_load = pygame.image.load(".\\images\\gui\\stop.png").convert_alpha()
 fermeture= pygame.transform.scale(fermeture_load, (fermeture_size,fermeture_size))
 fermeture_rect=fermeture.get_rect()
 
@@ -144,11 +144,7 @@ while running:
     package.print_package(screen)
 
     #afficher la main
-<<<<<<< Updated upstream
       #hand à initialiser "Hand.afficher_main(self, screen)""
-=======
-    Hand.afficher_main(screen)
->>>>>>> Stashed changes
 
 
     #Gestion des events
