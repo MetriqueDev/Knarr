@@ -7,6 +7,7 @@ from classes.destination import Card_bateau
 from classes.menu import Menu
 from classes.package import Package
 from classes.hand import Hand
+from classes.package_destination import Package_Destination
 
 pygame.init()
 
@@ -80,19 +81,9 @@ def game_process(players):
         player.add_renome_to_score()
 
 #initialisation cartes destinations
-card_e=[]
-card_id=['1','2','3','4','5','6']
-card_cout=[('violet', 'violet'),('vert', 'vert'),('rouge', 'rouge'),
-('different', 'different', 'different'),('different', 'different', 'different'),('vert', 'vert')]
-card_gain=[('pioche'),('recrue','recrue'),('recrue'),('bracelet'),('bracelet','recrue','pioche'),('bracelet','recrue')]
-card_gain_col=['raf','raf','raf','raf','raf','raf']
-card_ech=[True,True,True,False,False,False]
-liste=[]
 
-for i in range(6):
-    card=Card_bateau(card_id[i], card_cout[i], card_gain[i], card_gain_col[i], echange=card_ech[i])
-    card.init_image()
-    card_e.append(card)
+destination=Package_Destination()
+liste=[]
 
 
 verso=[]
@@ -132,23 +123,15 @@ while running:
 
 
     #Afficher carte échange et influence
-    #+315
-    verso[0].print(screen, (5,5))
-    verso[1].print(screen, (5,155))
+    
+    destination.print_pioche_dest(screen)
 
-    for i in range(3):
-        card_e[i].print(screen, (int(i*300+305),5))
-    for i in range(3):
-        card_e[i+3].print(screen, (int(i*300+305),155))
+
 
     package.print_package(screen)
 
     #afficher la main
-<<<<<<< Updated upstream
-      #hand à initialiser "Hand.afficher_main(self, screen)""
-=======
-    Hand.afficher_main(screen)
->>>>>>> Stashed changes
+    #Hand.afficher_main(screen)
 
 
     #Gestion des events
