@@ -86,11 +86,11 @@ destination=Package_Destination()
 liste=[]
 
 
-verso=[]
-verso.append(Card_bateau(1, "rien", "rien", "rien", echange=True))
-verso.append(Card_bateau(1, "rien", "rien", "rien", echange=False))
-verso[0].face="V"
-verso[1].face="V"
+#verso=[]
+#verso.append(Card_bateau(1, "rien", "rien", "rien", echange=True))
+#verso.append(Card_bateau(1, "rien", "rien", "rien", echange=False))
+#verso[0].face="V"
+#verso[1].face="V"
 
 package=Package(4)
 package.shuffle()
@@ -131,7 +131,7 @@ while running:
     package.print_package(screen)
 
     #afficher la main
-      #hand à initialiser "Hand.afficher_main(self, screen)""
+    #hand à initialiser "Hand.afficher_main(self, screen)""
 
 
     #Gestion des events
@@ -170,49 +170,16 @@ while running:
                 if step=="inscription":
                     step="other"
             else:
-                if event.button == 1:
-                    for num, card in enumerate(card_e):
-                        if card.front_rect.collidepoint(event.pos):
-                            active_card=num
-                            mouse_x, mouse_y = event.pos
-
-                            #position de la souris sur l'image
-                            offset_x=mouse_x-card_e[active_card].pos[0]
-                            offset_y=mouse_y-card_e[active_card].pos[1]
+                pass
         
-        elif event.type == pygame.MOUSEBUTTONUP:            
-            if event.button==1:
-                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None:
-                    boat.Cartes_desti(card_e[active_card], liste)
-                    active_card=None
-                else:
-                    active_card=None
-
-        elif event.type == pygame.MOUSEMOTION:
-            if active_card != None:
-                card_e[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-                print((event.pos[0]-offset_x,event.pos[1]-offset_y))
-                print((screen.get_width()/2-100,screen.get_width()/2+100))
-                print((screen.get_height()/2+100,screen.get_height()/2-100))
-                
-    #afficher l'image à la souris pendant le drag and drop si on bouge pas
-    if active_card !=None:
-        card_e[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y)) 
-
+        destination.dragndrop(screen)
     #menu
     if step == "Menu":
         menu.print(screen)
-
-
     fermeture_rect.x=int(screen.get_width()-fermeture_size-10)
     fermeture_rect.y=10
     screen.blit(fermeture,(fermeture_rect.x,fermeture_rect.y))
-
     pygame.display.flip()
-
     clock.tick(60) # limits FPS to 60
-
-
-
     
 pygame.quit()

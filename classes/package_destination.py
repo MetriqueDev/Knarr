@@ -1,7 +1,7 @@
 import random
-import pickle
 from classes.destination import Card_bateau
-
+import pygame
+from boat import Boat
 class Package_Destination():
     def __init__(self):
         self.echange=[]
@@ -34,11 +34,11 @@ class Package_Destination():
         ('renommee','rien','victoire'),('victoire','victoire','victoire'),('rien','rien','victoire'),('rien','rien','victoire'),('rien','victoire','rien'),('rien','rien','victoire'),
         ('rien','victoire','rien'),('rien','rien','victoire'),('rien','victoire','rien'),('rien','rien','victoire'),('rien','rien','victoire'),('rien','victoire','rien'),
         ('rien','rien','victoire'),('rien','victoire','rien'),('rien','rien','victoire'),('rien','rien','victoire'),('rien','rien','victoire')]
-        self.card_ech=[True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False]
+        self.echangetype=[True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False]
         for i in range(20):
-            self.echange.append(Card_bateau(self.card_id[i], self.card_cout[i], self.card_gain[i], self.card_gain_col[i], echange=self.card_ech[i]))
+            self.echange.append(Card_bateau(self.card_id[i], self.card_cout[i], self.card_gain[i], self.card_gain_col[i], echange=self.echangetype[i]))
         for i in range(15):
-            self.influence.append(Card_bateau(self.card_id[i+20], self.card_cout[i+20], self.card_gain[i+20], self.card_gain_col[i+20], self.card_ech[i+20]))
+            self.influence.append(Card_bateau(self.card_id[i+20], self.card_cout[i+20], self.card_gain[i+20], self.card_gain_col[i+20], self.echangetype[i+20]))
 
 
 
@@ -52,12 +52,9 @@ class Package_Destination():
         random.shuffle(self.echange)
         random.shuffle(self.influence)
 
-
-        
-
     def print_pioche_dest(self,screen):
-        print(self.echange)
-        print(self.influence)
+        #print(self.echange)
+        #print(self.influence)
         for i in range(3):
             self.echange[i].print(screen, (int(i*300+305),5))
         for i in range(3):
@@ -65,4 +62,35 @@ class Package_Destination():
         self.verso[0].print(screen, (5,5))
         self.verso[1].print(screen, (5,155))
 
-        
+    def dragndrop(self,screen,event):
+    
+        self.fusion = self.echange+self.influence
+
+        for num, card in enumerate(self.fusion):
+            if card.front_rect.collidepoint(event.pos):
+                active_card=num
+                mouse_x, mouse_y = event.p
+                #position de la souris sur l'image
+                offset_x=mouse_x-self.fusion[active_card].pos[0]
+                offset_y=mouse_y-self.fusion[active_card].pos[1]
+        if event.type == pygame.MOUSEBUTTONUP:            
+            active_card=None
+        elif event.type == pygame.MOUSEMOTION:
+            if active_card != None:
+                self.fusion[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+                #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
+                #print((screen.get_width()/2-100,screen.get_width()/2+100))
+                #print((screen.get_height()/2+100,screen.get_height()/2-100))
+                
+        #afficher l'image à la souris pendant le drag and drop si on bouge pas
+        if active_card !=None:
+            self.fusion[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+    
+    def Ajout_boat(self,screen,event,boat):
+            if event.button==1:
+                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None:
+                    boat.Cartes_desti(self.fusion[active_card], self.liste)
+                    
+                    active_card=None
+                else:
+                    active_card=None
