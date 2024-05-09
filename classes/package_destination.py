@@ -63,34 +63,33 @@ class Package_Destination():
         self.verso[1].print(screen, (5,155))
 
     def dragndrop(self,screen,event):
-    
         self.fusion = self.echange+self.influence
-
         for num, card in enumerate(self.fusion):
-            if card.front_rect.collidepoint(event.pos):
+            print(num)
+            if card.front_rect.collidepoint(pygame.mouse.get_pos()):
                 active_card=num
-                mouse_x, mouse_y = event.p
+                mouse_x, mouse_y = pygame.mouse.get_pos()
                 #position de la souris sur l'image
                 offset_x=mouse_x-self.fusion[active_card].pos[0]
                 offset_y=mouse_y-self.fusion[active_card].pos[1]
-        if event.type == pygame.MOUSEBUTTONUP:            
-            active_card=None
-        elif event.type == pygame.MOUSEMOTION:
-            if active_card != None:
-                self.fusion[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-                #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
-                #print((screen.get_width()/2-100,screen.get_width()/2+100))
-                #print((screen.get_height()/2+100,screen.get_height()/2-100))
+            if event.type == pygame.MOUSEBUTTONUP:            
+                active_card=None
+            elif event.type == pygame.MOUSEMOTION:
+                if active_card != None:
+                    self.fusion[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+                    #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
+                    #print((screen.get_width()/2-100,screen.get_width()/2+100))
+                    #print((screen.get_height()/2+100,screen.get_height()/2-100))
                 
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
-        if active_card !=None:
-            self.fusion[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+            if active_card !=None:
+                self.fusion[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
     
     def Ajout_boat(self,screen,event,boat):
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None:
                     boat.Cartes_desti(self.fusion[active_card], self.liste)
-                    
+
                     active_card=None
                 else:
                     active_card=None

@@ -24,53 +24,55 @@ class Game():
         self.background= pygame.transform.scale(self.background_load, (1600,900))
 
     def init_game(self):
-        for player in range(self.players):
-            self.player.init_boat()
-        
         self.destination_pioche=Package_Destination()
         self.boat=Boat()
         self.liste=[]
+        #for player in self.players:
+        #    player.boat.init_boat()
 
     def init_cards(self):
         pass
     
-    def init_pygame(self):
-        pygame.init()
-        self.running = True
-        self.screen = pygame.display.set_mode((1920,1080),pygame.FULLSCREEN) #(1280, 720))
-        pygame.display.set_caption("Knarr")
-        self.clock = pygame.time.Clock()
-        self.step = "Menu"
-        pygame.mixer.music.load(".\\musique\\Dragonborn.mp3")
-        pygame.mixer.music.play()
-        self.musique=True
-        pygame.mouse.set_cursor(*pygame.cursors.diamond)
-        #Fermeture
-        self.fermeture_size=30
-        self.fermeture_load = pygame.image.load(".\\images\\gui\\stop.png").convert_alpha()
-        self.fermeture= pygame.transform.scale(self.fermeture_load, (self.fermeture_size,self.fermeture_size))
-        self.fermeture_rect=self.fermeture.get_rect()
-
-    def afficher(self,screen,joueur_name):
-        screen.blit(self.background,(0,0))
-
-        #afficher board
-        self.board.print(screen)
-        self.board.update_renome_pos(screen,self.players)
-        self.board.update_score_pos(screen,self.players)
-        for player in range(self.players):
-            if player.name == joueur_name :
-                player.boat.print(screen)
-                player.print_equipage(screen)
-        
-        self.boat.print(screen)
-        self.boat.print_object(screen,self.liste)
-
-    def event_handler(self,screen):
+#    def init_pygame(self):
+#        pygame.display.set_caption("Knarr")
+#        self.clock = pygame.time.Clock()
+#        pygame.mixer.music.load(".\\musique\\Dragonborn.mp3")
+#        pygame.mixer.music.play()
+#        self.musique=True
+#        pygame.mouse.set_cursor(*pygame.cursors.diamond)
+#        #Fermeture
+#        self.fermeture_size=30
+#        self.fermeture_load = pygame.image.load(".\\images\\gui\\stop.png").convert_alpha()
+#        self.fermeture= pygame.transform.scale(self.fermeture_load, (self.fermeture_size,self.fermeture_size))
+#        self.fermeture_rect=self.fermeture.get_rect()
+#
+    def event_handler(self,screen,background_load,players,menu,fermeture_rect):
         for event in pygame.event.get():
+            self.background= pygame.transform.scale(background_load, (screen.get_width(),screen.get_height()))
             if event.type == pygame.QUIT:
                 running = False
-        self.destination_pioche.print_pioche_dest(screen)
-        self.destination_pioche.dragndrop(screen,event) # type: ignore
+            self.destination_pioche.print_pioche_dest(screen)
+            self.destination_pioche.dragndrop(screen,event) # type: ignore
+            if event.type == pygame.KEYDOWN:
+                #Gestion pointq
+                if event.key == pygame.K_UP:
+                    players[0].add_score(1)
+                elif event.key == pygame.K_DOWN:
+                    players[0].add_score(-1)
+
+                #Gestion musique (Temporaire)
+                elif event.key == pygame.K_SPACE:
+                    if musique == True:
+                        musique = False
+                        pygame.mixer.music.pause()
+                    elif musique == False:
+                        musique = True
+                        pygame.mixer.music.play()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if fermeture_rect.collidepoint(event.pos):
+                    print("stop")
+                    pygame.quit()
+                    exit()
 
 

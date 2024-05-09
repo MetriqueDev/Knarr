@@ -76,5 +76,3 @@ class Menu():
 		if self.step=="inscription":
 			if self.input_rect_pseudo.collidepoint(mouse_pos):
 				self.enter_name=True
-
-      

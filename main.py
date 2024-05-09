@@ -8,16 +8,18 @@ from classes.menu import Menu
 from classes.package import Package
 from classes.hand import Hand
 from classes.package_destination import Package_Destination
+import classes.game as game
 
 pygame.init()
 
 # pygame setup
 
-screen = pygame.display.set_mode((1920,1080),pygame.FULLSCREEN) #(1280, 720))
+screen = pygame.display.set_mode((2560,1440),pygame.FULLSCREEN) #(1280, 720))
 pygame.display.set_caption("Knarr")
 clock = pygame.time.Clock()
 running = True
 step = "Menu"
+
 
 #Musique
 pygame.mixer.music.load(".\\musique\\Dragonborn.mp3")
@@ -98,8 +100,11 @@ package.shuffle()
 
 active_card=None
 mouse_pos=[0,0]
-while running:
+jeu=game.Game(players)
+jeu.init_game()
+jeu.init_pygame()
 
+while running:
     # RENDER YOUR GAME HERE
     screen.blit(background,(0,0))
 
@@ -120,66 +125,31 @@ while running:
     #Afficher bateau
     boat.print(screen)
     boat.print_object(screen,liste)
-
-
-    #Afficher carte échange et influence
-    
     destination.print_pioche_dest(screen)
-
-
-
     package.print_package(screen)
 
     #afficher la main
     #hand à initialiser "Hand.afficher_main(self, screen)""
 
-
     #Gestion des events
-    for event in pygame.event.get():
-        background= pygame.transform.scale(background_load, (screen.get_width(),screen.get_height()))#Mise à jour de la taille du fond ecran a chaque action
-        if event.type == pygame.QUIT:
-            running = False
+    #jeu.event_handler(screen,background_load,players,menu,fermeture_rect)
+    boat.print_object(screen,liste)
 
-        if event.type == pygame.KEYDOWN:
 
-            #Gestion pointq
-            if event.key == pygame.K_UP:
-                players[0].add_score(1)
-            elif event.key == pygame.K_DOWN:
-                players[0].add_score(-1)
 
-            #Gestion musique (Temporaire)
-            elif event.key == pygame.K_SPACE:
-                if musique == True:
-                    musique = False
-                    pygame.mixer.music.pause()
-                elif musique == False:
-                    musique = True
-                    pygame.mixer.music.play()
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if fermeture_rect.collidepoint(event.pos):
-                print("stop")
-                pygame.quit()
-                exit()
-
-            if step =="Menu":
-                step=menu.menu_interaction(event.pos)
-                #if step!="Menu":
-                    #step="other"
-                if step=="inscription":
-                    step="other"
-            else:
-                pass
-        
-        destination.dragndrop(screen)
     #menu
     if step == "Menu":
         menu.print(screen)
+        step=menu.menu_interaction(pygame.mouse.get_pos())
+        #if step!="Menu":
+            #step="other"
+        if step=="inscription":
+            step="other"
+    else:
+        pass
     fermeture_rect.x=int(screen.get_width()-fermeture_size-10)
     fermeture_rect.y=10
     screen.blit(fermeture,(fermeture_rect.x,fermeture_rect.y))
     pygame.display.flip()
     clock.tick(60) # limits FPS to 60
-    
 pygame.quit()
