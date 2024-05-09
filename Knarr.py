@@ -22,6 +22,9 @@ jeu.init_cards()
 running=True
 clock = pygame.time.Clock()
 step="main"
+font = pygame.font.SysFont("arialblack", 40)
+TEXT_COL = (255, 255, 255)
+
 
 #Musique
 #pygame.mixer.music.load(".\\musique\\Dragonborn.mp3")
@@ -41,7 +44,13 @@ fermeture= pygame.transform.scale(fermeture_load, (fermeture_size,fermeture_size
 fermeture_rect=fermeture.get_rect()
 
 connexion_image_load=pygame.image.load(f".\\images\\MENU\\connexion.png").convert_alpha() 
-connexion_boutton= Button(540,960,connexion_image_load,0.5)
+connexion_boutton= Button(200,200,connexion_image_load,0.5)
+inscription_image_load=pygame.image.load(f".\\images\\MENU\\inscrire.png").convert_alpha()
+inscription_button= Button(200,350,inscription_image_load,0.5)
+option_image_load=pygame.image.load(f".\\images\\MENU\\option.png").convert_alpha() 
+option_boutton= Button(200,500,option_image_load,0.5)
+retour_image_load=pygame.image.load(f".\\images\\MENU\\empty.png").convert_alpha() 
+retour_boutton= Button(750,200,retour_image_load,0.5)
 
 cards=[]
 cards2=[]
@@ -112,6 +121,10 @@ while running:
         screen.blit(main_menu_bg,(0,0))
         if connexion_boutton.draw(screen):
             step="play"
+        if inscription_button.draw(screen):
+            step="inscription"
+        if option_boutton.draw(screen):
+            step="option"
     if step == "play":
         screen.blit(background, (0,0))
         boat.print(screen)
@@ -121,16 +134,32 @@ while running:
         board.update_renome_pos(screen,players)
         board.update_score_pos(screen,players)
         boat.print_object(screen,liste)
+        if retour_boutton.draw(screen):
+            print(step)
+            step="main"
+    if step == "inscription":
+        screen.blit(main_menu_bg,(0,0))
+        img = font.render("Menu inscription",True,TEXT_COL)
+        screen.blit(img,(400,500))
+    if step == "option":
+        screen.blit(main_menu_bg,(0,0))
+        img = font.render("Menu d'option",True,TEXT_COL)
+        screen.blit(img,(400,500))
+        print(step)
+        if retour_boutton.draw(screen):
+            print(step)
+            step="main"
+
 
     fermeture_rect.x=int(screen.get_width()-fermeture_size-10)
     fermeture_rect.y=10
-    screen.blit(fermeture,(fermeture_rect.x,fermeture_rect.y))
+    #screen.blit(fermeture,(fermeture_rect.x,fermeture_rect.y))
 
     for event in pygame.event.get():
             background= pygame.transform.scale(background_load, (screen.get_width(),screen.get_height()))
             if event.type == pygame.QUIT:
                 running = False
 
-    pygame.display.flip()
+    pygame.display.update()
     clock.tick(60)
 pygame.quit()
