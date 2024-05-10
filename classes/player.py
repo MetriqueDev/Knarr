@@ -127,7 +127,7 @@ class Player():
             if active_card !=None:
                 self.pioche[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
     
-    def Ajout_equipage(self,screen,event,equipage):
+    def recruter(self,screen,event,equipage):
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à l'equipage
                   self.add_equipage(self.hand[active_card]) 
