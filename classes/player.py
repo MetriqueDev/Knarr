@@ -69,3 +69,34 @@ class Player():
             for i in range(len(self.equipage[couleur])):
                 self.equipage[couleur][i].print(screen,(5+125*x,int(screen.get_height()-taille*len(self.equipage[couleur])+i*taille-self.equipage[couleur][i].size[1])))
             x+=1
+    
+    def dragndrop(self,screen,event):
+        for num, card in enumerate(self.hand):
+            print(num)
+            if card.front_rect.collidepoint(pygame.mouse.get_pos()):
+                active_card=num
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                #position de la souris sur l'image
+                offset_x=mouse_x-self.hand[active_card].pos[0]
+                offset_y=mouse_y-self.hand[active_card].pos[1]
+            if event.type == pygame.MOUSEBUTTONUP:            
+                active_card=None
+            elif event.type == pygame.MOUSEMOTION:
+                if active_card != None:
+                    self.hand[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+                    #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
+                    #print((screen.get_width()/2-100,screen.get_width()/2+100))
+                    #print((screen.get_height()/2+100,screen.get_height()/2-100))
+                
+        #afficher l'image à la souris pendant le drag and drop si on bouge pas
+            if active_card !=None:
+                self.hand[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+    
+    def Ajout_equipage(self,screen,event,equipage):
+            if event.button==1:
+                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None:
+                  self.equipage[self.hand[active_card].couleur].append(self.hand[active_card])   
+
+                  active_card=None
+                else:
+                    active_card=None
