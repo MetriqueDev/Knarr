@@ -108,7 +108,6 @@ while running:
 
     if step == "play":
         screen.blit(background, (0,0))
-        screen.blit(background, (0,0))
         package.print_pioche(screen)
         boat.print(screen)
         boat.print_object(screen,liste)
@@ -125,6 +124,12 @@ while running:
     if step=="menu_play":
         screen.blit(main_menu_bg,(0,0))
         if jouer_boutton.draw(screen):
+
+            screen.blit(main_menu_bg,(0,0))
+            chargement_label=font.render("Chargement...",True,TEXT_COL)
+            screen.blit(chargement_label,(int(screen.get_width()/2-chargement_label.get_width()/2),int(screen.get_height()/2-chargement_label.get_height())))
+            pygame.display.update()
+            
             step="play"
             jeu=game.Game(players)
             jeu.init_game()
@@ -132,6 +137,7 @@ while running:
             package=Package(4)
             package.shuffle()
             package.init_pioche()
+
 
             board = Board()
             boat = Boat()
