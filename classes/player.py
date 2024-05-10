@@ -1,6 +1,7 @@
 from classes.boat import Boat
 from classes.hand import Hand
 from classes.package import Package
+from classes.card import Card
 
 class Player():
 
@@ -151,7 +152,16 @@ class Player():
                                self.pioche.pop(self.pioche[active_card])
                                #ajouter carte ds pioche
                            if [self.pioche[active_card].couleur] != [self.hand[active_card].couleur]:
-                               if 
+                               meme_couleur=0
+                               for card in self.pioche:
+                                   if card.couleur == self.hand[active_card].couleur:
+                                       meme_couleur+=1
+                               if meme_couleur==0:
+                                    self.hand.append(self.pioche[active_card])
+                                    self.pioche.pop(self.pioche[active_card])
+                                    #ajouter carte ds pioche
+                                   
+                                   
                            active_card=None
                          else:
                              active_card=None
