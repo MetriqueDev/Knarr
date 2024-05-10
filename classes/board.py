@@ -66,6 +66,7 @@ class Board():
                         self.active_card_b=card
                         mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
+                        print(self.equipage[card])
                         self.offset_x=mouse_x-self.equipage[card].pos[0]
                         self.offset_y=mouse_y-self.equipage[card].pos[1]
                         print(self.offset_x,self.offset_y)

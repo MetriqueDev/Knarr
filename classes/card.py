@@ -25,12 +25,13 @@ class Card():
         if self.face == "F":
             self.front_rect.x=pos[0]
             self.front_rect.y=pos[1]
+
             screen.blit(self.front, (self.front_rect.x,self.front_rect.y))
         else:
             self.back_rect.x=pos[0]
             self.back_rect.y=pos[1]
             screen.blit(self.back, (self.back_rect.x,self.back_rect.y))
-
+        self.pos=pos
     def print_info(self):
         print(f"Type:{self.card_type}\nNumero:{self.num}")
         print(self.couleur)
