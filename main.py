@@ -45,7 +45,6 @@ btn_unselect_image_load=pygame.image.load(f".\\images\\gui\\btn_unselect.png").c
 btn_select_image_load=pygame.image.load(f".\\images\\gui\\btn_select.png").convert_alpha() 
 
 
-
 connexion_boutton= Button(200,200,[btn_unselect_image_load,btn_select_image_load],5,font,"Connexion")
 
 inscription_button= Button(200,350,[btn_unselect_image_load,btn_select_image_load],5,font,"inscription")
@@ -77,11 +76,79 @@ def game_process(players):
 
 
 while running:
-    screen.blit(background, (0,0))
+    #screen.fill((0,0,0))
 
     if step == "main":
         screen.blit(main_menu_bg,(0,0))
         if connexion_boutton.draw(screen):
+            step="Connexion"
+            connexion_title=font.render("Menu connexion",True,TEXT_COL)
+            name_label=font.render("Votre nom:",True,TEXT_COL)
+            input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
+            input_name_boutton= Input(400,250,input_name_image_load,2,font,TEXT_COL)
+
+            mdp_label=font.render("Votre mot de passe:",True,TEXT_COL)
+            input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
+            input_mdp_boutton= Input(400,450,input_name_image_load,2,font,TEXT_COL)
+            valider_boutton= Button(400,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
+            retour_boutton= Button(400+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+
+
+            
+
+
+
+        if inscription_button.draw(screen):
+            step="inscription"
+            inscription_title=font.render("Menu inscription",True,TEXT_COL)
+            name_label=font.render("Votre nom:",True,TEXT_COL)
+            input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
+            input_name_boutton= Input(400,250,input_name_image_load,2,font,TEXT_COL)
+
+            mdp_label=font.render("Votre mot de passe:",True,TEXT_COL)
+            input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
+            input_mdp_boutton= Input(400,450,input_name_image_load,2,font,TEXT_COL)
+
+            valider_boutton= Button(400,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
+            retour_boutton= Button(400+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+
+
+        if option_boutton.draw(screen):
+            step="option"
+            valider_boutton= Button(400,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
+            retour_boutton= Button(400+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+    if step == "play":
+        screen.blit(background, (0,0))
+        screen.blit(background, (0,0))
+        package.print_pioche(screen)
+        boat.print(screen)
+        boat.print_object(screen,liste)
+        destination.print_pioche_dest(screen)
+        board.print(screen)
+        board.update_renome_pos(screen,players)
+        board.update_score_pos(screen,players)
+        boat.print_object(screen,liste)
+        if retour_boutton.draw(screen):
+            print(step)
+            step="main"
+
+    if step == "Connexion":
+        screen.blit(main_menu_bg,(0,0))
+
+        screen.blit(connexion_title,(400,100))
+        screen.blit(name_label,(400,200))
+        input_name_boutton.draw(screen)
+
+        screen.blit(mdp_label,(400,400))
+        input_mdp_boutton.draw(screen)
+
+        if valider_boutton.draw(screen):
+            print("Valider")
+            print("name:",input_name_boutton.get_input())
+            print("mdp:",input_mdp_boutton.get_input())
+
+
+
             step="play"
             jeu=game.Game(players)
             jeu.init_game()
@@ -100,38 +167,10 @@ while running:
                 for el in range(3):
                  card= package.pioche_hand(players[i].hand)
 
-
-
-        if inscription_button.draw(screen):
-            step="inscription"
-            inscription_title=font.render("Menu inscription",True,TEXT_COL)
-            name_label=font.render("Votre nom:",True,TEXT_COL)
-            input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
-            input_name_boutton= Input(400,250,input_name_image_load,2,font,TEXT_COL)
-
-            mdp_label=font.render("Votre mot de passe:",True,TEXT_COL)
-            input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
-            input_mdp_boutton= Input(400,450,input_name_image_load,2,font,TEXT_COL)
-
-            retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha() 
-            retour_boutton= Button(750,500,retour_image_load,0.2)
-
-
-        if option_boutton.draw(screen):
-            step="option"
-    if step == "play":
-        screen.blit(background, (0,0))
-        package.print_pioche(screen)
-        boat.print(screen)
-        boat.print_object(screen,liste)
-        destination.print_pioche_dest(screen)
-        board.print(screen)
-        board.update_renome_pos(screen,players)
-        board.update_score_pos(screen,players)
-        boat.print_object(screen,liste)
         if retour_boutton.draw(screen):
             print(step)
             step="main"
+
 
     if step == "inscription":
         screen.blit(main_menu_bg,(0,0))
@@ -143,11 +182,19 @@ while running:
         screen.blit(mdp_label,(400,400))
         input_mdp_boutton.draw(screen)
 
+        if valider_boutton.draw(screen):
+            print("Valider")
+            print("name:",input_name_boutton.get_input())
+            print("mdp:",input_mdp_boutton.get_input())
+        if retour_boutton.draw(screen):
+            print(step)
+            step="main"
+
     if step == "option":
         screen.blit(main_menu_bg,(0,0))
         img = font.render("Menu d'option",True,TEXT_COL)
         screen.blit(img,(400,500))
-        print(step)
+        valider_boutton.draw(screen)
         if retour_boutton.draw(screen):
             print(step)
             step="main"
