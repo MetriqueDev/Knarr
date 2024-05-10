@@ -1,6 +1,7 @@
 from classes.boat import Boat
 from classes.hand import Hand
 from classes.package import Package
+from classes.card import Card
 
 class Player():
 
@@ -143,6 +144,27 @@ class Player():
                   choix= int(input(print("1 si vous voulez la meme couleur, 2 si vous payez 1 recrue pour choisir n'importe laquelle:")))
                   if choix ==1:
                       self.dragndrop_pioche(screen, event)
+                      if event.button==1:
+                         if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à la main
+                           
+                           if [self.pioche[active_card].couleur] == [self.hand[active_card].couleur]:
+                               self.hand.append(self.pioche[active_card])
+                               self.pioche.pop(self.pioche[active_card])
+                               #ajouter carte ds pioche
+                           if [self.pioche[active_card].couleur] != [self.hand[active_card].couleur]:
+                               meme_couleur=0
+                               for card in self.pioche:
+                                   if card.couleur == self.hand[active_card].couleur:
+                                       meme_couleur+=1
+                               if meme_couleur==0:
+                                    self.hand.append(self.pioche[active_card])
+                                    self.pioche.pop(self.pioche[active_card])
+                                    #ajouter carte ds pioche
+                                   
+                                   
+                           active_card=None
+                         else:
+                             active_card=None
                       
                       
                   active_card=None
