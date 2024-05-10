@@ -63,6 +63,8 @@ class Player():
     def add_recrue(self,add):
          if ((self.recrue + add)<=3):
             self.recrue+=add
+            if self.recrue<0:
+                self.recrue=0
     
     def add_bracelet(self,add):
          if ((self.bracelet + add)<=3):
@@ -159,13 +161,21 @@ class Player():
                                if meme_couleur==0:
                                     self.hand.append(self.pioche[active_card])
                                     self.pioche.pop(self.pioche[active_card])
-                                    #ajouter carte ds pioche
-                                   
-                                   
+                                    #ajouter carte ds pioche       
                            active_card=None
                          else:
                              active_card=None
+                  if choix ==2:
+                      self.add_recrue(-1)
+                      self.dragndrop_pioche(screen, event)
+                      if event.button==1:
+                         if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à la main
+                               self.hand.append(self.pioche[active_card])
+                               self.pioche.pop(self.pioche[active_card])
+                               #ajouter carte ds pioch
+
                       
+                         
                       
                   active_card=None
                 else:
