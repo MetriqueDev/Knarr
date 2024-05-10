@@ -152,7 +152,9 @@ class Player():
                            if [self.pioche[active_card].couleur] == [self.hand[active_card].couleur]:
                                self.hand.append(self.pioche[active_card])
                                self.pioche.pop(self.pioche[active_card])
-                               #ajouter carte ds pioche
+                               vik = self.package[-1]
+                               del self.package[-1]
+                               self.pioche.append(vik)
                            if [self.pioche[active_card].couleur] != [self.hand[active_card].couleur]:
                                meme_couleur=0
                                for card in self.pioche:
@@ -161,7 +163,9 @@ class Player():
                                if meme_couleur==0:
                                     self.hand.append(self.pioche[active_card])
                                     self.pioche.pop(self.pioche[active_card])
-                                    #ajouter carte ds pioche       
+                                    vik = self.package[-1]
+                                    del self.package[-1]
+                                    self.pioche.append(vik)       
                            active_card=None
                          else:
                              active_card=None
@@ -172,11 +176,11 @@ class Player():
                          if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à la main
                                self.hand.append(self.pioche[active_card])
                                self.pioche.pop(self.pioche[active_card])
-                               #ajouter carte ds pioch
+                               vik = self.package[-1]
+                               del self.package[-1]
+                               self.pioche.append(vik)
 
-                      
-                         
-                      
+
                   active_card=None
                 else:
                     active_card=None
