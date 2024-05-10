@@ -79,32 +79,32 @@ while running:
             connexion_title=font.render("Menu connexion",True,TEXT_COL)
             name_label=font.render("Votre nom:",True,TEXT_COL)
             input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
-            input_name_boutton= Input(400,250,input_name_image_load,2,font,TEXT_COL)
+            input_name_boutton= Input(200,250,input_name_image_load,2,font,TEXT_COL)
 
             mdp_label=font.render("Votre mot de passe:",True,TEXT_COL)
             input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
-            input_mdp_boutton= Input(400,450,input_name_image_load,2,font,TEXT_COL)
-            valider_boutton= Button(400,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
-            retour_boutton= Button(400+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+            input_mdp_boutton= Input(200,450,input_name_image_load,2,font,TEXT_COL)
+            valider_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
+            retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
         if inscription_button.draw(screen):
             step="inscription"
             inscription_title=font.render("Menu inscription",True,TEXT_COL)
             name_label=font.render("Votre nom:",True,TEXT_COL)
             input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
-            input_name_boutton= Input(400,250,input_name_image_load,2,font,TEXT_COL)
+            input_name_boutton= Input(200,250,input_name_image_load,2,font,TEXT_COL)
 
             mdp_label=font.render("Votre mot de passe:",True,TEXT_COL)
             input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
-            input_mdp_boutton= Input(400,450,input_name_image_load,2,font,TEXT_COL)
+            input_mdp_boutton= Input(200,450,input_name_image_load,2,font,TEXT_COL)
 
-            valider_boutton= Button(400,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
-            retour_boutton= Button(400+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+            valider_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
+            retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
         if option_boutton.draw(screen):
             step="option"
-            valider_boutton= Button(400,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
-            retour_boutton= Button(400+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+            valider_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
+            retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
     if step == "play":
         screen.blit(background, (0,0))
@@ -123,13 +123,16 @@ while running:
 
     if step=="menu_play":
         screen.blit(main_menu_bg,(0,0))
+
+        user_icone_btn.draw(screen)
+
         if jouer_boutton.draw(screen):
 
             screen.blit(main_menu_bg,(0,0))
             chargement_label=font.render("Chargement...",True,TEXT_COL)
             screen.blit(chargement_label,(int(screen.get_width()/2-chargement_label.get_width()/2),int(screen.get_height()/2-chargement_label.get_height())))
             pygame.display.update()
-            
+
             step="play"
             jeu=game.Game(players)
             jeu.init_game()
@@ -151,7 +154,7 @@ while running:
 
         if option_boutton.draw(screen):
             step="option"
-            retour_boutton= Button(400+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+            retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
         if retour_boutton.draw(screen):
             step="main"
@@ -161,11 +164,11 @@ while running:
     if step == "connexion":
         screen.blit(main_menu_bg,(0,0))
 
-        screen.blit(connexion_title,(400,100))
-        screen.blit(name_label,(400,200))
+        screen.blit(connexion_title,(200,100))
+        screen.blit(name_label,(200,200))
         input_name_boutton.draw(screen)
 
-        screen.blit(mdp_label,(400,400))
+        screen.blit(mdp_label,(200,400))
         input_mdp_boutton.draw(screen)
 
         if valider_boutton.draw(screen):
@@ -189,9 +192,12 @@ while running:
             else:
                 if data[5] == mdp:
                     step="menu_play"
-                    jouer_boutton= Button(400,100,[btn_unselect_image_load,btn_select_image_load],5,font,"Jouer")
-                    option_boutton= Button(400,250,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
-                    retour_boutton= Button(400,400,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+                    jouer_boutton= Button(200,100,[btn_unselect_image_load,btn_select_image_load],5,font,"Jouer")
+                    option_boutton= Button(200,250,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
+                    retour_boutton= Button(200,400,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+                    user_icone_image=pygame.image.load(f".\\images\\gui\\player_ship\\ship{len(name)%6}.png").convert_alpha() 
+                    user_icone_btn=Button(10,10,user_icone_image,3)
+
                 else:
                     #print("pas le bon mdp")
                     step="main"
@@ -203,11 +209,11 @@ while running:
     if step == "inscription":
         screen.blit(main_menu_bg,(0,0))
 
-        screen.blit(inscription_title,(400,100))
-        screen.blit(name_label,(400,200))
+        screen.blit(inscription_title,(200,100))
+        screen.blit(name_label,(200,200))
         input_name_boutton.draw(screen)
 
-        screen.blit(mdp_label,(400,400))
+        screen.blit(mdp_label,(200,400))
         input_mdp_boutton.draw(screen)
 
         if valider_boutton.draw(screen):
@@ -236,7 +242,7 @@ while running:
     if step == "option":
         screen.blit(main_menu_bg,(0,0))
         img = font.render("Menu d'option",True,TEXT_COL)
-        screen.blit(img,(400,500))
+        screen.blit(img,(200,500))
         valider_boutton.draw(screen)
         if retour_boutton.draw(screen):
             #print(step)
