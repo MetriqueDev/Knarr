@@ -85,6 +85,7 @@ while running:
             jeu.init_cards()
             package=Package(4)
             package.shuffle()
+            package.init_pioche()
 
             board = Board()
             boat = Boat()
@@ -109,11 +110,15 @@ while running:
             input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
             input_mdp_boutton= Input(400,450,input_name_image_load,2,font,TEXT_COL)
 
+            retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha() 
+            retour_boutton= Button(750,500,retour_image_load,0.2)
+
 
         if option_boutton.draw(screen):
             step="option"
     if step == "play":
         screen.blit(background, (0,0))
+        package.print_pioche(screen)
         boat.print(screen)
         boat.print_object(screen,liste)
         destination.print_pioche_dest(screen)

@@ -108,6 +108,7 @@ while running:
             jeu.init_cards()
             package=Package(4)
             package.shuffle()
+            package.init_pioche()
 
             board = Board()
             boat = Boat()
@@ -137,6 +138,7 @@ while running:
             step="option"
     if step == "play":
         screen.blit(background, (0,0))
+        package.print_pioche(screen)
         boat.print(screen)
         boat.print_object(screen,liste)
         destination.print_pioche_dest(screen)

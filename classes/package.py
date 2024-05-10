@@ -22,6 +22,7 @@ class Package():
                 if card.num ==0:
                     self.package.append(card)
         print(self.package)
+        self.pioche=[]
     
 
     def init_pioche(self):
