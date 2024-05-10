@@ -2,6 +2,7 @@ from classes.boat import Boat
 from classes.hand import Hand
 from classes.package import Package
 from classes.card import Card
+import pygame
 
 class Player():
 

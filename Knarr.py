@@ -116,7 +116,6 @@ while running:
             step="option"
     if step == "play":
         screen.blit(background, (0,0))
-        package.print_pioche(screen)
         boat.print(screen)
         boat.print_object(screen,destination.liste)
         destination.print_pioche_dest(screen)
