@@ -80,8 +80,8 @@ while running:
     #    cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, 310))
 
     #for player in players:
-     #   player.print_equipage(screen)
-      #  Hand.afficher_main(screen)
+        #   player.print_equipage(screen)
+            #  Hand.afficher_main(screen)
 
     #Afficher board
     #board.print(screen)
@@ -98,7 +98,6 @@ while running:
 
     #boat.print_object(screen,liste)
 
-
     if step == "main":
         screen.blit(main_menu_bg,(0,0))
         if connexion_boutton.draw(screen):
@@ -108,26 +107,22 @@ while running:
             jeu.init_cards()
             package=Package(4)
             package.shuffle()
-
             board = Board()
             boat = Boat()
+            destination.liste=[]
             players=[]
             for i in range(nbr_player):
                 players.append(Player("Vladimir Ilitch",50))
                 players[i].game_init()
                 players[i].info()
                 for el in range(3):
-                 card= package.pioche_hand(players[i].hand)
-
-
-
+                    card= package.pioche_hand(players[i].hand)
         if inscription_button.draw(screen):
             step="inscription"
             inscription_title=font.render("Menu inscription",True,TEXT_COL)
             name_label=font.render("Votre nom:",True,TEXT_COL)
             input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
             input_name_boutton= Input(400,250,input_name_image_load,2,font,TEXT_COL)
-
             mdp_label=font.render("Votre mot de passe:",True,TEXT_COL)
             input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
             input_mdp_boutton= Input(400,450,input_name_image_load,2,font,TEXT_COL)
@@ -138,16 +133,24 @@ while running:
     if step == "play":
         screen.blit(background, (0,0))
         boat.print(screen)
-        boat.print_object(screen,liste)
+        boat.print_object(screen,destination.liste)
         destination.print_pioche_dest(screen)
         board.print(screen)
         board.update_renome_pos(screen,players)
         board.update_score_pos(screen,players)
         boat.print_object(screen,liste)
+        for event in pygame.event.get():
+            destination.dragndrop_echange(screen,event,boat)
+            destination.dragndrop_influence(screen,event,boat)
+            destination.Ajout_boat_echange(screen,event,boat)
+        
         if retour_boutton.draw(screen):
             print(step)
             step="main"
-
+        if destination.active_card_e != None:
+            destination.echange[destination.active_card_e].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
+        if destination.active_card_i != None:
+            destination.influence[destination.active_card_i].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
     if step == "inscription":
         screen.blit(main_menu_bg,(0,0))
 
