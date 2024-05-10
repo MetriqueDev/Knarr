@@ -9,151 +9,155 @@ from classes.package import Package
 from classes.hand import Hand
 from classes.package_destination import Package_Destination
 import classes.game as game
+from classes.input import Button , Input
 
+#PyGame setup
 pygame.init()
-
-# pygame setup
-
-screen = pygame.display.set_mode((2560,1440),pygame.FULLSCREEN) #(1280, 720))
+screen = pygame.display.set_mode((1920,1080),pygame.RESIZABLE) #(1280, 720))
+players=['Tristonks']
 pygame.display.set_caption("Knarr")
+
+running=True
 clock = pygame.time.Clock()
-running = True
-step = "Menu"
+step="main"
+font = pygame.font.SysFont("arialblack", 40)
+TEXT_COL = (255, 255, 255)
 
 
 #Musique
-pygame.mixer.music.load(".\\musique\\Dragonborn.mp3")
+#pygame.mixer.music.load(".\\musique\\Dragonborn.mp3")
 #pygame.mixer.music.play()
-musique = True
+#musique=True
 
 #Background
 background_load = pygame.image.load(".\\images\\fond.jpg").convert()
-background= pygame.transform.scale(background_load, (1600,900))
+background= pygame.transform.scale(background_load, (1920,1080))
+main_menu_bgload=pygame.image.load(".\\images\\gui\\background.png").convert()
+main_menu_bg = pygame.transform.scale(main_menu_bgload,(1920,1080))
 
-
-#fermeture
+#Fermeture
 fermeture_size=30
 fermeture_load = pygame.image.load(".\\images\\gui\\stop.png").convert_alpha()
 fermeture= pygame.transform.scale(fermeture_load, (fermeture_size,fermeture_size))
-fermeture_rect=fermeture.get_rect()
-
-#Curseur
-pygame.mouse.set_cursor(*pygame.cursors.diamond)
-
-#-------------------------------------------------------------------------------------
+fermeture_boutton= Button(screen.get_width()-40,10,fermeture,1)
 
 
-menu = Menu("a")
+connexion_image_load=pygame.image.load(f".\\images\\gui\\connexion.png").convert_alpha() 
+connexion_boutton= Button(200,200,connexion_image_load,0.5)
+inscription_image_load=pygame.image.load(f".\\images\\gui\\inscrire.png").convert_alpha()
+inscription_button= Button(200,350,inscription_image_load,0.5)
+option_image_load=pygame.image.load(f".\\images\\gui\\option.png").convert_alpha() 
+option_boutton= Button(200,500,option_image_load,0.5)
 
-
-
-#initialisation des cartes (impropre)
-cards=[]
-cards2=[]
-card_types=["bleu1","bleu2","bleu3","bleu4",    "jaune1","jaune2","jaune3","jaune4",    "rouge1","rouge2","rouge3","rouge4",    "vert1","vert2","vert3","vert4",    "violet1","violet2","violet3","violet4"]
-card_gains=["renommee","recrue","victoire","bracelet","recrue","victoire","bracelet","renommee","renommee","bracelet","recrue","victoire","victoire","renommee","bracelet","recrue","bracelet","renommee","recrue","victoire"]
-card_num=[0,0,3,3,3,0,4,0,3,0,0,0,0,0,4,0,0,3,0,4]
-for i in range(len(card_num)):
-    card=Card(card_types[i],card_gains[i],card_num[i])
-    card.init_image()
-    if i <5:
-        cards.append(card)
-    cards2.append(card)
+retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha() 
+retour_boutton= Button(750,500,retour_image_load,0.2)
 
 
 
 #Initialisation propre
 nbr_player=1
 
-package=Package(4)
-package.shuffle()
-
-board = Board()
-boat = Boat()
-players=[]
-for i in range(nbr_player):
-    players.append(Player("Vladimir Ilitch",50))
-    players[i].game_init()
-    players[i].info()
-    for el in range(3):
-     package.pioche_hand(players[i].hand)
 
 
-for card in cards2:
-    players[0].add_equipage(card)
+destination=Package_Destination()
+liste=[]
+
+
+active_card=None
+mouse_pos=[0,0]
+
 
 #focntion de jeu
 def game_process(players):
     for player in players:
         player.add_renome_to_score()
 
-#initialisation cartes destinations
-
-destination=Package_Destination()
-liste=[]
-
-
-#verso=[]
-#verso.append(Card_bateau(1, "rien", "rien", "rien", echange=True))
-#verso.append(Card_bateau(1, "rien", "rien", "rien", echange=False))
-#verso[0].face="V"
-#verso[1].face="V"
-
-
-
-active_card=None
-mouse_pos=[0,0]
-jeu=game.Game(players)
-jeu.init_game()
-jeu.init_pygame()
 
 while running:
-    # RENDER YOUR GAME HERE
-    screen.blit(background,(0,0))
+    screen.blit(background, (0,0))
 
-    
-    #Afficher les cartes
-    for i in range(len(cards)):
-        cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, 310))
+    if step == "main":
+        screen.blit(main_menu_bg,(0,0))
+        if connexion_boutton.draw(screen):
+            step="play"
+            jeu=game.Game(players)
+            jeu.init_game()
+            jeu.init_cards()
+            package=Package(4)
+            package.shuffle()
 
-    for player in players:
-        player.print_equipage(screen)
-        Hand.afficher_main(screen)
-
-    #Afficher board
-    board.print(screen)
-    ##Afficher points bateau
-    board.update_renome_pos(screen,players)
-    board.update_score_pos(screen,players)
-
-    #Afficher bateau
-    boat.print(screen)
-    boat.print_object(screen,liste)
-    destination.print_pioche_dest(screen)
-    package.print_package(screen)
-
-    #afficher la main
-    #hand à initialiser "Hand.afficher_main(self, screen)""
-
-    #Gestion des events
-    #jeu.event_handler(screen,background_load,players,menu,fermeture_rect)
-    boat.print_object(screen,liste)
+            board = Board()
+            boat = Boat()
+            players=[]
+            for i in range(nbr_player):
+                players.append(Player("Vladimir Ilitch",50))
+                players[i].game_init()
+                players[i].info()
+                for el in range(3):
+                 card= package.pioche_hand(players[i].hand)
 
 
 
-    #menu
-    if step == "Menu":
-        menu.print(screen)
-        step=menu.menu_interaction(pygame.mouse.get_pos())
-        #if step!="Menu":
-            #step="other"
-        if step=="inscription":
-            step="other"
-    else:
-        pass
-    fermeture_rect.x=int(screen.get_width()-fermeture_size-10)
-    fermeture_rect.y=10
-    screen.blit(fermeture,(fermeture_rect.x,fermeture_rect.y))
-    pygame.display.flip()
-    clock.tick(60) # limits FPS to 60
+        if inscription_button.draw(screen):
+            step="inscription"
+            inscription_title=font.render("Menu inscription",True,TEXT_COL)
+            name_label=font.render("Votre nom:",True,TEXT_COL)
+            input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
+            input_name_boutton= Input(400,250,input_name_image_load,2,font,TEXT_COL)
+
+            mdp_label=font.render("Votre mot de passe:",True,TEXT_COL)
+            input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
+            input_mdp_boutton= Input(400,450,input_name_image_load,2,font,TEXT_COL)
+
+
+        if option_boutton.draw(screen):
+            step="option"
+    if step == "play":
+        screen.blit(background, (0,0))
+        boat.print(screen)
+        boat.print_object(screen,liste)
+        destination.print_pioche_dest(screen)
+        board.print(screen)
+        board.update_renome_pos(screen,players)
+        board.update_score_pos(screen,players)
+        boat.print_object(screen,liste)
+        if retour_boutton.draw(screen):
+            print(step)
+            step="main"
+
+    if step == "inscription":
+        screen.blit(main_menu_bg,(0,0))
+
+        screen.blit(inscription_title,(400,100))
+        screen.blit(name_label,(400,200))
+        input_name_boutton.draw(screen)
+
+        screen.blit(mdp_label,(400,400))
+        input_mdp_boutton.draw(screen)
+
+    if step == "option":
+        screen.blit(main_menu_bg,(0,0))
+        img = font.render("Menu d'option",True,TEXT_COL)
+        screen.blit(img,(400,500))
+        print(step)
+        if retour_boutton.draw(screen):
+            print(step)
+            step="main"
+
+
+    if fermeture_boutton.draw(screen):
+        break
+
+    for event in pygame.event.get():
+        if step == "inscription":
+            input_name_boutton.write(event)
+            input_mdp_boutton.write(event)
+
+
+        background= pygame.transform.scale(background_load, (screen.get_width(),screen.get_height()))
+        if event.type == pygame.QUIT:
+            running = False
+
+    pygame.display.update()
+    clock.tick(60)
 pygame.quit()
