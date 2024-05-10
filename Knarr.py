@@ -67,6 +67,9 @@ for i in range(len(card_num)):
 #Initialisation propre
 nbr_player=1
 
+package=Package(4)
+package.shuffle()
+
 board = Board()
 boat = Boat()
 players=[]
@@ -74,6 +77,8 @@ for i in range(nbr_player):
     players.append(Player("Vladimir Ilitch",50))
     players[i].game_init()
     players[i].info()
+    for el in range(3):
+     card= package.pioche_hand(players[i].hand)
 
 
 for card in cards2:
@@ -87,8 +92,6 @@ def game_process(players):
 destination=Package_Destination()
 liste=[]
 
-package=Package(4)
-package.shuffle()
 
 active_card=None
 mouse_pos=[0,0]
@@ -100,7 +103,8 @@ while running:
     #    cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, 310))
 
     #for player in players:
-    #    player.print_equipage(screen)
+     #   player.print_equipage(screen)
+      #  Hand.afficher_main(screen)
 
     #Afficher board
     #board.print(screen)

@@ -1,4 +1,5 @@
 from classes.boat import Boat
+from classes.hand import Hand
 
 class Player():
 
@@ -10,6 +11,7 @@ class Player():
         self.nombre_de_defaite=0
         self.bracelet=3
         self.recrue=3
+        self.hand=Hand()
 
         self.equipage={"vert":[],"rouge":[],"bleu":[],"violet":[],"jaune":[]}
 
