@@ -41,13 +41,16 @@ fermeture_load = pygame.image.load(".\\images\\gui\\stop.png").convert_alpha()
 fermeture= pygame.transform.scale(fermeture_load, (fermeture_size,fermeture_size))
 fermeture_boutton= Button(screen.get_width()-40,10,fermeture,1)
 
+btn_unselect_image_load=pygame.image.load(f".\\images\\gui\\btn_unselect.png").convert_alpha() 
+btn_select_image_load=pygame.image.load(f".\\images\\gui\\btn_select.png").convert_alpha() 
 
-connexion_image_load=pygame.image.load(f".\\images\\gui\\connexion.png").convert_alpha() 
-connexion_boutton= Button(200,200,connexion_image_load,0.5)
-inscription_image_load=pygame.image.load(f".\\images\\gui\\inscrire.png").convert_alpha()
-inscription_button= Button(200,350,inscription_image_load,0.5)
-option_image_load=pygame.image.load(f".\\images\\gui\\option.png").convert_alpha() 
-option_boutton= Button(200,500,option_image_load,0.5)
+
+
+connexion_boutton= Button(200,200,[btn_unselect_image_load,btn_select_image_load],5,font,"Connexion")
+
+inscription_button= Button(200,350,[btn_unselect_image_load,btn_select_image_load],5,font,"inscription")
+
+option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
 
 retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha() 
 retour_boutton= Button(750,500,retour_image_load,0.2)
