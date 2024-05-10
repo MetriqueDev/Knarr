@@ -104,3 +104,6 @@ class Input():
 				else:
 					if len(self.text)!=11:
 						self.text += event.unicode
+
+	def get_input(self):
+		return self.text
