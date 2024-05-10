@@ -142,7 +142,7 @@ class Player():
                           self.add_bracelet(1)  
                   self.hand= self.hand.pop(self.hand[active_card])
                   #donner ici le choix entre prendre la carte de meme couleur ou payer 1 recrue pour choisir
-                  #choix a refaire, juste temporaire pr avancer mais à refaire impérativement
+                  #choix a refaire
                   choix= int(input(print("1 si vous voulez la meme couleur, 2 si vous payez 1 recrue pour choisir n'importe laquelle:")))
                   if choix ==1:
                       self.dragndrop_pioche(screen, event)
@@ -179,7 +179,9 @@ class Player():
                                vik = self.package[-1]
                                del self.package[-1]
                                self.pioche.append(vik)
-
+                               sactive_card=None
+                         else:
+                             active_card=None
 
                   active_card=None
                 else:
