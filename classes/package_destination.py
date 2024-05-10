@@ -7,6 +7,9 @@ class Package_Destination():
         self.echange=[]
         self.influence=[]
         self.verso=[]
+        self.liste=[]
+        self.active_card_e=None
+        self.active_card_i=None
 
         #INITIALISATION DES CARTES ÉCHANGE ET INFLUENCE (échange en premier)
         self.card_id=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
@@ -62,34 +65,79 @@ class Package_Destination():
         self.verso[0].print(screen, (5,5))
         self.verso[1].print(screen, (5,155))
 
-    def dragndrop(self,screen,event):
-        self.fusion = self.echange+self.influence
-        for num, card in enumerate(self.fusion):
-            print(num)
-            if card.front_rect.collidepoint(pygame.mouse.get_pos()):
-                active_card=num
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                #position de la souris sur l'image
-                offset_x=mouse_x-self.fusion[active_card].pos[0]
-                offset_y=mouse_y-self.fusion[active_card].pos[1]
-            if event.type == pygame.MOUSEBUTTONUP:            
-                active_card=None
-            elif event.type == pygame.MOUSEMOTION:
-                if active_card != None:
-                    self.fusion[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-                    #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
-                    #print((screen.get_width()/2-100,screen.get_width()/2+100))
-                    #print((screen.get_height()/2+100,screen.get_height()/2-100))
-                
-        #afficher l'image à la souris pendant le drag and drop si on bouge pas
-            if active_card !=None:
-                self.fusion[active_card].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-    
-    def Ajout_boat(self,screen,event,boat):
+    def dragndrop_echange(self,screen,event,boat):
+        #self.echange = self.echange+self.influence
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                for num, card in enumerate(self.echange):
+                    if card.front_rect.collidepoint(event.pos):
+                        print("ok")
+                        self.active_card_e=num
+                        mouse_x, mouse_y = event.pos
+                        #position de la souris sur l'image
+                        self.offset_x=mouse_x-self.echange[self.active_card_e].pos[0]
+                        self.offset_y=mouse_y-self.echange[self.active_card_e].pos[1]
+                        print(self.offset_x,self.offset_y)
+        if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
-                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None:
-                    boat.Cartes_desti(self.fusion[active_card], self.liste)
-
-                    active_card=None
+                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
+                    boat.Cartes_desti(self.echange[self.active_card_e], self.liste)
+                    del self.echange[self.active_card_e]
+                    self.active_card_e=None
                 else:
-                    active_card=None
+                    self.active_card_e=None
+            self.active_card_e=None
+
+        elif event.type == pygame.MOUSEMOTION:
+            if self.active_card_e != None:
+                #print("bouge")
+                self.echange[self.active_card_e].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+                #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
+                #print((screen.get_width()/2-100,screen.get_width()/2+100))
+                #print((screen.get_height()/2+100,screen.get_height()/2-100))
+            
+        #afficher l'image à la souris pendant le drag and drop si on bouge pas
+        if self.active_card_e != None:
+            print("a")
+            self.echange[self.active_card_e].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+    def dragndrop_influence(self,screen,event,boat):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                for num, card in enumerate(self.influence):
+                    if card.front_rect.collidepoint(event.pos):
+                        print("ok")
+                        self.active_card_i=num
+                        mouse_x, mouse_y = event.pos
+                        #position de la souris sur l'image
+                        self.offset_x=mouse_x-self.influence[self.active_card_i].pos[0]
+                        self.offset_y=mouse_y-self.influence[self.active_card_i].pos[1]
+                        print(self.offset_x,self.offset_y)
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button==1:
+                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_i != None:
+                    boat.Cartes_desti(self.influence[self.active_card_i], self.liste)
+                    del self.influence[self.active_card_i]
+                    self.active_card_i=None
+                else:
+                    self.active_card_e=None
+            self.active_card_i=None
+        elif event.type == pygame.MOUSEMOTION:
+            if self.active_card_i != None:
+                #print("bouge")
+                self.influence[self.active_card_i].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+                print((event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+                print((screen.get_width()/2-100,screen.get_width()/2+100))
+                print((screen.get_height()/2+100,screen.get_height()/2-100))
+            
+        #afficher l'image à la souris pendant le drag and drop si on bouge pas
+        if self.active_card_i !=None:
+            self.influence[self.active_card_i].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+    
+    def Ajout_boat_echange(self,screen,event,boat):
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button==1:
+                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
+                    boat.Cartes_desti(self.echange[self.active_card_e], self.liste)
+                    self.active_card_e=None
+                else:
+                    self.active_card_e=None
