@@ -127,9 +127,9 @@ class Package_Destination():
             if self.active_card_i != None:
                 #print("bouge")
                 self.influence[self.active_card_i].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                print((event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                print((screen.get_width()/2-100,screen.get_width()/2+100))
-                print((screen.get_height()/2+100,screen.get_height()/2-100))
+                #print((event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+                #print((screen.get_width()/2-100,screen.get_width()/2+100))
+                #print((screen.get_height()/2+100,screen.get_height()/2-100))
             
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_i !=None:

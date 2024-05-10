@@ -8,7 +8,7 @@ class Card():
         self.gain=gain
 
         self.face="F" #F for Front & B for Back
-        self.size=(125,200)#(250,400)
+        self.size=(120,200)#(250,400)
         self.num=num
 
 

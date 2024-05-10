@@ -96,6 +96,11 @@ while running:
                 players[i].info()
                 for el in range(3):
                     card= package.pioche_hand(players[i].hand)
+            board.equipage["vert"]=package.package[0]
+            board.equipage["rouge"]=package.package[1]
+            board.equipage["bleu"]=package.package[2]
+            board.equipage["violet"]=package.package[3]
+            board.equipage["jaune"]=package.package[4]
         if inscription_button.draw(screen):
             step="inscription"
             inscription_title=font.render("Menu inscription",True,TEXT_COL)
@@ -119,9 +124,11 @@ while running:
         board.update_renome_pos(screen,players)
         board.update_score_pos(screen,players)
         boat.print_object(screen,liste)
+        board.recrutement(screen)
         for event in pygame.event.get():
             destination.dragndrop_echange(screen,event,boat)
             destination.dragndrop_influence(screen,event,boat)
+            board.dragndrop_recrutement(screen,event)
         if retour_boutton.draw(screen):
             print(step)
             step="main"
@@ -129,6 +136,9 @@ while running:
             destination.echange[destination.active_card_e].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
         if destination.active_card_i != None:
             destination.influence[destination.active_card_i].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
+        if board.active_card_b !=None:
+            board.equipage[board.active_card_b].print(screen,(event.pos[0]-board.offset_x,event.pos[1]-board.offset_y))
+        
     if step == "inscription":
         screen.blit(main_menu_bg,(0,0))
 

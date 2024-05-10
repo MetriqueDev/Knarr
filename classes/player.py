@@ -61,13 +61,13 @@ class Player():
         return self.bracelet
     
     def add_recrue(self,add):
-         if ((self.recrue + add)<=3):
+        if ((self.recrue + add)<=3):
             self.recrue+=add
             if self.recrue<0:
                 self.recrue=0
     
     def add_bracelet(self,add):
-         if ((self.bracelet + add)<=3):
+        if ((self.bracelet + add)<=3):
             self.bracelet+=add
 
 
