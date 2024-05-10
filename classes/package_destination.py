@@ -81,8 +81,9 @@ class Package_Destination():
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
-                    boat.Cartes_desti(self.echange[self.active_card_e], self.liste)
-                    del self.echange[self.active_card_e]
+                    if len(self.liste)<3:
+                        boat.Cartes_desti(self.echange[self.active_card_e], self.liste)
+                        del self.echange[self.active_card_e]
                     self.active_card_e=None
                 else:
                     self.active_card_e=None
@@ -115,8 +116,9 @@ class Package_Destination():
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_i != None:
-                    boat.Cartes_desti(self.influence[self.active_card_i], self.liste)
-                    del self.influence[self.active_card_i]
+                    if len(self.liste)<3:
+                        boat.Cartes_desti(self.influence[self.active_card_i], self.liste)
+                        del self.influence[self.active_card_i]
                     self.active_card_i=None
                 else:
                     self.active_card_e=None
@@ -132,12 +134,3 @@ class Package_Destination():
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_i !=None:
             self.influence[self.active_card_i].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-    
-    def Ajout_boat_echange(self,screen,event,boat):
-        if event.type == pygame.MOUSEBUTTONUP:
-            if event.button==1:
-                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
-                    boat.Cartes_desti(self.echange[self.active_card_e], self.liste)
-                    self.active_card_e=None
-                else:
-                    self.active_card_e=None

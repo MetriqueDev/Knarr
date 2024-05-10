@@ -76,28 +76,6 @@ def game_process(players):
 while running:
     screen.blit(background, (0,0))
 
-    #for i in range(len(cards)):
-    #    cards[i].print(screen,(int(screen.get_width()/2-len(cards)*125/2)+i*125, 310))
-
-    #for player in players:
-        #   player.print_equipage(screen)
-            #  Hand.afficher_main(screen)
-
-    #Afficher board
-    #board.print(screen)
-
-    ##Afficher points bateau
-    #board.update_renome_pos(screen,players)
-    #board.update_score_pos(screen,players)
-
-    #Afficher bateau
-    #boat.print(screen)
-    #boat.print_object(screen,liste)
-    #destination.print_pioche_dest(screen)
-    #package.print_package(screen)
-
-    #boat.print_object(screen,liste)
-
     if step == "main":
         screen.blit(main_menu_bg,(0,0))
         if connexion_boutton.draw(screen):
@@ -144,8 +122,6 @@ while running:
         for event in pygame.event.get():
             destination.dragndrop_echange(screen,event,boat)
             destination.dragndrop_influence(screen,event,boat)
-            destination.Ajout_boat_echange(screen,event,boat)
-        
         if retour_boutton.draw(screen):
             print(step)
             step="main"
