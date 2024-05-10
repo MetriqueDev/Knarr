@@ -57,6 +57,15 @@ class Player():
     
     def get_bracelet(self):
         return self.bracelet
+    
+    def add_recrue(self,add):
+         if ((self.recrue + add)<=3):
+            self.recrue+=add
+    
+    def add_bracelet(self,add):
+         if ((self.bracelet + add)<=3):
+            self.bracelet+=add
+
 
 
     def add_equipage(self,card):
@@ -94,9 +103,18 @@ class Player():
     
     def Ajout_equipage(self,screen,event,equipage):
             if event.button==1:
-                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None:
-                  self.equipage[self.hand[active_card].couleur].append(self.hand[active_card])   
-
+                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à l'equipage
+                  self.add_equipage(self.hand[active_card]) 
+                  for card in equipage[self.hand[active_card].couleur]:
+                      if card.gain == "renommee":
+                          self.add_renome(1)
+                      elif card.gain == "recrue":
+                          self.add_recrue(1)
+                      elif card.gain =="victoire":
+                          self.add_score(1)
+                      elif card.gain == "bracelet":
+                          self.add_bracelet(1)  
+                  self.hand= self.hand.pop(self.hand[active_card])                             
                   active_card=None
                 else:
                     active_card=None
