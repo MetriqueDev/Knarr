@@ -76,7 +76,7 @@ for i in range(nbr_player):
     players[i].game_init()
     players[i].info()
     for el in range(3):
-        card= package.pioche_hand(players[i].hand)
+     package.pioche_hand(players[i].hand)
 
 
 for card in cards2:
