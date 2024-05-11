@@ -54,7 +54,6 @@ option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5
 
 retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha() 
 retour_boutton= Button(750,500,retour_image_load,0.2)
-
 #Initialisation propre
 nbr_player=1
 
@@ -76,6 +75,7 @@ while running:
         screen.blit(main_menu_bg,(0,0))
         if connexion_boutton.draw(screen):
             step="connexion"
+            hand=Hand()
             connexion_title=font.render("Menu connexion",True,TEXT_COL)
             name_label=font.render("Votre nom:",True,TEXT_COL)
             input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
@@ -108,7 +108,7 @@ while running:
 
     if step == "play":
         screen.blit(background, (0,0))
-        package.print_pioche(screen)
+        #package.print_pioche(screen)
         boat.print(screen)
         boat.print_object(screen,destination.liste)
         destination.print_pioche_dest(screen)
@@ -116,11 +116,12 @@ while running:
         board.update_renome_pos(screen,players)
         board.update_score_pos(screen,players)
         boat.print_object(screen,liste)
-        board.recrutement(screen)
         for event in pygame.event.get():
             destination.dragndrop_echange(screen,event,boat)
             destination.dragndrop_influence(screen,event,boat)
-            board.dragndrop_recrutement(screen,event)
+            board.dragndrop_recrutement(screen,event,hand)
+        
+        board.recrutement(screen)
         if destination.active_card_e != None:
             destination.echange[destination.active_card_e].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
         if destination.active_card_i != None:
@@ -138,7 +139,6 @@ while running:
         user_icone_btn.draw(screen)
 
         if jouer_boutton.draw(screen):
-
             screen.blit(main_menu_bg,(0,0))
             chargement_label=font.render("Chargement...",True,TEXT_COL)
             screen.blit(chargement_label,(int(screen.get_width()/2-chargement_label.get_width()/2),int(screen.get_height()/2-chargement_label.get_height())))
@@ -161,12 +161,8 @@ while running:
                 players[i].game_init()
                 players[i].info()
                 for el in range(3):
-                 card= package.pioche_hand(players[i].hand)
-            board.equipage["vert"]=package.package[0]
-            board.equipage["rouge"]=package.package[1]
-            board.equipage["bleu"]=package.package[2]
-            board.equipage["violet"]=package.package[3]
-            board.equipage["jaune"]=package.package[4]
+                    card= package.pioche_hand(players[i].hand)
+            board.init_cartes(package)
             retour_boutton= Button(screen.get_width()-5*96-10,screen.get_height()-32*5-10,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
         if option_boutton.draw(screen):
@@ -192,8 +188,6 @@ while running:
             #print("Valider")
             #print("name:",input_name_boutton.get_input())
             #print("mdp:",input_mdp_boutton.get_input())
-
-
             name=input_name_boutton.get_input()
             mdp=input_mdp_boutton.get_input()
 

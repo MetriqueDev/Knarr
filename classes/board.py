@@ -6,8 +6,15 @@ class Board():
         self.size=(600,250)#(250,400)
         self.equipage={"vert":[],"rouge":[],"bleu":[],"violet":[],"jaune":[]}
         self.active_card_b=None
-
         self.init_image()
+
+    def init_cartes(self,package):
+        a=0
+        for card in self.equipage:
+            if self.equipage[card] == []:
+                self.equipage[card] = package.package[a]
+                a+=1
+
 
     def init_image(self):
         self.image_board_load = pygame.image.load(f".\\images\\plateau.png").convert_alpha() #pour la transaprance on utilise convert_alpha
@@ -53,10 +60,11 @@ class Board():
     def recrutement(self,screen):
         a=0
         for card in self.equipage:
+            #ajouter la vérif si la liste est vide
             self.equipage[card].print(screen,(10+a*120,screen.get_height()-400))
             a+=1
 
-    def dragndrop_recrutement(self,screen,event):
+    def dragndrop_recrutement(self,screen,event,hand):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for card in self.equipage:
@@ -72,17 +80,27 @@ class Board():
                         print(self.offset_x,self.offset_y)
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
-                    self.active_card_b=None
+                if screen.get_width()/2-200<event.pos[0]<screen.get_width()/2+200 and event.pos[1]<screen.get_height()/2 and self.active_card_b != None:
+                    hand.main.append(self.equipage[self.active_card_b])
+                    self.equipage[self.active_card_b]=[]
+                    print(self.equipage)
+                    print(len(self.equipage))
+                    print("posé")
+                self.active_card_b=None
+                
+
             else:
-                self.active_card_e=None
+                self.active_card_b=None
             self.active_card_b=None
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_b != None:
                 #print("bouge")
                 self.equipage[self.active_card_b].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                print((event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                print((screen.get_width()/2-100,screen.get_width()/2+100))
-                print((screen.get_height()/2+100,screen.get_height()/2-100))
+                print((event.pos[0],event.pos[1]))
+                print((screen.get_width()/2-200,screen.get_width()/2+200))
+                print((screen.get_height()/2))
+
+
 #circle()
 
 #150 haut +28
