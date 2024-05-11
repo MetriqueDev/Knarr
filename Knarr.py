@@ -4,7 +4,6 @@ from classes.board import Board
 from classes.boat import Boat
 from classes.player import Player
 from classes.destination import Card_bateau
-from classes.menu import Menu
 from classes.package import Package
 from classes.hand import Hand
 from classes.package_destination import Package_Destination
@@ -34,7 +33,7 @@ TEXT_COL = (255, 255, 255)
 #Background
 background_load = pygame.image.load(".\\images\\fond.jpg").convert()
 background= pygame.transform.scale(background_load, (1920,1080))
-main_menu_bgload=pygame.image.load(".\\images\\gui\\background.png").convert()
+main_menu_bgload=pygame.image.load(".\\images\\gui\\pxArt.png").convert()
 main_menu_bg = pygame.transform.scale(main_menu_bgload,(1920,1080))
 
 #Fermeture
@@ -52,8 +51,8 @@ inscription_button= Button(200,350,[btn_unselect_image_load,btn_select_image_loa
 
 option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
 
-retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha() 
-retour_boutton= Button(750,500,retour_image_load,0.2)
+#retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha() 
+#retour_boutton= Button(750,500,retour_image_load,0.2)
 #Initialisation propre
 nbr_player=1
 players=[]
@@ -64,10 +63,7 @@ liste=[]
 active_card=None
 mouse_pos=[0,0]
 
-#focntion de jeu
-def game_process(players):
-    for player in players:
-        player.add_renome_to_score()
+
 
 while running:
     #screen.fill((0,0,0))
@@ -76,7 +72,7 @@ while running:
         screen.blit(main_menu_bg,(0,0))
         if connexion_boutton.draw(screen):
             step="connexion"
-            hand=Hand()
+            hand=Hand()#?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
             connexion_title=font.render("Menu connexion",True,TEXT_COL)
             name_label=font.render("Votre nom:",True,TEXT_COL)
             input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
@@ -123,18 +119,18 @@ while running:
 
 
         for event in pygame.event.get():
-            jeu.event_handler(event)
+            jeu.event_handler(event,screen)
             #destination.dragndrop_echange(screen,event,boat)
             #destination.dragndrop_influence(screen,event,boat)
             #board.dragndrop_recrutement(screen,event,hand,jeu.package)
 
         #je le laisse icic car c'est personnel au joueur le déplacmeent de la carte pendnat le drag and drop
-        if destination.active_card_e != None:
-            destination.echange[destination.active_card_e].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
-        if destination.active_card_i != None:
-            destination.influence[destination.active_card_i].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
-        if board.active_card_b !=None:
-            board.equipage[board.active_card_b].print(screen,(event.pos[0]-board.offset_x,event.pos[1]-board.offset_y))
+        if jeu.destination.active_card_e != None:
+            jeu.destination.echange[jeu.destination.active_card_e].print(screen,(event.pos[0]-jeu.destination.offset_x,event.pos[1]-jeu.destination.offset_y))
+        if jeu.destination.active_card_i != None:
+            jeu.destination.influence[jeu.destination.active_card_i].print(screen,(event.pos[0]-jeu.destination.offset_x,event.pos[1]-jeu.destination.offset_y))
+        if jeu.board.active_card_b !=None:
+            jeu.board.equipage[jeu.board.active_card_b].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
         
 
 
@@ -154,15 +150,22 @@ while running:
             chargement_label=font.render("Chargement...",True,TEXT_COL)
             screen.blit(chargement_label,(int(screen.get_width()/2-chargement_label.get_width()/2),int(screen.get_height()/2-chargement_label.get_height())))
             pygame.display.update()
+            pygame.mixer.music.load(".\\musique\\gui_sound\\start.wav")
+            pygame.mixer.music.play()
 
             step="play"
-            for i in range(nbr_player):
-                players.append(Player("Vladimir Ilitch",50))
-                players[i].game_init()
-                players[i].info()
+            players=[]
+            players.append(Player(name,niveau))
+            players[0].game_init()
+            players.append(Player(name,niveau,True))#Robot
+            players[1].game_init()
+            #for i in range(nbr_player):
+            #    players.append(Player("Vladimir Ilitch",niveau))
+            #    players[i].game_init()
+            #    players[i].info()
             jeu=Game(players)
-            jeu.init_image()
-            jeu.init_game()
+            jeu.init_image(screen)
+            jeu.init_game(screen)
 
 
 
@@ -196,6 +199,7 @@ while running:
             name=input_name_boutton.get_input()
             mdp=input_mdp_boutton.get_input()
 
+
             con = sqlite3.connect("data.db")
             cur = con.cursor()
             data_connect=cur.execute("SELECT * FROM comptes WHERE nom = '{}'".format(name))
@@ -204,6 +208,8 @@ while running:
             con.close()
             if data==None:
                 #print("connais pas")
+                pygame.mixer.music.load(".\\musique\\gui_sound\\non.wav")
+                pygame.mixer.music.play()
                 step="main"
             else:
                 if data[5] == mdp:
@@ -213,12 +219,20 @@ while running:
                     retour_boutton= Button(200,400,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
                     user_icone_image=pygame.image.load(f".\\images\\gui\\player_ship\\ship{len(name)%6}.png").convert_alpha() 
                     user_icone_btn=Button(10,10,user_icone_image,3)
-
+                    niveau=data[4]
+                    defaites=data[3]
+                    victoires=data[2]
+                    pygame.mixer.music.load(".\\musique\\gui_sound\\bienvenue.wav")
+                    pygame.mixer.music.play()
                 else:
+                    pygame.mixer.music.load(".\\musique\\gui_sound\\non.wav")
+                    pygame.mixer.music.play()
                     #print("pas le bon mdp")
                     step="main"
 
         if retour_boutton.draw(screen):
+            pygame.mixer.music.load(".\\musique\\gui_sound\\retour.wav")
+            pygame.mixer.music.play()
             #print(step)
             step="main"
 
@@ -248,12 +262,18 @@ while running:
                 print("save")
                 cur.execute("INSERT INTO 'comptes' ('nom','victoires','défaites','niveau','mdp') VALUES (?,?,?,?,?)",(name,0,0,0,mdp))
                 con.commit()
+                pygame.mixer.music.load(".\\musique\\gui_sound\\oui.wav")
+            else:
+                pygame.mixer.music.load(".\\musique\\gui_sound\\non.wav")
+            pygame.mixer.music.play()
             cur.close()
             con.close()
 
 
             step="main"#il est inscrit mais il doit se connecter donc retour au premier écran
         if retour_boutton.draw(screen):
+            pygame.mixer.music.load(".\\musique\\gui_sound\\retour.wav")
+            pygame.mixer.music.play()
             #print(step)
             step="main"
 
@@ -261,11 +281,15 @@ while running:
         screen.blit(main_menu_bg,(0,0))
         img = font.render("Menu d'option",True,TEXT_COL)
         screen.blit(img,(200,500))
-        valider_boutton.draw(screen)
+        if valider_boutton.draw(screen):
+            pygame.mixer.music.load(".\\musique\\gui_sound\\oui.wav")
+            pygame.mixer.music.play()
         if retour_boutton.draw(screen):
             #print(step)
             step="main"
             option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
+            pygame.mixer.music.load(".\\musique\\gui_sound\\retour.wav")
+            pygame.mixer.music.play()
 
     if fermeture_boutton.draw(screen):
         break

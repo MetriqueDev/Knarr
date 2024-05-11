@@ -4,7 +4,6 @@ from classes.board import Board
 from classes.boat import Boat
 from classes.player import Player
 from classes.destination import Card_bateau
-from classes.menu import Menu
 from classes.package import Package
 from classes.hand import Hand
 from classes.package_destination import Package_Destination
@@ -22,12 +21,13 @@ class Game():
         self.board=Board()
         self.turn=0
 
-    def init_image(self):
+
+    def init_image(self,screen):
         #Background
         self.background_load = pygame.image.load(".\\images\\fond.jpg").convert()
-        self.background= pygame.transform.scale(self.background_load, (1600,900))
+        self.background= pygame.transform.scale(self.background_load, (screen.get_width(),screen.get_height()))
 
-    def init_game(self):
+    def init_game(self,screen):
         self.liste=[]
         print(self.package.package)
         self.board.init_cartes(self.package)
@@ -38,6 +38,10 @@ class Game():
                 e=self.package.pioche_hand(player.hand)
                 if e== False:
                     print("plus de cartes dans package")
+
+        btn_unselect_image_load=pygame.image.load(f".\\images\\gui\\skip.png").convert_alpha() 
+        btn_select_image_load=pygame.image.load(f".\\images\\gui\\skip_select.png").convert_alpha() 
+        self.skip_boutton= Button(10,screen.get_height()-32*5-5,[btn_unselect_image_load,btn_select_image_load],5)
         
         
 
@@ -47,7 +51,7 @@ class Game():
 
         self.boat.print(screen)
         self.boat.print_object(screen,liste)
-        self.boat.print_object(screen,destination.liste)
+        self.boat.print_object(screen,self.destination.liste)
         
         self.destination.print_pioche_dest(screen)
         
@@ -56,6 +60,8 @@ class Game():
         self.board.update_renome_pos(screen,self.players)
         self.board.update_score_pos(screen,self.players)
 
+        self.skip_boutton.draw(screen)
+
     def update(self):
 
         for player in self.players:
@@ -63,7 +69,7 @@ class Game():
 
         
 
-    def event_handler(self,event):
-        self.destination.dragndrop_echange(screen,event,boat)
-        self.destination.dragndrop_influence(screen,event,boat)
-        self.board.dragndrop_recrutement(screen,event,hand,jeu.package)
+    def event_handler(self,event,screen):
+        self.destination.dragndrop_echange(screen,event,self.boat)
+        self.destination.dragndrop_influence(screen,event,self.boat)
+        self.board.dragndrop_recrutement(screen,event,self.players[0].hand,self.package)

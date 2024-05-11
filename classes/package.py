@@ -7,6 +7,7 @@ class Package():
         self.nbr_player=nbr_player
         self.package=[]
 
+        
         card_types=["rouge2","rouge2","rouge3","rouge4","rouge4","rouge1","rouge2","rouge3","rouge4","rouge4",
                     "bleu1","bleu2","bleu3","bleu3","bleu4","bleu1","bleu1","bleu3","bleu3","bleu4",
                     "violet1","violet2","violet3","violet4","violet4","violet1","violet2","violet3","violet4","violet4",

@@ -2,7 +2,7 @@ import pygame
 
 #button class
 class Button():
-	def __init__(self, x, y, image, scale,font=None,text=""):
+	def __init__(self, x, y, image, scale,font=None,text="",sound=True):
 		
 		if type(image) is list:
 			self.image=image
@@ -21,6 +21,7 @@ class Button():
 		self.font=font
 		self.text=text
 		self.survole=False
+		self.sound=sound
 
 	def draw(self, surface):
 		action = False
@@ -29,6 +30,9 @@ class Button():
 
 		#check mouseover and clicked conditions
 		if self.rect.collidepoint(pos):
+			if self.sound==True and self.survole==False:
+				pygame.mixer.music.load(".\\musique\\gui_sound\\select.wav")
+				pygame.mixer.music.play()
 			self.survole=True
 			if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
 				self.clicked = True
