@@ -180,7 +180,7 @@ class Player():
                                vik = self.package[-1]
                                del self.package[-1]
                                self.pioche.append(vik)
-                               sactive_card=None
+                               active_card=None
                          else:
                              active_card=None
 
