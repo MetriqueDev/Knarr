@@ -26,7 +26,7 @@ class Package():
     
 
     def init_pioche(self):
-        for i in range(len(self.card_num)):
+        for i in range(5):
             vik = self.package[-1]
             del self.package[-1]
             self.pioche.append(vik)

@@ -84,12 +84,13 @@ class Board():
                 if screen.get_width()/2-200<event.pos[0]<screen.get_width()/2+200 and event.pos[1]<screen.get_height()/2 and self.active_card_b != None:
                     hand.main.append(self.equipage[self.active_card_b])
                     self.equipage[self.active_card_b]=[]
-                    nbr = random.randint(0,len(package.pioche))
-                    self.equipage[self.active_card_b]=package.pioche[nbr]
-                    del package.pioche[nbr]
+                    self.equipage[self.active_card_b]=package.package[0]
+                    del package.package[0]
                     print(self.equipage)
                     print(len(self.equipage))
                     print("posé")
+                    print(len(package.package))
+                    print(len(package.package))
                 self.active_card_b=None
                 
 
@@ -100,9 +101,9 @@ class Board():
             if self.active_card_b != None:
                 #print("bouge")
                 self.equipage[self.active_card_b].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                print((event.pos[0],event.pos[1]))
-                print((screen.get_width()/2-200,screen.get_width()/2+200))
-                print((screen.get_height()/2))
+                #print((event.pos[0],event.pos[1]))
+                #print((screen.get_width()/2-200,screen.get_width()/2+200))
+                #print((screen.get_height()/2))
 
 
 #circle()
