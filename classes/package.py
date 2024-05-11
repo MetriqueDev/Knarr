@@ -7,9 +7,17 @@ class Package():
         self.nbr_player=nbr_player
         self.package=[]
 
-        card_types=["bleu1","bleu2","bleu3","bleu4",    "jaune1","jaune2","jaune3","jaune4",    "rouge1","rouge2","rouge3","rouge4",    "vert1","vert2","vert3","vert4",    "violet1","violet2","violet3","violet4"]
-        card_gains=["renommee","recrue","victoire","bracelet","recrue","victoire","bracelet","renommee","renommee","bracelet","recrue","victoire","victoire","renommee","bracelet","recrue","bracelet","renommee","recrue","victoire"]
-        self.card_num=[0,0,3,3,3,0,4,0,3,0,0,0,0,0,4,0,0,3,0,4]
+        card_types=["rouge2","rouge2","rouge3","rouge4","rouge4","rouge1","rouge2","rouge3","rouge4","rouge4",
+                    "bleu1","bleu2","bleu3","bleu3","bleu4","bleu1","bleu1","bleu3","bleu3","bleu4",
+                    "violet1","violet2","violet3","violet4","violet4","violet1","violet2","violet3","violet4","violet4",
+                    "jaune2","jaune3","jaune3","jaune4","jaune4","jaune1","jaune2","jaune2","jaune2","jaune2",
+                    "vert4","vert4","vert3","vert3","vert2","vert1","vert1","vert1","vert1","vert4"]
+        card_gains=['bracelet','bracelet','recrue','victoire','victoire','renommee','bracelet','recrue','victoire','victoire',
+                    'renommee','recrue','victoire','victoire','bracelet','renommee','renommee','victoire','victoire','bracelet',
+                    'bracelet','renommee','recrue','victoire','victoire','bracelet','renommee','recrue','victoire','victoire',
+                    'victoire','bracelet','bracelet','renommee','renommee','recrue','victoire','victoire','victoire','victoire',
+                    'recrue','recrue','bracelet','bracelet','renommee','victoire','victoire','victoire','victoire','recrue']
+        self.card_num=[3,0,4,0,4,3,0,0,0,0,0,0,4,0,0,0,4,3,0,3,0,0,0,3,4,0,3,0,4,0,4,4,0,0,0,3,0,0,0,3,0,3,0,4,0,0,0,3,4,0]
         for i in range(len(self.card_num)):
             card=Card(card_types[i],card_gains[i],self.card_num[i])
             card.init_image()
