@@ -119,9 +119,9 @@ while running:
         for event in pygame.event.get():
             destination.dragndrop_echange(screen,event,boat)
             destination.dragndrop_influence(screen,event,boat)
-            board.dragndrop_recrutement(screen,event,hand)
-        
-        board.recrutement(screen)
+            board.dragndrop_recrutement(screen,event,hand,package)
+        #board.init_cartes(package)
+        board.recrutement_print(screen)
         if destination.active_card_e != None:
             destination.echange[destination.active_card_e].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
         if destination.active_card_i != None:
@@ -161,7 +161,7 @@ while running:
                 players[i].game_init()
                 players[i].info()
                 for el in range(3):
-                    card= package.pioche_hand(players[i].hand)
+                    card=package.pioche_hand(players[i].hand)
             board.init_cartes(package)
             retour_boutton= Button(screen.get_width()-5*96-10,screen.get_height()-32*5-10,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 

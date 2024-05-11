@@ -1,4 +1,5 @@
 import pygame
+import random
 
 class Board():
 
@@ -57,14 +58,14 @@ class Board():
             elif score <= 40:
                 pygame.draw.circle(screen, ( 169, 50, 38 ), (int(10)+20 +35*16-35*(36-20) ,screen.get_height()-660+47 +40*(20-16)-40*(score-36) ), 15)
 
-    def recrutement(self,screen):
+    def recrutement_print(self,screen):
         a=0
         for card in self.equipage:
-            #ajouter la vérif si la liste est vide
-            self.equipage[card].print(screen,(10+a*120,screen.get_height()-400))
-            a+=1
+            if self.equipage[card] != []:
+                self.equipage[card].print(screen,(10+a*120,screen.get_height()-400))
+                a+=1
 
-    def dragndrop_recrutement(self,screen,event,hand):
+    def dragndrop_recrutement(self,screen,event,hand,package):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for card in self.equipage:
@@ -83,6 +84,9 @@ class Board():
                 if screen.get_width()/2-200<event.pos[0]<screen.get_width()/2+200 and event.pos[1]<screen.get_height()/2 and self.active_card_b != None:
                     hand.main.append(self.equipage[self.active_card_b])
                     self.equipage[self.active_card_b]=[]
+                    nbr = random.randint(0,len(package.pioche))
+                    self.equipage[self.active_card_b]=package.pioche[nbr]
+                    del package.pioche[nbr]
                     print(self.equipage)
                     print(len(self.equipage))
                     print("posé")
