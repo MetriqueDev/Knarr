@@ -8,7 +8,7 @@ from classes.menu import Menu
 from classes.package import Package
 from classes.hand import Hand
 from classes.package_destination import Package_Destination
-import classes.game as game
+from classes.game import Game
 from classes.input import Button , Input
 
 import sqlite3
@@ -17,7 +17,7 @@ import sqlite3
 #PyGame setup
 pygame.init()
 screen = pygame.display.set_mode((1920,1080),pygame.RESIZABLE) #(1280, 720))
-players=['Tristonks']
+
 pygame.display.set_caption("Knarr")
 
 running=True
@@ -56,8 +56,9 @@ retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha(
 retour_boutton= Button(750,500,retour_image_load,0.2)
 #Initialisation propre
 nbr_player=1
+players=[]
 
-destination=Package_Destination()
+
 liste=[]
 
 active_card=None
@@ -107,27 +108,36 @@ while running:
             retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
     if step == "play":
-        screen.blit(background, (0,0))
-        #package.print_pioche(screen)
-        boat.print(screen)
-        boat.print_object(screen,destination.liste)
-        destination.print_pioche_dest(screen)
-        board.print(screen)
-        board.update_renome_pos(screen,players)
-        board.update_score_pos(screen,players)
-        boat.print_object(screen,liste)
+        #screen.blit(background, (0,0))
+        #boat.print(screen)
+        #boat.print_object(screen,destination.liste)
+        #destination.print_pioche_dest(screen)
+        #board.print(screen)
+        #board.update_renome_pos(screen,players)
+        #board.update_score_pos(screen,players)
+        #boat.print_object(screen,liste)
+        #board.recrutement_print(screen)
+
+        jeu.update()
+        jeu.afficher(screen,liste)
+
+
         for event in pygame.event.get():
-            destination.dragndrop_echange(screen,event,boat)
-            destination.dragndrop_influence(screen,event,boat)
-            board.dragndrop_recrutement(screen,event,hand,package)
-        #board.init_cartes(package)
-        board.recrutement_print(screen)
+            jeu.event_handler(event)
+            #destination.dragndrop_echange(screen,event,boat)
+            #destination.dragndrop_influence(screen,event,boat)
+            #board.dragndrop_recrutement(screen,event,hand,jeu.package)
+
+        #je le laisse icic car c'est personnel au joueur le déplacmeent de la carte pendnat le drag and drop
         if destination.active_card_e != None:
             destination.echange[destination.active_card_e].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
         if destination.active_card_i != None:
             destination.influence[destination.active_card_i].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
         if board.active_card_b !=None:
             board.equipage[board.active_card_b].print(screen,(event.pos[0]-board.offset_x,event.pos[1]-board.offset_y))
+        
+
+
         if retour_boutton.draw(screen):
             print(step)
             step="main"
@@ -139,30 +149,25 @@ while running:
         user_icone_btn.draw(screen)
 
         if jouer_boutton.draw(screen):
+            
             screen.blit(main_menu_bg,(0,0))
             chargement_label=font.render("Chargement...",True,TEXT_COL)
             screen.blit(chargement_label,(int(screen.get_width()/2-chargement_label.get_width()/2),int(screen.get_height()/2-chargement_label.get_height())))
             pygame.display.update()
 
             step="play"
-            jeu=game.Game(players)
-            jeu.init_game()
-            jeu.init_cards()
-            package=Package(4)
-            package.shuffle()
-            package.init_pioche()
-
-
-            board = Board()
-            boat = Boat()
-            players=[]
             for i in range(nbr_player):
                 players.append(Player("Vladimir Ilitch",50))
                 players[i].game_init()
                 players[i].info()
-                for el in range(3):
-                    card=package.pioche_hand(players[i].hand)
-            board.init_cartes(package)
+            jeu=Game(players)
+            jeu.init_image()
+            jeu.init_game()
+
+
+
+
+
             retour_boutton= Button(screen.get_width()-5*96-10,screen.get_height()-32*5-10,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
         if option_boutton.draw(screen):

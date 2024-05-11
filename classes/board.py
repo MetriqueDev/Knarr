@@ -12,6 +12,7 @@ class Board():
     def init_cartes(self,package):
         a=0
         for card in self.equipage:
+            print(package.package)
             if self.equipage[card] == []:
                 self.equipage[card] = package.package[a]
                 a+=1
