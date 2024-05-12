@@ -41,14 +41,21 @@ class Game():
 
         btn_unselect_image_load=pygame.image.load(f".\\images\\gui\\skip.png").convert_alpha() 
         btn_select_image_load=pygame.image.load(f".\\images\\gui\\skip_select.png").convert_alpha() 
+        
         self.skip_boutton= Button(10,screen.get_height()-32*5-5,[btn_unselect_image_load,btn_select_image_load],5)
         
         
-
     
-    def afficher(self,screen,liste):
-        screen.blit(self.background, (0,0))
 
+    def update(self,screen,liste,font):
+        text_turn="Tour de "+self.players[self.turn%len(self.players)].name
+        self.turn_name=font.render(text_turn,True,(200,200,210))
+        
+        for player in self.players:
+            player.add_renome_to_score()
+
+        screen.blit(self.background, (0,0))
+        
         self.boat.print(screen)
         self.boat.print_object(screen,liste)
         self.boat.print_object(screen,self.destination.liste)
@@ -60,14 +67,14 @@ class Game():
         self.board.update_renome_pos(screen,self.players)
         self.board.update_score_pos(screen,self.players)
 
-        self.skip_boutton.draw(screen)
+        if self.skip_boutton.draw(screen):
+            #condition si il peut ou non skip
+            self.turn+=1
 
-    def update(self):
 
-        for player in self.players:
-            player.add_renome_to_score()
+        screen.blit(self.turn_name, (10,screen.get_height()-75))
 
-        
+
 
     def event_handler(self,event,screen):
         self.destination.dragndrop_echange(screen,event,self.boat)
