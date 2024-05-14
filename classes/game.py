@@ -48,11 +48,11 @@ class Game():
     
 
     def update(self,screen,liste,font):
+
         text_turn="Tour de "+self.players[self.turn%len(self.players)].name
         self.turn_name=font.render(text_turn,True,(200,200,210))
         
-        for player in self.players:
-            player.add_renome_to_score()
+        
 
         screen.blit(self.background, (0,0))
         
@@ -70,6 +70,10 @@ class Game():
         if self.skip_boutton.draw(screen):
             #condition si il peut ou non skip
             self.turn+=1
+            if self.turn%len(self.players) ==0:
+                #Nouveau tour
+                for player in self.players:
+                    player.add_renome_to_score()
 
 
         screen.blit(self.turn_name, (10,screen.get_height()-75))

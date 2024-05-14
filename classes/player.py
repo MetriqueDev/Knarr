@@ -44,14 +44,16 @@ class Player():
         return self.renome
 
     def add_renome_to_score(self):
-        if self.renome<=3:
+        if self.renome<3:
+            self.score+=0
+        elif self.renome<6:
             self.score+=1
-        elif self.renome<=6:
+        elif self.renome<10:
             self.score+=2
-        elif self.renome<=10:
+        elif self.renome<14:
             self.score+=3
-        elif self.renome<=14:
-            self.score+=4
+        if self.renome==14:
+            self.score+=5
 
     def get_score(self):
         return self.score
