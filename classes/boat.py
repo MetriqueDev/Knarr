@@ -1,6 +1,7 @@
 import pygame
 from  classes.pion import Pion
 from classes.destination import Card_bateau
+from classes.package_destination import Package_Destination
 
 class Boat():
 
@@ -49,3 +50,17 @@ class Boat():
 
     def Cartes_desti(self,obj,liste):
         liste.append(obj)
+
+    def Commerce(self,liste):
+        for i in range(len(liste)):
+            for j in range(3):
+                if liste[i].card_gain_col[j] == "pioche":
+                    print('pioche')
+                elif liste[i].card_gain_col[j] == "recrue":
+                    print('recrue')
+                elif liste[i].card_gain_col[j] == "victoire":
+                    print('victoire')
+                elif liste[i].card_gain_col[j] == "renommee":
+                    print('renommee')
+                else :
+                    print('rien')
