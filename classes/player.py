@@ -142,48 +142,29 @@ class Player():
                       elif card.gain == "bracelet":
                           self.add_bracelet(1)  
                   self.hand= self.hand.pop(self.hand[active_card])
-                  #donner ici le choix entre prendre la carte de meme couleur ou payer 1 recrue pour choisir
-                  #choix a refaire
-                  choix= int(input(print("1 si vous voulez la meme couleur, 2 si vous payez 1 recrue pour choisir n'importe laquelle:")))
-                  if choix ==1:
-                      self.dragndrop_pioche(screen, event)
-                      if event.button==1:
-                         if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à la main
+                  
+            self.dragndrop_pioche(screen, event)
+            if event.button==1:
+                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à la main
                            
-                           if [self.pioche[active_card].couleur] == [self.hand[active_card].couleur]:
-                               self.hand.append(self.pioche[active_card])
-                               self.pioche.pop(self.pioche[active_card])
-                               vik = self.package[-1]
-                               del self.package[-1]
-                               self.pioche.append(vik)
-                           if [self.pioche[active_card].couleur] != [self.hand[active_card].couleur]:
-                               meme_couleur=0
-                               for card in self.pioche:
-                                   if card.couleur == self.hand[active_card].couleur:
-                                       meme_couleur+=1
-                               if meme_couleur==0:
-                                    self.hand.append(self.pioche[active_card])
-                                    self.pioche.pop(self.pioche[active_card])
-                                    vik = self.package[-1]
-                                    del self.package[-1]
-                                    self.pioche.append(vik)       
-                           active_card=None
-                         else:
-                             active_card=None
-                  if choix ==2:
-                      self.add_recrue(-1)
-                      self.dragndrop_pioche(screen, event)
-                      if event.button==1:
-                         if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à la main
-                               self.hand.append(self.pioche[active_card])
-                               self.pioche.pop(self.pioche[active_card])
-                               vik = self.package[-1]
-                               del self.package[-1]
-                               self.pioche.append(vik)
-                               active_card=None
-                         else:
-                             active_card=None
+                    if [self.pioche[active_card].couleur] == [self.hand[active_card].couleur]:
+                        self.hand.append(self.pioche[active_card])
+                        self.pioche.pop(self.pioche[active_card])
+                        vik = self.package[-1]
+                        del self.package[-1]
+                        self.pioche.append(vik)
+                        active_card=None       
+                    if [self.pioche[active_card].couleur] != [self.hand[active_card].couleur]:
+                        self.add_recrue(-1)
+                        self.hand.append(self.pioche[active_card])
+                        self.pioche.pop(self.pioche[active_card])
+                        vik = self.package[-1]
+                        del self.package[-1]
+                        self.pioche.append(vik)
+                        active_card=None
+                    else:
+                        active_card=None
 
-                  active_card=None
-                else:
+                 
+            else:
                     active_card=None
