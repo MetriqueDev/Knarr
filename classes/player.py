@@ -28,6 +28,7 @@ class Player():
     def game_init(self):
         self.score = 0
         self.renome = 0
+        self.asplay = False
 
     def add_renome(self,add):
         if ((self.renome + add)<15) and ((self.renome+add)>(-1)):
