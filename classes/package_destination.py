@@ -84,6 +84,8 @@ class Package_Destination():
                     if len(self.liste)<3:
                         boat.Cartes_desti(self.echange[self.active_card_e], self.liste)
                         del self.echange[self.active_card_e]
+                        self.active_card_i=None
+                        return True
                     self.active_card_e=None
                 else:
                     self.active_card_e=None
@@ -101,6 +103,10 @@ class Package_Destination():
         if self.active_card_e != None:
             print("a")
             self.echange[self.active_card_e].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+
+        return False
+
+        
     def dragndrop_influence(self,screen,event,boat):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -119,6 +125,8 @@ class Package_Destination():
                     if len(self.liste)<3:
                         boat.Cartes_desti(self.influence[self.active_card_i], self.liste)
                         del self.influence[self.active_card_i]
+                        self.active_card_i=None
+                        return True
                     self.active_card_i=None
                 else:
                     self.active_card_e=None
@@ -134,3 +142,5 @@ class Package_Destination():
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_i !=None:
             self.influence[self.active_card_i].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+
+        return False

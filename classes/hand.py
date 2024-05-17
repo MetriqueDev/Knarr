@@ -7,7 +7,7 @@ class Hand:
         self.main=[]
 
     def afficher_main(self, screen):
-        x_offset, y_offset = (1500,700)  # Détermine les coordonnées de départ pour afficher les cartes 
+        x_offset, y_offset = (1450,700)  # Détermine les coordonnées de départ pour afficher les cartes 
 
         for card in self.main:
             card.print(screen, (x_offset, y_offset))  # Affiche chaque carte à l'emplacement spécifié

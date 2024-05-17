@@ -92,6 +92,7 @@ class Board():
                     print("posé")
                     print(len(package.package))
                     print(len(package.package))
+                    return True
                 self.active_card_b=None
                 
 
@@ -105,7 +106,7 @@ class Board():
                 #print((event.pos[0],event.pos[1]))
                 #print((screen.get_width()/2-200,screen.get_width()/2+200))
                 #print((screen.get_height()/2))
-
+        return False
 
 #circle()
 

@@ -68,15 +68,19 @@ mouse_pos=[0,0]
 while running:
     #screen.fill((0,0,0))
 
+    #Menu du début !!!!
     if step == "main":
         screen.blit(main_menu_bg,(0,0))
+
+        
         if connexion_boutton.draw(screen):
-            step="connexion"
+            step="connexion"#Je déplace vers le menu de connexion 
+
+            #J'initialise le nécessaire pour le menu de connexion
             connexion_title=font.render("Menu connexion",True,TEXT_COL)
             name_label=font.render("Votre nom:",True,TEXT_COL)
             input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
             input_name_boutton= Input(200,250,input_name_image_load,2,font,TEXT_COL)
-
             mdp_label=font.render("Votre mot de passe:",True,TEXT_COL)
             input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
             input_mdp_boutton= Input(200,450,input_name_image_load,2,font,TEXT_COL)
@@ -84,12 +88,13 @@ while running:
             retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
         if inscription_button.draw(screen):
-            step="inscription"
+            step="inscription"#Je déplace vers le menu d'inscription 
+
+            #J'initialise le nécessaire pour le menu d'inscription
             inscription_title=font.render("Menu inscription",True,TEXT_COL)
             name_label=font.render("Votre nom:",True,TEXT_COL)
             input_name_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
             input_name_boutton= Input(200,250,input_name_image_load,2,font,TEXT_COL)
-
             mdp_label=font.render("Votre mot de passe:",True,TEXT_COL)
             input_mdp_image_load=pygame.image.load(f".\\images\\gui\\input.png").convert_alpha() 
             input_mdp_boutton= Input(200,450,input_name_image_load,2,font,TEXT_COL)
@@ -98,30 +103,20 @@ while running:
             retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
         if option_boutton.draw(screen):
-            step="option"
+            step="option"#Je déplace vers le menu d'option 
+
+            #J'initialise le nécessaire pour le menu d'option
             valider_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
             retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
+    #jeu boucle exécuté pour jouer !!!!
     if step == "play":
-        #screen.blit(background, (0,0))
-        #boat.print(screen)
-        #boat.print_object(screen,destination.liste)
-        #destination.print_pioche_dest(screen)
-        #board.print(screen)
-        #board.update_renome_pos(screen,players)
-        #board.update_score_pos(screen,players)
-        #boat.print_object(screen,liste)
-        #board.recrutement_print(screen)
+        jeu.update(screen,liste,font,name)#J'update le jeu
 
-        jeu.update(screen,liste,font)
-
-
-
+        #gestion du drag and drop (je vérifie si c'est le bon joeur qui essaie)
         for event in pygame.event.get():
-            jeu.event_handler(event,screen)
-            #destination.dragndrop_echange(screen,event,boat)
-            #destination.dragndrop_influence(screen,event,boat)
-            #board.dragndrop_recrutement(screen,event,hand,jeu.package)
+            if jeu.players[jeu.turn%len(jeu.players)].name==name:
+                jeu.event_handler(event,screen)
 
         #je le laisse icic car c'est personnel au joueur le déplacmeent de la carte pendnat le drag and drop
         if jeu.destination.active_card_e != None:
@@ -131,20 +126,21 @@ while running:
         if jeu.board.active_card_b !=None:
             jeu.board.equipage[jeu.board.active_card_b].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
         
-        for player in players:
-                print(player.hand.main)
+
+        #J'affiche la main du bon joueur...
+        for player in jeu.players:
                 if player.name==name:
-                    print("ok")
                     player.hand.afficher_main(screen)
-
-
-
+                    player.boat.print(screen)
+                    player.boat.print_object(screen,liste)
+                    player.boat.print_object(screen,jeu.destination.liste)
 
         if retour_boutton.draw(screen):
             print(step)
             step="main"
             option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
 
+    #Menu pour jouer
     if step=="menu_play":
         screen.blit(main_menu_bg,(0,0))
 
@@ -189,7 +185,7 @@ while running:
             step="main"
             option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
 
-
+    #Menu connexion
     if step == "connexion":
         screen.blit(main_menu_bg,(0,0))
 

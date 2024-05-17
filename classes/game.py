@@ -32,8 +32,8 @@ class Game():
         print(self.package.package)
         self.board.init_cartes(self.package)
         self.destination=Package_Destination()
-        self.boat = Boat()
         for player in self.players:
+            player.init_boat()
             for i in range(3):
                 e=self.package.pioche_hand(player.hand)
                 if e== False:
@@ -47,19 +47,12 @@ class Game():
         
     
 
-    def update(self,screen,liste,font):
+    def update(self,screen,liste,font,instance_name):
 
         text_turn="Tour de "+self.players[self.turn%len(self.players)].name
         self.turn_name=font.render(text_turn,True,(200,200,210))
         
-        
-
         screen.blit(self.background, (0,0))
-        
-        self.boat.print(screen)
-        self.boat.print_object(screen,liste)
-        self.boat.print_object(screen,self.destination.liste)
-        
         self.destination.print_pioche_dest(screen)
         
         self.board.print(screen)
@@ -73,6 +66,8 @@ class Game():
             if self.turn%len(self.players) ==0:
                 #Nouveau tour
                 for player in self.players:
+                    player.asExploreOrRecrute=False
+                    player.asplay=False
                     player.add_renome_to_score()
 
 
@@ -81,6 +76,11 @@ class Game():
 
 
     def event_handler(self,event,screen):
-        self.destination.dragndrop_echange(screen,event,self.boat)
-        self.destination.dragndrop_influence(screen,event,self.boat)
-        self.board.dragndrop_recrutement(screen,event,self.players[0].hand,self.package)
+        
+        print(self.players[self.turn%len(self.players)].name,self.players[self.turn%len(self.players)].asExploreOrRecrute)
+        if self.players[self.turn%len(self.players)].asExploreOrRecrute==False:
+            a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat)
+            b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat)
+            c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package)
+            if a or b or c:
+                self.players[self.turn%len(self.players)].asExploreOrRecrute=True

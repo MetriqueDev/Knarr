@@ -29,6 +29,7 @@ class Player():
         self.score = 0
         self.renome = 0
         self.asplay = False
+        self.asExploreOrRecrute=False
 
     def add_renome(self,add):
         if ((self.renome + add)<15) and ((self.renome+add)>(-1)):
