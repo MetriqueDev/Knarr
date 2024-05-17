@@ -131,6 +131,13 @@ while running:
         if jeu.board.active_card_b !=None:
             jeu.board.equipage[jeu.board.active_card_b].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
         
+        for player in players:
+                print(player.hand.main)
+                if player.name==name:
+                    print("ok")
+                    player.hand.afficher_main(screen)
+
+
 
 
         if retour_boutton.draw(screen):
@@ -168,7 +175,7 @@ while running:
             jeu.init_image(screen)
             jeu.init_game(screen)
 
-
+            
 
 
 
