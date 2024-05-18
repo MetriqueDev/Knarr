@@ -129,7 +129,7 @@ class Player():
                 
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_h !=None:
-            self.hand[self.active_card_h].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+            self.hand.main[self.active_card_h].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
 
        
         
