@@ -38,6 +38,7 @@ main_menu_bg = pygame.transform.scale(main_menu_bgload,(1920,1080))
 
 #Fermeture
 fermeture_size=30
+choice_commerce_size=60
 fermeture_load = pygame.image.load(".\\images\\gui\\stop.png").convert_alpha()
 fermeture= pygame.transform.scale(fermeture_load, (fermeture_size,fermeture_size))
 fermeture_boutton= Button(screen.get_width()-40,10,fermeture,1)
@@ -136,6 +137,10 @@ while running:
                     player.boat.print_object(screen,jeu.destination.liste)
                     player.print_equipage(screen)
 
+        btn1_boutton.draw(screen)
+        btn2_boutton.draw(screen)
+        btn3_boutton.draw(screen)
+
         if retour_boutton.draw(screen):
             print(step)
             step="main"
@@ -172,7 +177,17 @@ while running:
             jeu.init_image(screen)
             jeu.init_game(screen)
 
-            
+            btn1_load = pygame.image.load(".\\images\\gui\\btn1.png").convert_alpha()
+            btn1= pygame.transform.scale(btn1_load, (choice_commerce_size,choice_commerce_size))
+            btn1_boutton= Button(int(screen.get_width()/2+210),screen.get_height()-choice_commerce_size-20,btn1,1)
+
+            btn2_load = pygame.image.load(".\\images\\gui\\btn2.png").convert_alpha()
+            btn2= pygame.transform.scale(btn2_load, (choice_commerce_size,choice_commerce_size))
+            btn2_boutton= Button(int(screen.get_width()/2+210+63),screen.get_height()-choice_commerce_size-20,btn2,1)
+
+            btn3_load = pygame.image.load(".\\images\\gui\\btn3.png").convert_alpha()
+            btn3= pygame.transform.scale(btn3_load, (choice_commerce_size,choice_commerce_size))
+            btn3_boutton= Button(int(screen.get_width()/2+210+63+63),screen.get_height()-choice_commerce_size-20,btn3,1)
 
 
 
