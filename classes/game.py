@@ -16,7 +16,6 @@ class Game():
         self.nbr_player=len(players)
         self.players=players
         self.package=Package(self.nbr_player)
-        print(self.package.package)
         self.package.shuffle()
         self.board=Board()
         self.turn=0
@@ -29,12 +28,13 @@ class Game():
 
     def init_game(self,screen):
         self.liste=[]
-        print(self.package.package)
+        #print(self.package.package)
         self.board.init_cartes(self.package)
         self.destination=Package_Destination()
         for player in self.players:
             player.init_boat()
             for i in range(3):
+                pass
                 e=self.package.pioche_hand(player.hand)
                 if e== False:
                     print("plus de cartes dans package")
