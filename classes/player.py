@@ -114,7 +114,7 @@ class Player():
                           self.add_score(1)
                       elif card.gain == "bracelet":
                           self.add_bracelet(1)  
-                  self.hand.main= self.hand.main.pop(self.hand.main[self.active_card_h]) 
+                  self.hand.main.pop(self.active_card_h) 
                   self.active_card_h= None 
                 else:
                     self.active_card_h=None
