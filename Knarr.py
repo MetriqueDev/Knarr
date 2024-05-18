@@ -140,9 +140,14 @@ while running:
                     if player.active_card_h != None:
                         player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
 
-        btn1_boutton.draw(screen)
-        btn2_boutton.draw(screen)
-        btn3_boutton.draw(screen)
+                    if player.asExploreOrRecrute ==True:
+                        print(player.boat.bracelet)
+                        if player.boat.bracelet >=1:
+                            btn1_boutton.draw(screen)
+                        if player.boat.bracelet >=2:
+                            btn2_boutton.draw(screen)
+                        if player.boat.bracelet ==3:
+                            btn3_boutton.draw(screen)
 
         if retour_boutton.draw(screen):
             print(step)
