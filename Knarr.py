@@ -124,7 +124,7 @@ while running:
         if jeu.destination.active_card_i != None:
             jeu.destination.influence[jeu.destination.active_card_i].print(screen,(event.pos[0]-jeu.destination.offset_x,event.pos[1]-jeu.destination.offset_y))
         if jeu.board.active_card_b !=None:
-            jeu.board.pioche[jeu.board.active_card_b].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
+            jeu.board.equipage[jeu.board.active_card_b].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
         
 
         #J'affiche la main du bon joueur...

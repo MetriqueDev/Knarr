@@ -5,16 +5,16 @@ class Board():
 
     def __init__(self):
         self.size=(600,250)#(250,400)
-        self.pioche={"vert":[],"rouge":[],"bleu":[],"violet":[],"jaune":[]}
+        self.equipage={"vert":[],"rouge":[],"bleu":[],"violet":[],"jaune":[]}
         self.active_card_b=None
         self.init_image()
 
     def init_cartes(self,package):
         a=0
-        for card in self.pioche:
+        for card in self.equipage:
             print(package.package)
-            if self.pioche[card] == []:
-                self.pioche[card] = package.package[a]
+            if self.equipage[card] == []:
+                self.equipage[card] = package.package[a]
                 a+=1
 
 
@@ -61,9 +61,9 @@ class Board():
 
     def recrutement_print(self,screen):
         a=0
-        for card in self.pioche:
-            if self.pioche[card] != []:
-                self.pioche[card].print(screen,(10+a*120,screen.get_height()-400))
+        for card in self.equipage:
+            if self.equipage[card] != []:
+                self.equipage[card].print(screen,(10+a*120,screen.get_height()-400))
                 a+=1
 
     def dragndrop_recrutement(self,screen,event,hand,package):
