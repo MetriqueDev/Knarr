@@ -92,6 +92,7 @@ class Board():
                     print("posé")
                     print(len(package.package))
                     print(len(package.package))
+                    self.active_card_b=None
                     return True
                 self.active_card_b=None
                 
