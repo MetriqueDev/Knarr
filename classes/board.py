@@ -5,16 +5,16 @@ class Board():
 
     def __init__(self):
         self.size=(600,250)#(250,400)
-        self.equipage={"vert":[],"rouge":[],"bleu":[],"violet":[],"jaune":[]}
+        self.pioche={"vert":[],"rouge":[],"bleu":[],"violet":[],"jaune":[]}
         self.active_card_b=None
         self.init_image()
 
     def init_cartes(self,package):
         a=0
-        for card in self.equipage:
+        for card in self.pioche:
             print(package.package)
-            if self.equipage[card] == []:
-                self.equipage[card] = package.package[a]
+            if self.pioche[card] == []:
+                self.pioche[card] = package.package[a]
                 a+=1
 
 
@@ -61,34 +61,34 @@ class Board():
 
     def recrutement_print(self,screen):
         a=0
-        for card in self.equipage:
-            if self.equipage[card] != []:
-                self.equipage[card].print(screen,(10+a*120,screen.get_height()-400))
+        for card in self.pioche:
+            if self.pioche[card] != []:
+                self.pioche[card].print(screen,(10+a*120,screen.get_height()-400))
                 a+=1
 
     def dragndrop_recrutement(self,screen,event,hand,package):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                for card in self.equipage:
-                    if self.equipage[card].front_rect.collidepoint(event.pos):
-                        print(type(self.equipage[card]))
+                for card in self.pioche:
+                    if self.pioche[card].front_rect.collidepoint(event.pos):
+                        print(type(self.pioche[card]))
                         print("ok")
                         self.active_card_b=card
                         mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
-                        print(self.equipage[card])
-                        self.offset_x=mouse_x-self.equipage[card].pos[0]
-                        self.offset_y=mouse_y-self.equipage[card].pos[1]
+                        print(self.pioche[card])
+                        self.offset_x=mouse_x-self.pioche[card].pos[0]
+                        self.offset_y=mouse_y-self.pioche[card].pos[1]
                         print(self.offset_x,self.offset_y)
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-200<event.pos[0]<screen.get_width()/2+200 and event.pos[1]<screen.get_height()/2 and self.active_card_b != None:
-                    hand.main.append(self.equipage[self.active_card_b])
-                    self.equipage[self.active_card_b]=[]
-                    self.equipage[self.active_card_b]=package.package[0]
+                    hand.main.append(self.pioche[self.active_card_b])
+                    self.pioche[self.active_card_b]=[]
+                    self.pioche[self.active_card_b]=package.package[0]
                     del package.package[0]
-                    print(self.equipage)
-                    print(len(self.equipage))
+                    print(self.pioche)
+                    print(len(self.pioche))
                     print("posé")
                     print(len(package.package))
                     print(len(package.package))
@@ -103,7 +103,7 @@ class Board():
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_b != None:
                 #print("bouge")
-                self.equipage[self.active_card_b].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+                self.pioche[self.active_card_b].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
                 #print((event.pos[0],event.pos[1]))
                 #print((screen.get_width()/2-200,screen.get_width()/2+200))
                 #print((screen.get_height()/2))
