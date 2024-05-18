@@ -134,6 +134,7 @@ while running:
                     player.boat.print(screen)
                     player.boat.print_object(screen,liste)
                     player.boat.print_object(screen,jeu.destination.liste)
+                    player.print_equipage(screen)
 
         if retour_boutton.draw(screen):
             print(step)
