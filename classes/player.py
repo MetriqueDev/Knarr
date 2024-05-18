@@ -94,19 +94,19 @@ class Player():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.hand.main):
-                    if card.front_rect.collidepoint(pygame.mouse.get_pos()):
+                    if card.front_rect.collidepoint(event.pos):
                         self.active_card_h=num
-                        mouse_x, mouse_y = pygame.mouse.get_pos()
+                        mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
-                        offset_x=mouse_x-self.hand[self.active_card_h].pos[0]
-                        offset_y=mouse_y-self.hand[self.active_card_h].pos[1]
-                        print(offset_x,offset_y)
+                        self.offset_x=mouse_x-self.hand.main[self.active_card_h].pos[0]
+                        self.offset_y=mouse_y-self.hand.main[self.active_card_h].pos[1]
+                        print(self.offset_x,self.offset_y)
         
         if event.type == pygame.MOUSEBUTTONUP: 
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_h != None: #position à adapter à l'equipage
-                  self.add_equipage(self.hand[self.active_card_h]) 
-                  for card in self.equipage[self.hand[self.active_card_h].couleur]:
+                  self.add_equipage(self.hand.main[self.active_card_h]) 
+                  for card in self.equipage[self.hand.main[self.active_card_h].couleur]:
                       if card.gain == "renommee":
                           self.add_renome(1)
                       elif card.gain == "recrue":
@@ -115,7 +115,7 @@ class Player():
                           self.add_score(1)
                       elif card.gain == "bracelet":
                           self.add_bracelet(1)  
-                  self.hand= self.hand.pop(self.hand[self.active_card_h]) 
+                  self.hand.main= self.hand.main.pop(self.hand.main[self.active_card_h]) 
                   self.active_card_h= None 
                 else:
                     self.active_card_h=None
@@ -123,15 +123,15 @@ class Player():
         
         elif event.type == pygame.MOUSEMOTION:
                 if self.active_card_h != None:
-                    self.hand[self.active_card_h].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+                    self.hand.main[self.active_card_h].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
                     #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
                     #print((screen.get_width()/2-100,screen.get_width()/2+100))
                     #print((screen.get_height()/2+100,screen.get_height()/2-100))
                 
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
-        if self.active_card_h !=None:
-            self.hand[self.active_card_h].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-
+        if self.active_card_h != None:
+            self.hand.main[self.active_card_h].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+            
        
         
                         
@@ -142,12 +142,13 @@ class Player():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.pioche):
-                    if card.front_rect.collidepoint(pygame.mouse.get_pos()):
+                    if card.front_rect.collidepoint(event.pos):
                         self.active_card_p=num
-                        mouse_x, mouse_y = pygame.mouse.get_pos()
+                        mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
                         offset_x=mouse_x-self.pioche[self.active_card_p].pos[0]
                         offset_y=mouse_y-self.pioche[self.active_card_p].pos[1]
+                        print(self.offset_x,self.offset_y)
 
                    
         if event.type == pygame.MOUSEBUTTONUP:
