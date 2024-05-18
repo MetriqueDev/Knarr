@@ -35,9 +35,9 @@ class Game():
             player.init_boat()
             for i in range(3):
                 pass
-                e=self.package.pioche_hand(player.hand)
-                if e== False:
-                    print("plus de cartes dans package")
+                #e=self.package.pioche_hand(player.hand)
+                #if e== False:
+                #    print("plus de cartes dans package")
 
         btn_unselect_image_load=pygame.image.load(f".\\images\\gui\\skip.png").convert_alpha() 
         btn_select_image_load=pygame.image.load(f".\\images\\gui\\skip_select.png").convert_alpha() 
@@ -47,7 +47,7 @@ class Game():
         
     
 
-    def update(self,screen,liste,font,instance_name):
+    def update(self,screen,font):
 
         text_turn="Tour de "+self.players[self.turn%len(self.players)].name
         self.turn_name=font.render(text_turn,True,(200,200,210))
@@ -61,6 +61,7 @@ class Game():
         self.board.update_score_pos(screen,self.players)
 
         if self.skip_boutton.draw(screen):
+            
             #condition si il peut ou non skip
             self.turn+=1
             if self.turn%len(self.players) ==0:
@@ -86,3 +87,13 @@ class Game():
             #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
             if a or b or c :
                 self.players[self.turn%len(self.players)].asExploreOrRecrute=True
+
+
+
+    def liste_valeurs_to_game(self,player,liste_valeurs):
+        player.add_recrue(liste_valeurs.count("recrue"))
+        player.add_score(liste_valeurs.count("victoire"))
+        player.add_renome(liste_valeurs.count("recnommee"))
+        print(player.get_recrue(),player.get_score(),player.get_renome())
+        return liste_valeurs.count("pioche")
+

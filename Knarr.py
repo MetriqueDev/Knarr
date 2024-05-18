@@ -59,7 +59,7 @@ nbr_player=1
 players=[]
 
 
-liste=[]
+
 
 active_card=None
 mouse_pos=[0,0]
@@ -112,7 +112,7 @@ while running:
 
     #jeu boucle exécuté pour jouer !!!!
     if step == "play":
-        jeu.update(screen,liste,font,name)#J'update le jeu
+        jeu.update(screen,font)#J'update le jeu
 
         #gestion du drag and drop (je vérifie si c'est le bon joeur qui essaie)
         for event in pygame.event.get():
@@ -131,23 +131,34 @@ while running:
 
         #J'affiche la main du bon joueur...
         for player in jeu.players:
-                if player.name==name:
-                    player.hand.afficher_main(screen)
-                    player.boat.print(screen)
-                    player.boat.print_object(screen,liste)
-                    player.boat.print_object(screen,jeu.destination.liste)
-                    player.print_equipage(screen)
-                    if player.active_card_h != None:
+            if player.name==name:
+                player.hand.afficher_main(screen)
+                player.boat.print(screen)
+                player.boat.print_object(screen)
+                player.boat.print_object(screen)#,jeu.destination.liste)
+                player.print_equipage(screen)
+                if player.active_card_h != None:
                         player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
 
-                    if player.asExploreOrRecrute ==True:
-                        print(player.boat.bracelet)
-                        if player.boat.bracelet >=1:
-                            btn1_boutton.draw(screen)
-                        if player.boat.bracelet >=2:
-                            btn2_boutton.draw(screen)
-                        if player.boat.bracelet ==3:
-                            btn3_boutton.draw(screen)
+                if player.asExploreOrRecrute ==True and player.asplay==False:
+                    if player.boat.bracelet >=1:
+                        if btn1_boutton.draw(screen):
+                            player.boat.bracelet-=1
+                            liste_valeurs=player.boat.Commerce(1)
+                            player.asplay=True
+                    if player.boat.bracelet >=2:
+                        if btn2_boutton.draw(screen):
+                            player.boat.bracelet-=2
+                            liste_valeurs=player.boat.Commerce(2)
+                            player.asplay=True
+                    if player.boat.bracelet ==3:
+                        if btn3_boutton.draw(screen):
+                            player.boat.bracelet-=3
+                            liste_valeurs=player.boat.Commerce(3)
+                            player.asplay=True
+                    if player.asplay==True:
+                        pioche_number=jeu.liste_valeurs_to_game(player,liste_valeurs)
+                        print(pioche_number)
 
         if retour_boutton.draw(screen):
             print(step)

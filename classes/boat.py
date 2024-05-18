@@ -10,6 +10,7 @@ class Boat():
         self.recrue=0
         self.bracelet=2
         self.init_image()
+        self.liste=[]
 
     def init_image(self):
         self.image_load=pygame.image.load(f".\\images\\bateau\\bateau_1.png").convert_alpha() #pour la transaprance on utilise convert_alpha
@@ -18,7 +19,7 @@ class Boat():
     def print(self,screen):
         screen.blit(self.image, (int(screen.get_width()/2-self.size[0]/2),screen.get_height()-self.size[1]))
 
-    def print_object(self,screen,liste):
+    def print_object(self,screen):
 
         pion = Pion("recrue")
         pos=(int(screen.get_width()/2-self.size[0]/2),screen.get_height()-self.size[1])
@@ -38,29 +39,31 @@ class Boat():
         if self.bracelet >=1:
             pos1_b=(pos[0]+5+345,pos[1]+112)
             bracelet.print(screen,pos1_b)
-        if self.bracelet >=1:
+        if self.bracelet >=2:
             pos2_b=(pos[0]-10+345,pos[1]+65)
             bracelet.print(screen,pos2_b)
         if self.bracelet ==3:
             pos3_b=(pos[0]-25+345,pos[1]+20)
             bracelet.print(screen,pos3_b)
 
-        for i in range(len(liste)):
-            liste[i].print(screen,(((screen.get_width()/2)-liste[i].size[0]/2),(screen.get_height()-300-(i+1)*liste[i].size[1]/4)))
+        for i in range(len(self.liste)):
+            self.liste[i].print(screen,(((screen.get_width()/2)-self.liste[i].size[0]/2),(screen.get_height()-300-(i+1)*self.liste[i].size[1]/4)))
 
-    def Cartes_desti(self,obj,liste):
-        liste.append(obj)
+    def Cartes_desti(self,obj):
+        self.liste.append(obj)
 
-    def Commerce(self,liste):
-        for i in range(len(liste)):
-            for j in range(3):
-                if liste[i].card_gain_col[j] == "pioche":
-                    print('pioche')
-                elif liste[i].card_gain_col[j] == "recrue":
-                    print('recrue')
-                elif liste[i].card_gain_col[j] == "victoire":
-                    print('victoire')
-                elif liste[i].card_gain_col[j] == "renommee":
-                    print('renommee')
+    def Commerce(self,n):
+        liste_valeurs=[]
+        for i in range(len(self.liste)):
+            for j in range(n):
+                if self.liste[i].gain_col[j] == "pioche":
+                    liste_valeurs.append('pioche')
+                elif self.liste[i].gain_col[j] == "recrue":
+                    liste_valeurs.append('recrue')
+                elif self.liste[i].gain_col[j] == "victoire":
+                    liste_valeurs.append('victoire')
+                elif self.liste[i].gain_col[j] == "renommee":
+                    liste_valeurs.append('renommee')
                 else :
-                    print('rien')
+                    liste_valeurs.append('r')
+        return liste_valeurs

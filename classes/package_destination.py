@@ -81,8 +81,8 @@ class Package_Destination():
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
-                    if len(self.liste)<3:
-                        boat.Cartes_desti(self.echange[self.active_card_e], self.liste)
+                    if len(boat.liste)<3:
+                        boat.Cartes_desti(self.echange[self.active_card_e])
                         del self.echange[self.active_card_e]
                         self.active_card_i=None
                         return True
@@ -101,7 +101,6 @@ class Package_Destination():
             
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_e != None:
-            print("a")
             self.echange[self.active_card_e].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
 
         return False
@@ -128,6 +127,8 @@ class Package_Destination():
                             if recrues[cout] != []:
                                 recrues[cout] = []
                                 recrues[cout] = package.package[0]
+                                self.active_card_i=None
+                                return True
                                 #del recrues[cout][0]
 
 

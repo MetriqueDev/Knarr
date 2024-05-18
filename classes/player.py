@@ -12,8 +12,7 @@ class Player():
         self.niveau=niveau
         self.nombre_de_vicoire=0
         self.nombre_de_defaite=0
-        self.bracelet=3
-        self.recrue=3
+
         self.hand=Hand()
         self.active_card_h=None
         self.active_card_p=None
@@ -61,20 +60,20 @@ class Player():
         return self.score
 
     def get_recrue(self):
-        return self.recrue
+        return self.boat.recrue
     
     def get_bracelet(self):
-        return self.bracelet
+        return self.boat.bracelet
     
     def add_recrue(self,add):
-        if ((self.recrue + add)<=3):
-            self.recrue+=add
-            if self.recrue<0:
-                self.recrue=0
+        if ((self.boat.recrue + add)<=3):
+            self.boat.recrue+=add
+            if self.boat.recrue<0:
+                self.boat.recrue=0
     
     def add_bracelet(self,add):
-        if ((self.bracelet + add)<=3):
-            self.bracelet+=add
+        if ((self.boat.bracelet + add)<=3):
+            self.boat.bracelet+=add
 
 
 
@@ -141,7 +140,7 @@ class Player():
                         #position de la souris sur l'image
                         offset_x=mouse_x-self.pioche[self.active_card_p].pos[0]
                         offset_y=mouse_y-self.pioche[self.active_card_p].pos[1]
-                        print(self.offset_x,self.offset_y)
+                        #print(self.offset_x,self.offset_y)
 
 
         if event.type == pygame.MOUSEBUTTONUP:
