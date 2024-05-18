@@ -112,12 +112,12 @@ while running:
 
     #jeu boucle exécuté pour jouer !!!!
     if step == "play":
-        jeu.update(screen,font)#J'update le jeu
+        jeu.update(screen,font,pioche_number,name)#J'update le jeu
 
         #gestion du drag and drop (je vérifie si c'est le bon joeur qui essaie)
         for event in pygame.event.get():
             if jeu.players[jeu.turn%len(jeu.players)].name==name:
-                jeu.event_handler(event,screen)
+                jeu.event_handler(event,screen,pioche_number)
 
         #je le laisse icic car c'est personnel au joueur le déplacmeent de la carte pendnat le drag and drop
         if jeu.destination.active_card_e != None:
@@ -141,17 +141,20 @@ while running:
                         player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
 
                 if player.asExploreOrRecrute ==True and player.asplay==False:
-                    if player.boat.bracelet >=1:
+                    screen.blit(commerce_text,(int(screen.get_width()/2+210),screen.get_height()-choice_commerce_size-90))
+                    if player.get_bracelet()==0:
+                        player.asplay=True
+                    if player.get_bracelet()>=1:
                         if btn1_boutton.draw(screen):
                             player.boat.bracelet-=1
                             liste_valeurs=player.boat.Commerce(1)
                             player.asplay=True
-                    if player.boat.bracelet >=2:
+                    if player.get_bracelet()>=2:
                         if btn2_boutton.draw(screen):
                             player.boat.bracelet-=2
                             liste_valeurs=player.boat.Commerce(2)
                             player.asplay=True
-                    if player.boat.bracelet ==3:
+                    if player.get_bracelet()==3:
                         if btn3_boutton.draw(screen):
                             player.boat.bracelet-=3
                             liste_valeurs=player.boat.Commerce(3)
@@ -159,6 +162,8 @@ while running:
                     if player.asplay==True:
                         pioche_number=jeu.liste_valeurs_to_game(player,liste_valeurs)
                         print(pioche_number)
+
+            
 
         if retour_boutton.draw(screen):
             print(step)
@@ -208,6 +213,8 @@ while running:
             btn3= pygame.transform.scale(btn3_load, (choice_commerce_size,choice_commerce_size))
             btn3_boutton= Button(int(screen.get_width()/2+210+63+63),screen.get_height()-choice_commerce_size-20,btn3,1)
 
+            pioche_number=0
+            commerce_text=font.render("Commerce",True,TEXT_COL)
 
 
             retour_boutton= Button(screen.get_width()-5*96-10,screen.get_height()-32*5-10,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")

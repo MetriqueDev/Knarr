@@ -89,10 +89,13 @@ class Player():
             x+=1
     
     def dragndrop_hand(self,screen,event):
+        
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.hand.main):
+                    print(num,card)
                     if card.front_rect.collidepoint(event.pos):
+                        print("click_on")
                         self.active_card_h=num
                         mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
@@ -101,9 +104,11 @@ class Player():
                         print(self.offset_x,self.offset_y)
 
         if event.type == pygame.MOUSEBUTTONUP:
+            
             if event.button==1:
                 print("NTM",self.active_card_h)
                 if 1300<event.pos[0]<screen.get_width() and 500<event.pos[1]<700 and self.active_card_h != None: #position à adapter à l'equipage
+                    print("hand")
                     self.add_equipage(self.hand.main[self.active_card_h]) 
                     for card in self.equipage[self.hand.main[self.active_card_h].couleur]:
                         if card.gain == "renommee":
@@ -133,6 +138,7 @@ class Player():
             self.hand.main[self.active_card_h].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
 
     def dragndrop_pioche(self,screen,event):
+        
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.pioche):
@@ -147,7 +153,9 @@ class Player():
 
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
+                print("pioche")
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_p != None: #position à adapter à la main
+                    
                     if [self.pioche[self.active_card_p].couleur] == [self.hand[self.active_card_p].couleur]:
                         self.hand.append(self.pioche[self.active_card_p])
                         self.pioche.pop(self.active_card_p)

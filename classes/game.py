@@ -47,7 +47,7 @@ class Game():
         
     
 
-    def update(self,screen,font):
+    def update(self,screen,font,pioche_number,name):
 
         text_turn="Tour de "+self.players[self.turn%len(self.players)].name
         self.turn_name=font.render(text_turn,True,(200,200,210))
@@ -59,34 +59,37 @@ class Game():
         self.board.recrutement_print(screen)
         self.board.update_renome_pos(screen,self.players)
         self.board.update_score_pos(screen,self.players)
-
-        if self.skip_boutton.draw(screen):
-            
-            #condition si il peut ou non skip
-            self.turn+=1
-            if self.turn%len(self.players) ==0:
-                #Nouveau tour
-                for player in self.players:
-                    player.asExploreOrRecrute=False
-                    player.asplay=False
-                    player.add_renome_to_score()
+        for player in self.players:
+            if player.name ==name and pioche_number==0 and player.asExploreOrRecrute and player.asplay:
+                if self.skip_boutton.draw(screen):
+                    
+                    #condition si il peut ou non skip
+                    self.turn+=1
+                    if self.turn%len(self.players) ==0:
+                        #Nouveau tour
+                        for player in self.players:
+                            player.asExploreOrRecrute=False
+                            player.asplay=False
+                            player.add_renome_to_score()
 
 
         screen.blit(self.turn_name, (10,screen.get_height()-75))
 
 
 
-    def event_handler(self,event,screen):
-        
+    def event_handler(self,event,screen,pioche_number):
+        d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
         #print(self.players[self.turn%len(self.players)].name,self.players[self.turn%len(self.players)].asExploreOrRecrute)
         if self.players[self.turn%len(self.players)].asExploreOrRecrute==False:
             a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat)
             b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.package)
             c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package)
-            d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
+            
             #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
             if a or b or c :
                 self.players[self.turn%len(self.players)].asExploreOrRecrute=True
+        if pioche_number !=0:
+            pass#pioche
 
 
 

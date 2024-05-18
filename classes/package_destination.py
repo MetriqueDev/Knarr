@@ -81,8 +81,9 @@ class Package_Destination():
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
-                    if len(self.liste)<1000:
-                        boat.Cartes_desti(self.echange[self.active_card_e], self.liste)
+                    print("echange")
+                    if len(boat.liste)<1000:
+                        boat.Cartes_desti(self.echange[self.active_card_e])
                         del self.echange[self.active_card_e]
                         self.active_card_i=None
                         return True
@@ -120,7 +121,8 @@ class Package_Destination():
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_i != None:
-                    if len(self.liste)<1000:
+                    print("influence")
+                    if len(boat.liste)<1000:
                         for cout in self.influence[self.active_card_i].cout_coul:
                             print(self.influence[self.active_card_i].cout_coul)
                             print(equipage[cout])
@@ -129,9 +131,7 @@ class Package_Destination():
                                     for i in range(4):
                                         del equipage[cout][0]
 
-
-
-                        boat.Cartes_desti(self.influence[self.active_card_i], self.liste)
+                        boat.Cartes_desti(self.influence[self.active_card_i])
                         del self.influence[self.active_card_i]
                         self.active_card_i=None
                         return True
