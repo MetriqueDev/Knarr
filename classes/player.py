@@ -155,7 +155,7 @@ class Player():
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_p != None: #position à adapter à la main
                     if [self.pioche[self.active_card_p].couleur] == [self.hand[self.active_card_p].couleur]:
                         self.hand.append(self.pioche[self.active_card_p])
-                        self.pioche.pop(self.pioche[self.active_card_p])
+                        self.pioche.pop(self.active_card_p)
                         vik = self.package[-1]
                         del self.package[-1]
                         self.pioche.append(vik)

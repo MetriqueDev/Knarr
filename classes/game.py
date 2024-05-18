@@ -84,5 +84,5 @@ class Game():
             c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package)
             d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
             #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
-            if a or b or c or d:
+            if a or b or c :
                 self.players[self.turn%len(self.players)].asExploreOrRecrute=True
