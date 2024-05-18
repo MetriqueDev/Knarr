@@ -18,8 +18,7 @@ class Player():
         self.active_card_h=None
         self.active_card_p=None
 
-        self.equipage={"vert":[],"rouge":[],"bleu":[],"violet":[],"jaune":[]}
-
+        self.equipage={"rouge":[],"jaune":[],"vert":[],"bleu":[],"violet":[]}
     def init_boat(self):
         self.boat=Boat()
 
@@ -105,18 +104,18 @@ class Player():
         if event.type == pygame.MOUSEBUTTONUP: 
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_h != None: #position à adapter à l'equipage
-                  self.add_equipage(self.hand[self.active_card_h]) 
-                  for card in self.equipage[self.hand[self.active_card_h].couleur]:
-                      if card.gain == "renommee":
-                          self.add_renome(1)
-                      elif card.gain == "recrue":
-                          self.add_recrue(1)
-                      elif card.gain =="victoire":
-                          self.add_score(1)
-                      elif card.gain == "bracelet":
-                          self.add_bracelet(1)  
-                  self.hand= self.hand.pop(self.hand[self.active_card_h]) 
-                  self.active_card_h= None 
+                    self.add_equipage(self.hand[self.active_card_h]) 
+                    for card in self.equipage[self.hand[self.active_card_h].couleur]:
+                        if card.gain == "renommee":
+                            self.add_renome(1)
+                        elif card.gain == "recrue":
+                            self.add_recrue(1)
+                        elif card.gain =="victoire":
+                            self.add_score(1)
+                        elif card.gain == "bracelet":
+                            self.add_bracelet(1)  
+                    self.hand= self.hand.pop(self.hand[self.active_card_h]) 
+                    self.active_card_h= None 
                 else:
                     self.active_card_h=None
             self.active_card_h=None
@@ -131,12 +130,6 @@ class Player():
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_h !=None:
             self.hand[self.active_card_h].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-
-       
-        
-                        
-                
-           
     
     def dragndrop_pioche(self,screen,event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -149,11 +142,9 @@ class Player():
                         offset_x=mouse_x-self.pioche[self.active_card_p].pos[0]
                         offset_y=mouse_y-self.pioche[self.active_card_p].pos[1]
 
-                   
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_p != None: #position à adapter à la main
-                           
                     if [self.pioche[self.active_card_p].couleur] == [self.hand[self.active_card_p].couleur]:
                         self.hand.append(self.pioche[self.active_card_p])
                         self.pioche.pop(self.pioche[self.active_card_p])
@@ -184,12 +175,8 @@ class Player():
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_p !=None:
                 self.pioche[self.active_card_p].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-              
-              
 
-                
-            
-    
+
     def recruter(self,screen,event,equipage):
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à l'equipage
