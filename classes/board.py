@@ -12,7 +12,7 @@ class Board():
     def init_cartes(self,package):
         a=0
         for card in self.recrues:
-            print(package.package)
+            #print(package.package)
             if self.recrues[card] == []:
                 self.recrues[card] = package.package[a]
                 a+=1
@@ -88,6 +88,7 @@ class Board():
                         self.recrues[self.active_card_b]=[]
                         self.recrues[self.active_card_b]=package.package[0]
                         del package.package[0]
+                        self.active_card_b=None
                         #print(self.equipage)
                         #print(len(self.equipage))
                         #print("posé")

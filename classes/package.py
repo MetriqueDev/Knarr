@@ -37,7 +37,7 @@ class Package():
         try:
             print("1")
             self.package[0].face="B"
-            print("2")
+            #print("2")
             self.package[0].print(screen,(200,200))
         except:
             print("Oh non!")

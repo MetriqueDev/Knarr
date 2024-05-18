@@ -81,8 +81,8 @@ class Package_Destination():
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
-                    if len(boat.liste)<3:
-                        boat.Cartes_desti(self.echange[self.active_card_e])
+                    if len(self.liste)<1000:
+                        boat.Cartes_desti(self.echange[self.active_card_e], self.liste)
                         del self.echange[self.active_card_e]
                         self.active_card_i=None
                         return True
@@ -106,12 +106,11 @@ class Package_Destination():
         return False
 
         
-    def dragndrop_influence(self,screen,event,boat,recrues,package):
+    def dragndrop_influence(self,screen,event,boat,equipage,package):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.influence):
                     if card.front_rect.collidepoint(event.pos):
-                        print("ok")
                         self.active_card_i=num
                         mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
@@ -124,19 +123,18 @@ class Package_Destination():
                     if len(self.liste)<1000:
                         for cout in self.influence[self.active_card_i].cout_coul:
                             print(self.influence[self.active_card_i].cout_coul)
-                            if recrues[cout] != []:
-                                recrues[cout] = []
-                                recrues[cout] = package.package[0]
-                                self.active_card_i=None
-                                return True
-                                #del recrues[cout][0]
+                            print(equipage[cout])
+                            if cout == "egal":
+                                if len(equipage[cout])>=self.influence[self.active_card_i].cout_coul:
+                                    for i in range(4):
+                                        del equipage[cout][0]
 
 
 
-                            #boat.Cartes_desti(self.influence[self.active_card_i], self.liste)
-                            #del self.influence[self.active_card_i]
-                            #self.active_card_i=None
-                            #return True
+                        boat.Cartes_desti(self.influence[self.active_card_i], self.liste)
+                        del self.influence[self.active_card_i]
+                        self.active_card_i=None
+                        return True
                     self.active_card_i=None
                 else:
                     self.active_card_i=None
