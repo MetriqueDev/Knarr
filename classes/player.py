@@ -193,22 +193,20 @@ class Player():
     def recruter(self,screen,event,equipage):
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à l'equipage
-                  self.add_equipage(self.hand[active_card]) 
-                  for card in equipage[self.hand[active_card].couleur]:
-                      if card.gain == "renommee":
-                          self.add_renome(1)
-                      elif card.gain == "recrue":
-                          self.add_recrue(1)
-                      elif card.gain =="victoire":
-                          self.add_score(1)
-                      elif card.gain == "bracelet":
-                          self.add_bracelet(1)  
-                  self.hand= self.hand.pop(self.hand[active_card])
-                  
+                    self.add_equipage(self.hand[active_card]) 
+                    for card in equipage[self.hand[active_card].couleur]:
+                        if card.gain == "renommee":
+                            self.add_renome(1)
+                        elif card.gain == "recrue":
+                            self.add_recrue(1)
+                        elif card.gain =="victoire":
+                            self.add_score(1)
+                        elif card.gain == "bracelet":
+                            self.add_bracelet(1)  
+                    self.hand= self.hand.pop(self.hand[active_card])
             self.dragndrop_pioche(screen, event)
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and active_card != None: #position à adapter à la main
-                           
                     if [self.pioche[active_card].couleur] == [self.hand[active_card].couleur]:
                         self.hand.append(self.pioche[active_card])
                         self.pioche.pop(self.pioche[active_card])
@@ -226,7 +224,9 @@ class Player():
                         active_card=None
                     else:
                         active_card=None
-
-                 
             else:
                     active_card=None
+
+    def explore(self,screen,event,equipage,echange,influence):
+        if event.button == 1:
+            pass
