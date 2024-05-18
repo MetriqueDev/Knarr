@@ -137,9 +137,14 @@ while running:
                     player.boat.print_object(screen,jeu.destination.liste)
                     player.print_equipage(screen)
 
-        btn1_boutton.draw(screen)
-        btn2_boutton.draw(screen)
-        btn3_boutton.draw(screen)
+                    if player.asExploreOrRecrute ==True:
+                        print(player.boat.bracelet)
+                        if player.boat.bracelet >=1:
+                            btn1_boutton.draw(screen)
+                        if player.boat.bracelet >=2:
+                            btn2_boutton.draw(screen)
+                        if player.boat.bracelet ==3:
+                            btn3_boutton.draw(screen)
 
         if retour_boutton.draw(screen):
             print(step)

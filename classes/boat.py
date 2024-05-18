@@ -8,7 +8,7 @@ class Boat():
     def __init__(self):
         self.size=(400,200)#(250,400)
         self.recrue=0
-        self.bracelet=0
+        self.bracelet=2
         self.init_image()
 
     def init_image(self):
@@ -22,28 +22,28 @@ class Boat():
 
         pion = Pion("recrue")
         pos=(int(screen.get_width()/2-self.size[0]/2),screen.get_height()-self.size[1])
-
-        pos1=(pos[0]+5,pos[1]+112)
-        pion.print(screen,pos1)
-
-        pos2=(pos[0]+15,pos[1]+65)
-        pion.print(screen,pos2)
-
-        pos3=(pos[0]+30,pos[1]+20)
-        pion.print(screen,pos3)
+        if self.recrue >=1:
+            pos1=(pos[0]+5,pos[1]+112)
+            pion.print(screen,pos1)
+        if self.recrue >=2:
+            pos2=(pos[0]+15,pos[1]+65)
+            pion.print(screen,pos2)
+        if self.recrue ==3:
+            pos3=(pos[0]+30,pos[1]+20)
+            pion.print(screen,pos3)
 
 
         bracelet = Pion("bracelet")
         pos=(int(screen.get_width()/2-self.size[0]/2),screen.get_height()-self.size[1])
-
-        pos1_b=(pos[0]+5+345,pos[1]+112)
-        bracelet.print(screen,pos1_b)
-
-        pos2_b=(pos[0]-10+345,pos[1]+65)
-        bracelet.print(screen,pos2_b)
-
-        pos3_b=(pos[0]-25+345,pos[1]+20)
-        bracelet.print(screen,pos3_b)
+        if self.bracelet >=1:
+            pos1_b=(pos[0]+5+345,pos[1]+112)
+            bracelet.print(screen,pos1_b)
+        if self.bracelet >=1:
+            pos2_b=(pos[0]-10+345,pos[1]+65)
+            bracelet.print(screen,pos2_b)
+        if self.bracelet ==3:
+            pos3_b=(pos[0]-25+345,pos[1]+20)
+            bracelet.print(screen,pos3_b)
 
         for i in range(len(liste)):
             liste[i].print(screen,(((screen.get_width()/2)-liste[i].size[0]/2),(screen.get_height()-300-(i+1)*liste[i].size[1]/4)))
