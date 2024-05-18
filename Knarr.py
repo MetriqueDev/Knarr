@@ -125,7 +125,8 @@ while running:
         if jeu.destination.active_card_i != None:
             jeu.destination.influence[jeu.destination.active_card_i].print(screen,(event.pos[0]-jeu.destination.offset_x,event.pos[1]-jeu.destination.offset_y))
         if jeu.board.active_card_b !=None:
-            jeu.board.equipage[jeu.board.active_card_b].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
+            jeu.board.recrues[jeu.board.active_card_b].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
+            
         
 
         #J'affiche la main du bon joueur...
@@ -136,6 +137,8 @@ while running:
                     player.boat.print_object(screen,liste)
                     player.boat.print_object(screen,jeu.destination.liste)
                     player.print_equipage(screen)
+                    if player.active_card_h != None:
+                        player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
 
         btn1_boutton.draw(screen)
         btn2_boutton.draw(screen)

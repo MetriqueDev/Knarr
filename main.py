@@ -126,7 +126,7 @@ while running:
         if destination.active_card_i != None:
             destination.influence[destination.active_card_i].print(screen,(event.pos[0]-destination.offset_x,event.pos[1]-destination.offset_y))
         if board.active_card_b !=None:
-            board.equipage[board.active_card_b].print(screen,(event.pos[0]-board.offset_x,event.pos[1]-board.offset_y))
+            board.recrues[board.active_card_b].print(screen,(event.pos[0]-board.offset_x,event.pos[1]-board.offset_y))
         if retour_boutton.draw(screen):
             print(step)
             step="main"
@@ -162,11 +162,11 @@ while running:
                 players[i].info()
                 for el in range(3):
                  card= package.pioche_hand(players[i].hand)
-            board.equipage["vert"]=package.package[0]
-            board.equipage["rouge"]=package.package[1]
-            board.equipage["bleu"]=package.package[2]
-            board.equipage["violet"]=package.package[3]
-            board.equipage["jaune"]=package.package[4]
+            board.recrues["vert"]=package.package[0]
+            board.recrues["rouge"]=package.package[1]
+            board.recrues["bleu"]=package.package[2]
+            board.recrues["violet"]=package.package[3]
+            board.recrues["jaune"]=package.package[4]
             retour_boutton= Button(screen.get_width()-5*96-10,screen.get_height()-32*5-10,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
         if option_boutton.draw(screen):

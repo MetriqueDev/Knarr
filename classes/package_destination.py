@@ -107,7 +107,7 @@ class Package_Destination():
         return False
 
         
-    def dragndrop_influence(self,screen,event,boat):
+    def dragndrop_influence(self,screen,event,boat,recrues,package):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.influence):
@@ -122,14 +122,23 @@ class Package_Destination():
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_i != None:
-                    if len(self.liste)<3:
-                        boat.Cartes_desti(self.influence[self.active_card_i], self.liste)
-                        del self.influence[self.active_card_i]
-                        self.active_card_i=None
-                        return True
+                    if len(self.liste)<1000:
+                        for cout in self.influence[self.active_card_i].cout_coul:
+                            print(self.influence[self.active_card_i].cout_coul)
+                            if recrues[cout] != []:
+                                recrues[cout] = []
+                                recrues[cout] = package.package[0]
+                                #del recrues[cout][0]
+
+
+
+                            #boat.Cartes_desti(self.influence[self.active_card_i], self.liste)
+                            #del self.influence[self.active_card_i]
+                            #self.active_card_i=None
+                            #return True
                     self.active_card_i=None
                 else:
-                    self.active_card_e=None
+                    self.active_card_i=None
             self.active_card_i=None
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_i != None:

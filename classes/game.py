@@ -80,7 +80,7 @@ class Game():
         #print(self.players[self.turn%len(self.players)].name,self.players[self.turn%len(self.players)].asExploreOrRecrute)
         if self.players[self.turn%len(self.players)].asExploreOrRecrute==False:
             a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat)
-            b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat)
+            b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,recrues=self.board.recrues,package=self.package)
             c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package)
             d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
             #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
