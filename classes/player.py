@@ -139,52 +139,53 @@ class Player():
            
     
     def dragndrop_pioche(self,screen,event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                for num, card in enumerate(self.pioche):
-                    if card.front_rect.collidepoint(pygame.mouse.get_pos()):
-                        self.active_card_p=num
-                        mouse_x, mouse_y = pygame.mouse.get_pos()
-                        #position de la souris sur l'image
-                        offset_x=mouse_x-self.pioche[self.active_card_p].pos[0]
-                        offset_y=mouse_y-self.pioche[self.active_card_p].pos[1]
+        if len(self.hand)<3:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    for num, card in enumerate(self.pioche):
+                        if card.front_rect.collidepoint(pygame.mouse.get_pos()):
+                            self.active_card_p=num
+                            mouse_x, mouse_y = pygame.mouse.get_pos()
+                            #position de la souris sur l'image
+                            offset_x=mouse_x-self.pioche[self.active_card_p].pos[0]
+                            offset_y=mouse_y-self.pioche[self.active_card_p].pos[1]
 
-                   
-        if event.type == pygame.MOUSEBUTTONUP:
-            if event.button==1:
-                if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_p != None: #position à adapter à la main
-                           
-                    if [self.pioche[self.active_card_p].couleur] == [self.hand[self.active_card_p].couleur]:
-                        self.hand.append(self.pioche[self.active_card_p])
-                        self.pioche.pop(self.pioche[self.active_card_p])
-                        vik = self.package[-1]
-                        del self.package[-1]
-                        self.pioche.append(vik)
-                        self.active_card_p=None       
-                    if [self.pioche[self.active_card_p].couleur] != [self.hand[self.active_card_p].couleur]:
-                        self.add_recrue(-1)
-                        self.hand.append(self.pioche[self.active_card_p])
-                        self.pioche.pop(self.pioche[self.active_card_p])
-                        vik = self.package[-1]
-                        del self.package[-1]
-                        self.pioche.append(vik)
-                        self.active_card_p=None
-                    else:
-                        self.active_card_p=None
-            
-            self.active_card_p=None 
-        
-        elif event.type == pygame.MOUSEMOTION:
-                if self.active_card_p != None:
-                    self.pioche[self.active_card_p].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-                    #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
-                    #print((screen.get_width()/2-100,screen.get_width()/2+100))
-                    #print((screen.get_height()/2+100,screen.get_height()/2-100))
+                       
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button==1:
+                    if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_p != None: #position à adapter à la main
+                               
+                        if [self.pioche[self.active_card_p].couleur] == [self.hand[self.active_card_p].couleur]:
+                            self.hand.append(self.pioche[self.active_card_p])
+                            self.pioche.pop(self.pioche[self.active_card_p])
+                            vik = self.package[-1]
+                            del self.package[-1]
+                            self.pioche.append(vik)
+                            self.active_card_p=None       
+                        if [self.pioche[self.active_card_p].couleur] != [self.hand[self.active_card_p].couleur]:
+                            self.add_recrue(-1)
+                            self.hand.append(self.pioche[self.active_card_p])
+                            self.pioche.pop(self.pioche[self.active_card_p])
+                            vik = self.package[-1]
+                            del self.package[-1]
+                            self.pioche.append(vik)
+                            self.active_card_p=None
+                        else:
+                            self.active_card_p=None
                 
-        #afficher l'image à la souris pendant le drag and drop si on bouge pas
-        if self.active_card_p !=None:
-                self.pioche[self.active_card_p].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
-              
+                self.active_card_p=None 
+            
+            elif event.type == pygame.MOUSEMOTION:
+                    if self.active_card_p != None:
+                        self.pioche[self.active_card_p].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+                        #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
+                        #print((screen.get_width()/2-100,screen.get_width()/2+100))
+                        #print((screen.get_height()/2+100,screen.get_height()/2-100))
+                    
+            #afficher l'image à la souris pendant le drag and drop si on bouge pas
+            if self.active_card_p !=None:
+                    self.pioche[self.active_card_p].print(screen,(event.pos[0]-offset_x,event.pos[1]-offset_y))
+                  
               
 
                 
