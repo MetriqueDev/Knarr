@@ -4,6 +4,7 @@ from classes.package import Package
 from classes.card import Card
 import pygame
 import random
+import time
 
 class Player():
 
@@ -152,8 +153,9 @@ class Player():
         #choix de l'IA si elle explore ou recrute
         asplay=False
         p_pioche=False
-        for i in range(len(package_destination.echange)):
+        for i in range(len(package_destination.echange)): #explore
             can=package_destination.Compter_cartes(self.equipage,i,package_destination.echange)
+            print(can)
             if can:
                 #je mets la carte dans mon bateau et je la retire de la destination
                 self.boat.Cartes_desti(package_destination.echange[i])
@@ -246,4 +248,4 @@ class Player():
                 p_pioche=False
 
         #fini le tour
-        jeu.turn+=1
+        time.sleep(1)

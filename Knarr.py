@@ -9,7 +9,7 @@ from classes.hand import Hand
 from classes.package_destination import Package_Destination
 from classes.game import Game
 from classes.input import Button , Input
-
+import time
 import sqlite3
 
 
@@ -140,51 +140,57 @@ while running:
                 pioche_number=jeu.event_handler(event,screen,pioche_number)
 
 
-
+        tour_passe=False
         #J'affiche la main du bon joueur...
         for player in jeu.players:
-            if player.ia:
-                player.play_ai(jeu.destination,jeu.board,jeu)
-            if player.ia==False:
-                if player.name==name:
-                    player.print_equipage(screen)
-                    player.hand.afficher_main(screen)
-                    player.boat.print(screen)
-                    player.boat.print_object(screen)
-                    player.boat.print_object(screen)#,jeu.destination.liste)
-                    
-                    if player.active_card_h != None:
-                            player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
-
-                    if player.hand.main == []:
-                        player.play_equipage=True
-
-                    if (player.pioche or player.Explore) and player.asplay==False :
-                        screen.blit(commerce_text,(int(screen.get_width()/2+210),screen.get_height()-choice_commerce_size-90))
-                        if player.get_bracelet()==0:
-                            player.asplay=True
-                            liste_valeurs=[]
-                        if player.get_bracelet()>=1:
-                            if btn1_boutton.draw(screen):
-                                player.boat.bracelet-=1
-                                liste_valeurs=player.boat.Commerce(1)
+            if player.name==jeu.players[jeu.turn%len(jeu.players)].name:
+                if tour_passe==False:
+                    if  player.ia :
+                        print('ia a joué')
+                        player.play_ai(jeu.destination,jeu.board,jeu)
+                        jeu.turn+=1
+                        tour_passe=True
+                if player.ia==False:
+                    tour_passe=True
+                    if player.name==name:
+                        player.print_equipage(screen)
+                        player.hand.afficher_main(screen)
+                        player.boat.print(screen)
+                        player.boat.print_object(screen)
+                        player.boat.print_object(screen)#,jeu.destination.liste)
+                        
+                        if player.active_card_h != None:
+                                player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
+    
+                        if player.hand.main == []:
+                            player.play_equipage=True
+    
+                        if (player.pioche or player.Explore) and player.asplay==False :
+                            screen.blit(commerce_text,(int(screen.get_width()/2+210),screen.get_height()-choice_commerce_size-90))
+                            if player.get_bracelet()==0:
                                 player.asplay=True
-                        if player.get_bracelet()>=2:
-                            if btn2_boutton.draw(screen):
-                                player.boat.bracelet-=2
-                                liste_valeurs=player.boat.Commerce(2)
+                                liste_valeurs=[]
+                            if player.get_bracelet()>=1:
+                                if btn1_boutton.draw(screen):
+                                    player.boat.bracelet-=1
+                                    liste_valeurs=player.boat.Commerce(1)
+                                    player.asplay=True
+                            if player.get_bracelet()>=2:
+                                if btn2_boutton.draw(screen):
+                                    player.boat.bracelet-=2
+                                    liste_valeurs=player.boat.Commerce(2)
+                                    player.asplay=True
+                            if player.get_bracelet()==3:
+                                if btn3_boutton.draw(screen):
+                                    player.boat.bracelet-=3
+                                    liste_valeurs=player.boat.Commerce(3)
+                                    player.asplay=True
+                            if btn_pas_commerce_boutton.draw(screen):
                                 player.asplay=True
-                        if player.get_bracelet()==3:
-                            if btn3_boutton.draw(screen):
-                                player.boat.bracelet-=3
-                                liste_valeurs=player.boat.Commerce(3)
-                                player.asplay=True
-                        if btn_pas_commerce_boutton.draw(screen):
-                            player.asplay=True
-                            liste_valeurs=[]
-                        if player.asplay==True:
-
-                            pioche_number=jeu.liste_valeurs_to_game(player,liste_valeurs)
+                                liste_valeurs=[]
+                            if player.asplay==True:
+                            
+                                pioche_number=jeu.liste_valeurs_to_game(player,liste_valeurs)
 
         #je le laisse icic car c'est personnel au joueur le déplacmeent de la carte pendnat le drag and drop
         if jeu.destination.active_card_e != None:
