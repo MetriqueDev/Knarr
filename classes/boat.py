@@ -11,6 +11,7 @@ class Boat():
         self.bracelet=3
         self.init_image()
         self.liste=[]
+        self.valeur_propre=["r","recrue","r"]
 
     def init_image(self):
         self.image_load=pygame.image.load(f".\\images\\bateau\\bateau_1.png").convert_alpha() #pour la transaprance on utilise convert_alpha
@@ -66,4 +67,6 @@ class Boat():
                     liste_valeurs.append('renommee')
                 else :
                     liste_valeurs.append('r')
+        for j in range(n):
+            liste_valeurs.append(self.valeur_propre[j])
         return liste_valeurs
