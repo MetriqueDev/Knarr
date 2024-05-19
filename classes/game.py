@@ -87,10 +87,12 @@ class Game():
             d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
             if d==True:
                 self.players[self.turn%len(self.players)].recrute=True
-            a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
-            b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
+            a, p_pioche_a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
+            b, p_pioche_b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
             if a or b:
                 self.players[self.turn%len(self.players)].Explore=True
+            if p_pioche_a or p_pioche_b:
+                return pioche_number+1
 
         else:
             if self.players[self.turn%len(self.players)].pioche==False and self.players[self.turn%len(self.players)].recrute==True:
