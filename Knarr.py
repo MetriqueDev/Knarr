@@ -65,7 +65,12 @@ btnmoins= pygame.transform.scale(btnmoins_load, (60,60))
 #retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha() 
 #retour_boutton= Button(750,500,retour_image_load,0.2)
 #Initialisation propre
-nbr_player=1
+nbr_player=2
+liste_nom_bot=[
+    "Odin",
+    "Thor",
+    "Loki",
+]
 players=[]
 
 log=False
@@ -138,45 +143,48 @@ while running:
 
         #J'affiche la main du bon joueur...
         for player in jeu.players:
-            if player.name==name:
-                player.print_equipage(screen)
-                player.hand.afficher_main(screen)
-                player.boat.print(screen)
-                player.boat.print_object(screen)
-                player.boat.print_object(screen)#,jeu.destination.liste)
-                
-                if player.active_card_h != None:
-                        player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
+            if player.ia:
+                player.play_ai(jeu.destination,jeu.board,jeu)
+            if player.ia==False:
+                if player.name==name:
+                    player.print_equipage(screen)
+                    player.hand.afficher_main(screen)
+                    player.boat.print(screen)
+                    player.boat.print_object(screen)
+                    player.boat.print_object(screen)#,jeu.destination.liste)
+                    
+                    if player.active_card_h != None:
+                            player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
 
-                if player.hand.main == []:
-                    player.play_equipage=True
+                    if player.hand.main == []:
+                        player.play_equipage=True
 
-                if (player.pioche or player.Explore) and player.asplay==False :
-                    screen.blit(commerce_text,(int(screen.get_width()/2+210),screen.get_height()-choice_commerce_size-90))
-                    if player.get_bracelet()==0:
-                        player.asplay=True
-                        liste_valeurs=[]
-                    if player.get_bracelet()>=1:
-                        if btn1_boutton.draw(screen):
-                            player.boat.bracelet-=1
-                            liste_valeurs=player.boat.Commerce(1)
+                    if (player.pioche or player.Explore) and player.asplay==False :
+                        screen.blit(commerce_text,(int(screen.get_width()/2+210),screen.get_height()-choice_commerce_size-90))
+                        if player.get_bracelet()==0:
                             player.asplay=True
-                    if player.get_bracelet()>=2:
-                        if btn2_boutton.draw(screen):
-                            player.boat.bracelet-=2
-                            liste_valeurs=player.boat.Commerce(2)
+                            liste_valeurs=[]
+                        if player.get_bracelet()>=1:
+                            if btn1_boutton.draw(screen):
+                                player.boat.bracelet-=1
+                                liste_valeurs=player.boat.Commerce(1)
+                                player.asplay=True
+                        if player.get_bracelet()>=2:
+                            if btn2_boutton.draw(screen):
+                                player.boat.bracelet-=2
+                                liste_valeurs=player.boat.Commerce(2)
+                                player.asplay=True
+                        if player.get_bracelet()==3:
+                            if btn3_boutton.draw(screen):
+                                player.boat.bracelet-=3
+                                liste_valeurs=player.boat.Commerce(3)
+                                player.asplay=True
+                        if btn_pas_commerce_boutton.draw(screen):
                             player.asplay=True
-                    if player.get_bracelet()==3:
-                        if btn3_boutton.draw(screen):
-                            player.boat.bracelet-=3
-                            liste_valeurs=player.boat.Commerce(3)
-                            player.asplay=True
-                    if btn_pas_commerce_boutton.draw(screen):
-                        player.asplay=True
-                        liste_valeurs=[]
-                    if player.asplay==True:
+                            liste_valeurs=[]
+                        if player.asplay==True:
 
-                        pioche_number=jeu.liste_valeurs_to_game(player,liste_valeurs)
+                            pioche_number=jeu.liste_valeurs_to_game(player,liste_valeurs)
 
         #je le laisse icic car c'est personnel au joueur le déplacmeent de la carte pendnat le drag and drop
         if jeu.destination.active_card_e != None:
@@ -195,28 +203,49 @@ while running:
         #    step="main"
         #    option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
 
-    #Menu pour jouer
-    if step=="menu_play":
+    #menu de choix du nombre de joeur
+    if step=="menu_nbr_player":
+        
+        #deux bouttons pour choisir le nombre de joueur (plus ou moins) avec un maximum de 4 et un minimum de 2 une barre au milieu pour afficher le nombre de joueur et el nombre de joueur en haut
         screen.blit(main_menu_bg,(0,0))
+        screen.blit(font.render("Nombre de joueur",True,TEXT_COL),(200,200))
 
-        user_icone_btn.draw(screen)
+        if btnplus_boutton.draw(screen):
+            if nbr_player<4:
+                nbr_player+=1
+        if btnmoins_boutton.draw(screen):
+            if nbr_player>2:
+                nbr_player-=1
+        
+        #affichage du nombre de joueur
+        #barre entre 2 et 4 
+        pygame.draw.rect(screen, (255, 255, 255),  (270, 320, 200, 20))
+        pygame.draw.rect(screen, (0, 250, 0),  (270, 320, int((nbr_player/4)*200), 20))
+        pygame.draw.rect(screen, (0, 0, 0),  (270, 320, 200, 20),4)
 
-        if jouer_boutton.draw(screen):
-            
+
+        nbr_player_label=font.render(str(nbr_player),True,TEXT_COL)
+
+        screen.blit(nbr_player_label,(350,260))
+        
+        
+        if valider_boutton.draw(screen):
             screen.blit(main_menu_bg,(0,0))
             chargement_label=font.render("Chargement...",True,TEXT_COL)
             screen.blit(chargement_label,(int(screen.get_width()/2-chargement_label.get_width()/2),int(screen.get_height()/2-chargement_label.get_height())))
             pygame.display.update()
             pygame.mixer.music.load(".\\musique\\gui_sound\\start.wav")
             pygame.mixer.music.play()
-
             step="play"
             players=[]
             players.append(Player(name,niveau))
-            players[0].game_init()
-            
-            players.append(Player("RobertoLeRobotRigolo",1,True))#Robot
-            players[1].game_init()
+
+            for i in range(nbr_player-1):
+                players.append(Player(liste_nom_bot[i],1,True))#Robot
+
+            for player in players:
+                player.game_init()
+                player.info()
             
             #for i in range(nbr_player):
             #    players.append(Player("Vladimir Ilitch",niveau))
@@ -248,6 +277,24 @@ while running:
 
             retour_boutton= Button(screen.get_width()-5*96-10,screen.get_height()-32*5-10,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
+        if retour_boutton.draw(screen):
+            step="menu_play"
+            
+
+    #Menu pour jouer
+    if step=="menu_play":
+        screen.blit(main_menu_bg,(0,0))
+
+        user_icone_btn.draw(screen)
+
+        if jouer_boutton.draw(screen):
+
+            step="menu_nbr_player"
+            valider_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
+            retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+            btnplus_boutton= Button(480,300,btnplus,1)
+            btnmoins_boutton= Button(200,300,btnmoins,1)
+           
         if option_boutton.draw(screen):
             step="option"
             btnplus_boutton= Button(480,300,btnplus,1)
@@ -367,7 +414,7 @@ while running:
         #dessin d'une barre de volume
         pygame.draw.rect(screen, (255, 255, 255),  (270, 320, 200, 20))
         
-        pygame.draw.rect(screen, (0, 250, 0),  (270, 320, int(pygame.mixer.music.get_volume()*200), 20),)
+        pygame.draw.rect(screen, (0, 250, 0),  (270, 320, int(pygame.mixer.music.get_volume()*200), 20))
         pygame.draw.rect(screen, (0, 0, 0),  (270, 320, 200, 20),4)
 
         if retour_boutton.draw(screen):
