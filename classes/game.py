@@ -34,10 +34,8 @@ class Game():
         for player in self.players:
             player.init_boat()
             for i in range(3):
-                pass
-                e=self.package.pioche_hand(player.hand)
-                if e== False:
-                    print("plus de cartes dans package")
+                self.package.pioche_hand(player.hand)
+
 
         btn_unselect_image_load=pygame.image.load(f".\\images\\gui\\skip.png").convert_alpha() 
         btn_select_image_load=pygame.image.load(f".\\images\\gui\\skip_select.png").convert_alpha() 
@@ -46,7 +44,7 @@ class Game():
         
     
     
-
+    #fonction qui update le jeu
     def update(self,screen,font,pioche_number,name):
 
         text_turn="Tour de "+self.players[self.turn%len(self.players)].name
@@ -60,7 +58,7 @@ class Game():
         self.board.update_renome_pos(screen,self.players)
         self.board.update_score_pos(screen,self.players)
         for player in self.players:
-            if player.name ==name and pioche_number==0 and player.asExploreOrRecrute and player.asplay and player.play_equipage:
+            if player.name ==name and pioche_number==0 and player.asplay :
                 if self.skip_boutton.draw(screen):
                     
                     #condition si il peut ou non skip
@@ -68,42 +66,63 @@ class Game():
                     if self.turn%len(self.players) ==0:
                         #Nouveau tour
                         for player in self.players:
-                            player.asExploreOrRecrute=False
+
+                            player.Explore=False#destination et influence
+                            player.recrute=False#pioche et main 
+                            player.pioche=False#recrue 
+
+
                             player.asplay=False
-                            player.play_equipage=False
+
+                            player.couleur=None
                             player.add_renome_to_score()
 
 
         screen.blit(self.turn_name, (10,screen.get_height()-75))
 
 
-
+    #fonction qui gere les evenements
     def event_handler(self,event,screen,pioche_number):
-        if self.players[self.turn%len(self.players)].play_equipage==False:  
+        if self.players[self.turn%len(self.players)].Explore==False and self.players[self.turn%len(self.players)].recrute==False:  
             d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
             if d==True:
-                print("passé")
-                self.players[self.turn%len(self.players)].play_equipage=True
+                self.players[self.turn%len(self.players)].recrute=True
+            a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
+            b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
+            if a or b:
+                self.players[self.turn%len(self.players)].Explore=True
+
         else:
-            #print(self.players[self.turn%len(self.players)].name,self.players[self.turn%len(self.players)].asExploreOrRecrute)
-            if self.players[self.turn%len(self.players)].asExploreOrRecrute==False:
-                a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
-                b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
-                c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package)
-                
-                #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
-                if a or b or c :
-                    self.players[self.turn%len(self.players)].asExploreOrRecrute=True
-            if pioche_number!=0:
-                if self.board.dragndrop_recrue_to_equipage(screen,event,self.players[self.turn%len(self.players)],self.package):
-                    return pioche_number-1
-                else: 
-                    return pioche_number
+            if self.players[self.turn%len(self.players)].pioche==False and self.players[self.turn%len(self.players)].recrute==True:
+                c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package,self.players[self.turn%len(self.players)])
+
+                if c:
+                    self.players[self.turn%len(self.players)].pioche=True#la partie pioche est fini
+
+        if pioche_number!=0:
+            if self.board.dragndrop_recrue_to_equipage(screen,event,self.players[self.turn%len(self.players)],self.package):
+                return pioche_number-1
+            else: 
+                return pioche_number
         return 0
 
 
 
 
+            #print(self.players[self.turn%len(self.players)].name,self.players[self.turn%len(self.players)].asExploreOrRecrute)
+            #if self.players[self.turn%len(self.players)].asExploreOrRecrute==False:
+            #    a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
+            #    b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
+            #    c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package,self.players[self.turn%len(self.players)])
+            #    
+            #    #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
+            #    if a or b or c :
+            #        self.players[self.turn%len(self.players)].asExploreOrRecrute=True
+            
+
+
+
+    #sert a ajouter les valeurs des cartes 
     def liste_valeurs_to_game(self,player,liste_valeurs):
         player.add_recrue(liste_valeurs.count("recrue"))
         player.add_score(liste_valeurs.count("victoire"))

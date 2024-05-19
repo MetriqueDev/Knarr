@@ -66,39 +66,48 @@ class Board():
                 self.recrues[couleur_card].print(screen,(10+a*120,screen.get_height()-400))
                 a+=1
 
-    def dragndrop_recrutement(self,screen,event,hand,package):
+    def dragndrop_recrutement(self,screen,event,hand,package,player):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 print("click")
-                for card in self.recrues:
-                    if self.recrues[card].front_rect.collidepoint(event.pos):
+                for couleur in self.recrues:
+                    if self.recrues[couleur].front_rect.collidepoint(event.pos):
                         #print(type(self.equipage[card]))
                         #print("ok")
-                        self.active_card_b=card
+                        
+                        #si la carte cliqué est de la couelur de la dernière carte du joueur
+
+                        self.active_card_b=couleur
                         print(self.active_card_b, type(self.active_card_b))
                         print(self.recrues[self.active_card_b])
                         print(self.recrues)
                         mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
                         #print(self.equipage[card])
-                        self.offset_x=mouse_x-self.recrues[card].pos[0]
-                        self.offset_y=mouse_y-self.recrues[card].pos[1]
+                        self.offset_x=mouse_x-self.recrues[couleur].pos[0]
+                        self.offset_y=mouse_y-self.recrues[couleur].pos[1]
                         #print(self.offset_x,self.offset_y)
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if (1440<event.pos[0]<1826 )and (690<event.pos[1]<910) and self.active_card_b != None:
                     if len(hand.main)<3:
-                        hand.main.append(self.recrues[self.active_card_b])
-                        self.recrues[self.active_card_b]=None
-                        self.recrues[self.active_card_b]=package.package[0]
-                        del package.package[0]
-                        self.active_card_b=None
-                        #print(self.equipage)
-                        #print(len(self.equipage))
-                        print("posé")
-                        #print(len(package.package))
-                        #print(len(package.package))
-                        return True
+                        if  self.active_card_b == str("p_"+player.couleur):
+                            hand.main.append(self.recrues[self.active_card_b])
+                            self.recrues[self.active_card_b]=None
+                            self.recrues[self.active_card_b]=package.package[0]
+                            del package.package[0]
+                            self.active_card_b=None
+                            return True
+                        else:
+                            if player.get_recrue() !=0:
+                                player.add_recrue(-1)
+                                hand.main.append(self.recrues[self.active_card_b])
+                                self.recrues[self.active_card_b]=None
+                                self.recrues[self.active_card_b]=package.package[0]
+                                del package.package[0]
+                                self.active_card_b=None
+                                return True
+
                 self.active_card_b=None
                 
             else:

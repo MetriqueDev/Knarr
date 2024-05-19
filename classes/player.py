@@ -28,9 +28,15 @@ class Player():
     def game_init(self):
         self.score = 0
         self.renome = 0
+
+
         self.asplay = False
-        self.asExploreOrRecrute=False
-        self.play_equipage=False
+        self.Explore=False#destination et influence
+        self.recrute=False#pioche et main 
+        self.pioche=False#recrue 
+
+
+        self.couleur=None
 
     def add_renome(self,add):
         if ((self.renome + add)<15) and ((self.renome+add)>(-1)):
@@ -86,7 +92,7 @@ class Player():
     def print_equipage(self,screen):
         
         self.taille=30
-        pygame.draw.rect(screen, ( 112, 123, 124),  (1280-10, -410-200+int(screen.get_height() )-self.taille   ,125*5+20 ,220  ))
+        pygame.draw.rect(screen, (100, 30, 22),  (1280-10, -410-200+int(screen.get_height() )-self.taille   ,125*5+20 ,220  ))
         x=0
         for couleur in self.equipage.keys():
             for i in range(len(self.equipage[couleur])):
@@ -115,6 +121,7 @@ class Player():
                 if ((1280-10)<event.pos[0]<(1280-10+125*5+20)) and ((-410-200+int(screen.get_height() ))-self.taille )<event.pos[1]<((-410-200+int(screen.get_height() ))-self.taille +220) and self.active_card_h != None: #position à adapter à l'equipage
                     print("hand")
                     self.add_equipage(self.hand.main[self.active_card_h]) 
+                    self.couleur=self.hand.main[self.active_card_h].couleur
                     for card in self.equipage[self.hand.main[self.active_card_h].couleur]:
                         if card.gain == "renommee":
                             self.add_renome(1)

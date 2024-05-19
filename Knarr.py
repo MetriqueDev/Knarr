@@ -134,7 +134,10 @@ while running:
                 if player.active_card_h != None:
                         player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
 
-                if player.asExploreOrRecrute ==True and player.asplay==False :
+                if player.hand.main == []:
+                    player.play_equipage=True
+
+                if (player.pioche or player.Explore) and player.asplay==False :
                     screen.blit(commerce_text,(int(screen.get_width()/2+210),screen.get_height()-choice_commerce_size-90))
                     if player.get_bracelet()==0:
                         player.asplay=True
@@ -158,9 +161,9 @@ while running:
                         player.asplay=True
                         liste_valeurs=[]
                     if player.asplay==True:
-                        print(liste_valeurs)
+
                         pioche_number=jeu.liste_valeurs_to_game(player,liste_valeurs)
-                        print(pioche_number)
+
         #je le laisse icic car c'est personnel au joueur le déplacmeent de la carte pendnat le drag and drop
         if jeu.destination.active_card_e != None:
             jeu.destination.echange[jeu.destination.active_card_e].print(screen,(event.pos[0]-jeu.destination.offset_x,event.pos[1]-jeu.destination.offset_y))
