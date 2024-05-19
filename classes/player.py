@@ -93,7 +93,7 @@ class Player():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.hand.main):
-                    print(num,card,card.front_rect.collidepoint(event.pos),card.front_rect.x,card.front_rect.y)
+                    print(num,card,card.front_rect.collidepoint(event.pos),card.front_rect.x,self.hand.main[num].front_rect.x,card.front_rect.y,self.hand.main[num].front_rect.y)
                     if card.front_rect.collidepoint(event.pos):
                         print("click_on")
                         self.active_card_h=num
@@ -126,13 +126,7 @@ class Player():
                 self.active_card_h=None
             self.active_card_h=None
         
-        elif event.type == pygame.MOUSEMOTION:
-                if self.active_card_h != None:
-                    self.hand.main[self.active_card_h].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                    #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
-                    #print((screen.get_width()/2-100,screen.get_width()/2+100))
-                    #print((screen.get_height()/2+100,screen.get_height()/2-100))
-                
+
         #afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_h !=None:
             self.hand.main[self.active_card_h].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))

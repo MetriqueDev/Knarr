@@ -62,9 +62,9 @@ class Board():
 
     def recrutement_print(self,screen):
         a=0
-        for card in self.recrues:
-            if self.recrues[card] != []:
-                self.recrues[card].print(screen,(10+a*120,screen.get_height()-400))
+        for couleur_card in self.recrues:
+            if self.recrues[couleur_card] != []:
+                self.recrues[couleur_card].print(screen,(10+a*120,screen.get_height()-400))
                 a+=1
 
     def dragndrop_recrutement(self,screen,event,hand,package):#pioche to main(hand)
