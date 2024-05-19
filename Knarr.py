@@ -112,6 +112,7 @@ while running:
 
     #jeu boucle exécuté pour jouer !!!!
     if step == "play":
+        screen.fill((0,0,0))
         jeu.update(screen,font,pioche_number,name)#J'update le jeu
 
         #gestion du drag and drop (je vérifie si c'est le bon joeur qui essaie)
@@ -165,10 +166,10 @@ while running:
 
             
 
-        if retour_boutton.draw(screen):
-            print(step)
-            step="main"
-            option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
+        #if retour_boutton.draw(screen):
+        #    print(step)
+        #    step="main"
+        #    option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
 
     #Menu pour jouer
     if step=="menu_play":

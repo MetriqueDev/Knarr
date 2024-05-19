@@ -93,7 +93,7 @@ class Player():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.hand.main):
-                    print(num,card)
+                    print(num,card,card.front_rect.collidepoint(event.pos),card.front_rect.x,card.front_rect.y)
                     if card.front_rect.collidepoint(event.pos):
                         print("click_on")
                         self.active_card_h=num

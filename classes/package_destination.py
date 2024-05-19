@@ -85,7 +85,7 @@ class Package_Destination():
                     if len(boat.liste)<1000:
                         boat.Cartes_desti(self.echange[self.active_card_e])
                         del self.echange[self.active_card_e]
-                        self.active_card_i=None
+                        self.active_card_e=None
                         return True
                     self.active_card_e=None
                 else:
