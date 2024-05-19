@@ -30,10 +30,13 @@ class Player():
         self.renome = 0
         self.asplay = False
         self.asExploreOrRecrute=False
+        self.play_equipage=False
 
     def add_renome(self,add):
         if ((self.renome + add)<15) and ((self.renome+add)>(-1)):
             self.renome+=add
+        else:
+            self.renome=14
 
     def add_score(self,add):
         if ((self.score+add)>(-1)):
@@ -81,11 +84,13 @@ class Player():
         self.equipage[card.couleur].append(card)
 
     def print_equipage(self,screen):
-        taille=30
+        
+        self.taille=30
+        pygame.draw.rect(screen, ( 112, 123, 124),  (1280-10, -410-200+int(screen.get_height() )-self.taille   ,125*5+20 ,220  ))
         x=0
         for couleur in self.equipage.keys():
             for i in range(len(self.equipage[couleur])):
-                self.equipage[couleur][i].print(screen,(1280+125*x,-400+int(screen.get_height()-taille*len(self.equipage[couleur])+i*taille-self.equipage[couleur][i].size[1])))
+                self.equipage[couleur][i].print(screen,(1280+125*x,-400+int(screen.get_height()-self.taille*len(self.equipage[couleur])+i*self.taille-self.equipage[couleur][i].size[1])))
             x+=1
     
     def dragndrop_hand(self,screen,event):#main to equipage
@@ -107,7 +112,7 @@ class Player():
             
             if event.button==1:
                 print("NTM",self.active_card_h)
-                if 1300<event.pos[0]<screen.get_width() and 500<event.pos[1]<700 and self.active_card_h != None: #position à adapter à l'equipage
+                if ((1280-10)<event.pos[0]<(1280-10+125*5+20)) and ((-410-200+int(screen.get_height() ))-self.taille )<event.pos[1]<((-410-200+int(screen.get_height() ))-self.taille +220) and self.active_card_h != None: #position à adapter à l'equipage
                     print("hand")
                     self.add_equipage(self.hand.main[self.active_card_h]) 
                     for card in self.equipage[self.hand.main[self.active_card_h].couleur]:
@@ -121,6 +126,7 @@ class Player():
                             self.add_bracelet(1)
                     del self.hand.main[self.active_card_h]
                     self.active_card_h= None
+                    return True
                 else:
                     self.active_card_h=None
                 self.active_card_h=None

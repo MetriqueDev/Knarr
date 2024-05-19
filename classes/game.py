@@ -35,16 +35,16 @@ class Game():
             player.init_boat()
             for i in range(3):
                 pass
-                #e=self.package.pioche_hand(player.hand)
-                #if e== False:
-                #    print("plus de cartes dans package")
+                e=self.package.pioche_hand(player.hand)
+                if e== False:
+                    print("plus de cartes dans package")
 
         btn_unselect_image_load=pygame.image.load(f".\\images\\gui\\skip.png").convert_alpha() 
         btn_select_image_load=pygame.image.load(f".\\images\\gui\\skip_select.png").convert_alpha() 
         
         self.skip_boutton= Button(10,screen.get_height()-32*5-5,[btn_unselect_image_load,btn_select_image_load],5)
         
-        
+    
     
 
     def update(self,screen,font,pioche_number,name):
@@ -60,7 +60,7 @@ class Game():
         self.board.update_renome_pos(screen,self.players)
         self.board.update_score_pos(screen,self.players)
         for player in self.players:
-            if player.name ==name and pioche_number==0 and player.asExploreOrRecrute and player.asplay:
+            if player.name ==name and pioche_number==0 and player.asExploreOrRecrute and player.asplay and player.play_equipage:
                 if self.skip_boutton.draw(screen):
                     
                     #condition si il peut ou non skip
@@ -70,6 +70,7 @@ class Game():
                         for player in self.players:
                             player.asExploreOrRecrute=False
                             player.asplay=False
+                            player.play_equipage=False
                             player.add_renome_to_score()
 
 
@@ -78,23 +79,28 @@ class Game():
 
 
     def event_handler(self,event,screen,pioche_number):
-        if pioche_number!=0:
-            if self.board.dragndrop_recrue_to_equipage(screen,event,self.players[self.turn%len(self.players)],self.package):
-
-                return pioche_number-1
-            else: 
-                return pioche_number
-            
-        d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
-        #print(self.players[self.turn%len(self.players)].name,self.players[self.turn%len(self.players)].asExploreOrRecrute)
-        if self.players[self.turn%len(self.players)].asExploreOrRecrute==False:
-            a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat)
-            b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.package)
-            c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package)
-            
-            #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
-            if a or b or c :
-                self.players[self.turn%len(self.players)].asExploreOrRecrute=True
+        
+           
+        if self.players[self.turn%len(self.players)].play_equipage==False:  
+            d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
+            if d==True:
+                print("passé")
+                self.players[self.turn%len(self.players)].play_equipage=True
+        else:
+            #print(self.players[self.turn%len(self.players)].name,self.players[self.turn%len(self.players)].asExploreOrRecrute)
+            if self.players[self.turn%len(self.players)].asExploreOrRecrute==False:
+                a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat)
+                b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.package)
+                c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package)
+                
+                #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
+                if a or b or c :
+                    self.players[self.turn%len(self.players)].asExploreOrRecrute=True
+            if pioche_number!=0:
+                if self.board.dragndrop_recrue_to_equipage(screen,event,self.players[self.turn%len(self.players)],self.package):
+                    return pioche_number-1
+                else: 
+                    return pioche_number
         return 0
 
 

@@ -86,7 +86,7 @@ class Board():
                         #print(self.offset_x,self.offset_y)
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
-                if (1450<event.pos[0]<1450+370 )and (700<event.pos[1]<900) and self.active_card_b != None:
+                if (1440<event.pos[0]<1826 )and (690<event.pos[1]<910) and self.active_card_b != None:
                     if len(hand.main)<3:
                         hand.main.append(self.recrues[self.active_card_b])
                         self.recrues[self.active_card_b]=[]
@@ -125,7 +125,7 @@ class Board():
                         self.offset_y = mouse_y - self.recrues[card].pos[1]
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if (1300<event.pos[0]<screen.get_width()) and (500<event.pos[1]<700) and self.active_card_RE != None:
+                if ((1280-10)<event.pos[0]<(1280-10+125*5+20)) and ((-410-200+int(screen.get_height() ))-player.taille )<event.pos[1]<((-410-200+int(screen.get_height() ))-player.taille +220) and self.active_card_RE != None:
                     player.add_equipage(self.recrues[self.active_card_RE])
                     self.recrues[self.active_card_RE] = []
                     self.recrues[self.active_card_RE] = package.package[0]
