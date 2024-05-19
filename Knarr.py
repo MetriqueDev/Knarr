@@ -52,6 +52,16 @@ inscription_button= Button(200,350,[btn_unselect_image_load,btn_select_image_loa
 
 option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
 
+btnplus_load=pygame.image.load(f".\\images\\gui\\btnplus.png").convert_alpha() 
+btnplus= pygame.transform.scale(btnplus_load, (60,60))
+
+
+btnmoins_load=pygame.image.load(f".\\images\\gui\\btnmoins.png").convert_alpha()
+btnmoins= pygame.transform.scale(btnmoins_load, (60,60))
+
+
+
+
 #retour_image_load=pygame.image.load(f".\\images\\gui\\empty.png").convert_alpha() 
 #retour_boutton= Button(750,500,retour_image_load,0.2)
 #Initialisation propre
@@ -105,10 +115,14 @@ while running:
 
         if option_boutton.draw(screen):
             step="option"#Je déplace vers le menu d'option 
+            btnplus_boutton= Button(480,300,btnplus,1)
+            btnmoins_boutton= Button(200,300,btnmoins,1)
 
             #J'initialise le nécessaire pour le menu d'option
             valider_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
-            retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+            retour_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+
+            
 
     #jeu boucle exécuté pour jouer !!!!
     if step == "play":
@@ -236,7 +250,10 @@ while running:
 
         if option_boutton.draw(screen):
             step="option"
-            retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+            btnplus_boutton= Button(480,300,btnplus,1)
+            btnmoins_boutton= Button(200,300,btnmoins,1)
+            retour_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+
 
         if retour_boutton.draw(screen):
             step="main"
@@ -256,9 +273,6 @@ while running:
         input_mdp_boutton.draw(screen)
 
         if valider_boutton.draw(screen):
-            #print("Valider")
-            #print("name:",input_name_boutton.get_input())
-            #print("mdp:",input_mdp_boutton.get_input())
             name=input_name_boutton.get_input()
             mdp=input_mdp_boutton.get_input()
 
@@ -291,7 +305,6 @@ while running:
                 else:
                     pygame.mixer.music.load(".\\musique\\gui_sound\\non.wav")
                     pygame.mixer.music.play()
-                    #print("pas le bon mdp")
                     step="main"
                     
 
@@ -312,9 +325,6 @@ while running:
         input_mdp_boutton.draw(screen)
 
         if valider_boutton.draw(screen):
-            #print("Valider")
-            #print("name:",input_name_boutton.get_input())
-            #print("mdp:",input_mdp_boutton.get_input())
 
             name=input_name_boutton.get_input()
             mdp=input_mdp_boutton.get_input()
@@ -339,18 +349,28 @@ while running:
         if retour_boutton.draw(screen):
             pygame.mixer.music.load(".\\musique\\gui_sound\\retour.wav")
             pygame.mixer.music.play()
-            #print(step)
             step="main"
 
     if step == "option":
         screen.blit(main_menu_bg,(0,0))
         img = font.render("Menu d'option",True,TEXT_COL)
-        screen.blit(img,(200,500))
-        if valider_boutton.draw(screen):
+        screen.blit(img,(200,200))
+        #modification du volume
+        if btnplus_boutton.draw(screen):
+            pygame.mixer.music.set_volume(pygame.mixer.music.get_volume()+0.1)
             pygame.mixer.music.load(".\\musique\\gui_sound\\oui.wav")
             pygame.mixer.music.play()
+        if btnmoins_boutton.draw(screen):
+            pygame.mixer.music.set_volume(pygame.mixer.music.get_volume()-0.1)
+            pygame.mixer.music.load(".\\musique\\gui_sound\\oui.wav")
+            pygame.mixer.music.play()
+        #dessin d'une barre de volume
+        pygame.draw.rect(screen, (255, 255, 255),  (270, 320, 200, 20))
+        
+        pygame.draw.rect(screen, (0, 250, 0),  (270, 320, int(pygame.mixer.music.get_volume()*200), 20),)
+        pygame.draw.rect(screen, (0, 0, 0),  (270, 320, 200, 20),4)
+
         if retour_boutton.draw(screen):
-            #print(step)
             if log:
                 step="menu_play"
                 option_boutton= Button(200,250,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
