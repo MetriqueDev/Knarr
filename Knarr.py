@@ -58,7 +58,7 @@ option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5
 nbr_player=1
 players=[]
 
-
+log=False
 
 
 active_card=None
@@ -241,6 +241,8 @@ while running:
         if retour_boutton.draw(screen):
             step="main"
             option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
+            log=False
+
 
     #Menu connexion
     if step == "connexion":
@@ -285,11 +287,13 @@ while running:
                     victoires=data[2]
                     pygame.mixer.music.load(".\\musique\\gui_sound\\bienvenue.wav")
                     pygame.mixer.music.play()
+                    log=True
                 else:
                     pygame.mixer.music.load(".\\musique\\gui_sound\\non.wav")
                     pygame.mixer.music.play()
                     #print("pas le bon mdp")
                     step="main"
+                    
 
         if retour_boutton.draw(screen):
             pygame.mixer.music.load(".\\musique\\gui_sound\\retour.wav")
@@ -347,8 +351,13 @@ while running:
             pygame.mixer.music.play()
         if retour_boutton.draw(screen):
             #print(step)
-            step="main"
-            option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
+            if log:
+                step="menu_play"
+                option_boutton= Button(200,250,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
+                retour_boutton= Button(200,400,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
+            else:
+                step="main"
+                option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
             pygame.mixer.music.load(".\\musique\\gui_sound\\retour.wav")
             pygame.mixer.music.play()
 
