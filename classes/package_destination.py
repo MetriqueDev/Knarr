@@ -65,7 +65,7 @@ class Package_Destination():
         self.verso[0].print(screen, (5,5))
         self.verso[1].print(screen, (5,155))
 
-    def dragndrop_echange(self,screen,event,boat):
+    def dragndrop_echange(self,screen,event,boat,equipage,player):
         #self.echange = self.echange+self.influence
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -83,10 +83,46 @@ class Package_Destination():
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
                     print("echange")
                     if len(boat.liste)<1000:
-                        boat.Cartes_desti(self.echange[self.active_card_e])
-                        del self.echange[self.active_card_e]
-                        self.active_card_e=None
-                        return True
+                        a=0
+                        for cout in self.echange[self.active_card_e].cout_coul:
+                            print(self.echange[self.active_card_e].cout_coul)
+                            if cout == "egal":
+                                print('egal')
+                                for card in equipage:
+                                    if len(equipage[card])>=len(self.echange[self.active_card_e].cout_coul):
+                                        active_card=card
+                                del equipage[active_card][0]
+                                a+=1
+
+                            if cout == "different":
+                                print('different')
+                                for couleur in equipage:
+                                    if len(equipage[couleur])!=0:
+                                        del equipage[couleur][0]
+                                        break
+                                a+=1
+
+                            if cout != "egal" and cout != "different":
+                                print('normal')
+                                del equipage[cout][0]
+                                a+=1
+                            if a == len(self.echange[self.active_card_e].cout_coul):
+                                boat.Cartes_desti(self.echange[self.active_card_e])
+                                
+                                for gain in self.echange[self.active_card_e].gain:
+                                    if gain == "pioche":
+                                        print("pioche")
+                                    if gain == "recrue":
+                                        player.add_recrue(1)
+                                    if gain == "bracelet":
+                                        player.add_bracelet(1)
+                                    if gain == "renommee":
+                                        player.add_renome(1)
+                                    if gain == "victoire":
+                                        player.add_score(1)
+                                del self.echange[self.active_card_e]
+                                self.active_card_e=None
+                                return True
                     self.active_card_e=None
                 else:
                     self.active_card_e=None
@@ -105,9 +141,8 @@ class Package_Destination():
             self.echange[self.active_card_e].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
 
         return False
-
         
-    def dragndrop_influence(self,screen,event,boat,equipage,package):
+    def dragndrop_influence(self,screen,event,boat,equipage,player):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.influence):
@@ -128,22 +163,37 @@ class Package_Destination():
                             print(self.influence[self.active_card_i].cout_coul)
                             if cout == "egal":
                                 print('egal')
-                                if len(equipage[cout])>=len(self.influence[self.active_card_i].cout_coul):
-                                    for i in range(4):
-                                        del equipage[cout][0]
+                                for card in equipage:
+                                    if len(equipage[card])>=len(self.influence[self.active_card_i].cout_coul):
+                                        active_card=card
+                                del equipage[active_card][0]
                                 a+=1
+
                             if cout == "different":
                                 print('different')
                                 for card in equipage:
                                     if len(equipage[card])!=0:
                                         del equipage[card][0]
                                 a+=1
-                            else:
+
+                            if cout != "egal" and cout != "different":
                                 print('normal')
                                 del equipage[cout][0]
                                 a+=1
                             if a == len(self.influence[self.active_card_i].cout_coul):
                                 boat.Cartes_desti(self.influence[self.active_card_i])
+                                
+                                for gain in self.influence[self.active_card_i].gain:
+                                    if gain == "pioche":
+                                        print("pioche")
+                                    if gain == "recrue":
+                                        player.add_recrue(1)
+                                    if gain == "bracelet":
+                                        player.add_bracelet(1)
+                                    if gain == "renommee":
+                                        player.add_renome(1)
+                                    if gain == "victoire":
+                                        player.add_score(1)
                                 del self.influence[self.active_card_i]
                                 self.active_card_i=None
                                 return True

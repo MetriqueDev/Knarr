@@ -5,7 +5,7 @@ class Board():
 
     def __init__(self):
         self.size=(600,250)#(250,400)
-        self.recrues={"p_rouge":[],"p_jaune":[],"p_vert":[],"p_bleu":[],"p_violet":[]}
+        self.recrues={"p_rouge":None,"p_jaune":None,"p_vert":None,"p_bleu":None,"p_violet":None}
         self.active_card_b=None
         self.active_card_RE=None
         self.init_image()
@@ -13,7 +13,7 @@ class Board():
     def init_cartes(self,package):
         for card in self.recrues:
             #print(package.package)
-            if self.recrues[card] == []:
+            if self.recrues[card] == None:
                 self.recrues[card] = package.package[0]
                 del package.package[0]
 
@@ -62,7 +62,7 @@ class Board():
     def recrutement_print(self,screen):
         a=0
         for couleur_card in self.recrues:
-            if self.recrues[couleur_card] != []:
+            if self.recrues[couleur_card] != None:
                 self.recrues[couleur_card].print(screen,(10+a*120,screen.get_height()-400))
                 a+=1
 
@@ -89,7 +89,7 @@ class Board():
                 if (1450<event.pos[0]<1450+370 )and (700<event.pos[1]<900) and self.active_card_b != None:
                     if len(hand.main)<3:
                         hand.main.append(self.recrues[self.active_card_b])
-                        self.recrues[self.active_card_b]=[]
+                        self.recrues[self.active_card_b]=None
                         self.recrues[self.active_card_b]=package.package[0]
                         del package.package[0]
                         self.active_card_b=None
@@ -127,7 +127,7 @@ class Board():
             if event.button == 1:
                 if (1300<event.pos[0]<screen.get_width()) and (500<event.pos[1]<700) and self.active_card_RE != None:
                     player.add_equipage(self.recrues[self.active_card_RE])
-                    self.recrues[self.active_card_RE] = []
+                    self.recrues[self.active_card_RE] = None
                     self.recrues[self.active_card_RE] = package.package[0]
                     del package.package[0]
                     self.active_card_RE = None
