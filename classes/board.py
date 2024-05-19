@@ -11,12 +11,11 @@ class Board():
         self.init_image()
 
     def init_cartes(self,package):
-        a=0
         for card in self.recrues:
             #print(package.package)
             if self.recrues[card] == []:
-                self.recrues[card] = package.package[a]
-                a+=1
+                self.recrues[card] = package.package[0]
+                del package.package[0]
 
 
     def init_image(self):
