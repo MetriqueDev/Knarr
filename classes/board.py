@@ -66,7 +66,7 @@ class Board():
                 self.recrues[couleur_card].print(screen,(10+a*120,screen.get_height()-400))
                 a+=1
 
-    def dragndrop_recrutement(self,screen,event,hand,package,player):
+    def dragndrop_recrutement(self,screen,event,hand,package,player): #du recrutement à la main
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 print("click")
@@ -122,7 +122,7 @@ class Board():
                 #print((screen.get_height()/2))
         return False
 
-    def dragndrop_recrue_to_equipage(self,screen,event,player,package):
+    def dragndrop_recrue_to_equipage(self,screen,event,player,package): #du recrutement à l'équipage
         
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
