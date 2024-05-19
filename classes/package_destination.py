@@ -123,18 +123,30 @@ class Package_Destination():
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_i != None:
                     print("influence")
                     if len(boat.liste)<1000:
+                        a=0
                         for cout in self.influence[self.active_card_i].cout_coul:
                             print(self.influence[self.active_card_i].cout_coul)
-                            print(equipage[cout])
                             if cout == "egal":
-                                if len(equipage[cout])>=self.influence[self.active_card_i].cout_coul:
+                                print('egal')
+                                if len(equipage[cout])>=len(self.influence[self.active_card_i].cout_coul):
                                     for i in range(4):
                                         del equipage[cout][0]
-
-                        boat.Cartes_desti(self.influence[self.active_card_i])
-                        del self.influence[self.active_card_i]
-                        self.active_card_i=None
-                        return True
+                                a+=1
+                            if cout == "different":
+                                print('different')
+                                for card in equipage:
+                                    if len(equipage[card])!=0:
+                                        del equipage[card][0]
+                                a+=1
+                            else:
+                                print('normal')
+                                del equipage[cout][0]
+                                a+=1
+                            if a == len(self.influence[self.active_card_i].cout_coul):
+                                boat.Cartes_desti(self.influence[self.active_card_i])
+                                del self.influence[self.active_card_i]
+                                self.active_card_i=None
+                                return True
                     self.active_card_i=None
                 else:
                     self.active_card_i=None
