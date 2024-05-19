@@ -79,8 +79,6 @@ class Game():
 
 
     def event_handler(self,event,screen,pioche_number):
-        
-           
         if self.players[self.turn%len(self.players)].play_equipage==False:  
             d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
             if d==True:
