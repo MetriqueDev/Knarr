@@ -7,6 +7,7 @@ class Board():
         self.size=(600,250)#(250,400)
         self.recrues={"p_rouge":[],"p_jaune":[],"p_vert":[],"p_bleu":[],"p_violet":[]}
         self.active_card_b=None
+        self.active_card_RE=None
         self.init_image()
 
     def init_cartes(self,package):
@@ -113,7 +114,31 @@ class Board():
                 #print((screen.get_height()/2))
         return False
 
-#circle()
+    def dragndrop_recrue_to_equipage(self,screen,event,player,package):
+        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                for card in self.recrues:
+                    if self.recrues[card].front_rect.collidepoint(event.pos):
+                        self.active_card_RE = card
+                        mouse_x, mouse_y = event.pos
+                        self.offset_x = mouse_x - self.recrues[card].pos[0]
+                        self.offset_y = mouse_y - self.recrues[card].pos[1]
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                if (1300<event.pos[0]<screen.get_width()) and (500<event.pos[1]<700) and self.active_card_RE != None:
+                    player.add_equipage(self.recrues[self.active_card_RE])
+                    self.recrues[self.active_card_RE] = []
+                    self.recrues[self.active_card_RE] = package.package[0]
+                    del package.package[0]
+                    self.active_card_RE = None
+                    return True
+                self.active_card_RE = None
+            else:
+                self.active_card_RE = None
+            self.active_card_RE = None
+        elif event.type == pygame.MOUSEMOTION:
+            if self.active_card_RE != None:
+                self.recrues[self.active_card_RE].print(screen, (event.pos[0] - self.offset_x, event.pos[1] - self.offset_y))
 
-#150 haut +28
-#164 bas
+        return False

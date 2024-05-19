@@ -78,6 +78,13 @@ class Game():
 
 
     def event_handler(self,event,screen,pioche_number):
+        if pioche_number!=0:
+            if self.board.dragndrop_recrue_to_equipage(screen,event,self.players[self.turn%len(self.players)],self.package):
+
+                return pioche_number-1
+            else: 
+                return pioche_number
+            
         d=self.players[self.turn%len(self.players)].dragndrop_hand(screen, event)
         #print(self.players[self.turn%len(self.players)].name,self.players[self.turn%len(self.players)].asExploreOrRecrute)
         if self.players[self.turn%len(self.players)].asExploreOrRecrute==False:
@@ -88,8 +95,8 @@ class Game():
             #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
             if a or b or c :
                 self.players[self.turn%len(self.players)].asExploreOrRecrute=True
-        if pioche_number !=0:
-            pass#pioche
+        return 0
+
 
 
 
@@ -99,4 +106,5 @@ class Game():
         player.add_renome(liste_valeurs.count("recnommee"))
         print(player.get_recrue(),player.get_score(),player.get_renome())
         return liste_valeurs.count("pioche")
+
 
