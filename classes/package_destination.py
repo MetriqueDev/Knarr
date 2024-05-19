@@ -105,6 +105,8 @@ class Package_Destination():
                         print(self.Compter_cartes(equipage,self.active_card_e,self.echange))
                         if self.Compter_cartes(equipage,self.active_card_e,self.echange):
                             a=0
+                            prec_couleurs=[]
+                            p_pioche=False
                             for cout in self.echange[self.active_card_e].cout_coul:
                                 print(self.echange[self.active_card_e].cout_coul)
                                 if cout == "egal":
@@ -118,9 +120,9 @@ class Package_Destination():
                                 if cout == "different":
                                     print('different')
                                     for couleur in equipage:
-                                        if len(equipage[couleur])!=0:
+                                        if equipage[couleur] and couleur not in prec_couleurs:
                                             del equipage[couleur][0]
-                                            break
+                                            prec_couleurs.append(couleur)
                                     a+=1
 
                                 if cout != "egal" and cout != "different":
@@ -132,7 +134,7 @@ class Package_Destination():
 
                                     for gain in self.echange[self.active_card_e].gain:
                                         if gain == "pioche":
-                                            print("pioche")
+                                            p_pioche=True
                                         if gain == "recrue":
                                             player.add_recrue(1)
                                         if gain == "bracelet":
@@ -143,7 +145,7 @@ class Package_Destination():
                                             player.add_score(1)
                                     del self.echange[self.active_card_e]
                                     self.active_card_e=None
-                                    return True
+                                    return True, p_pioche
                         else:
                             print("pas assez de cartes")
                     self.active_card_e=None
@@ -163,7 +165,7 @@ class Package_Destination():
         if self.active_card_e != None:
             self.echange[self.active_card_e].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
 
-        return False
+        return False, False
         
     def dragndrop_influence(self,screen,event,boat,equipage,player):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -183,6 +185,8 @@ class Package_Destination():
                     if len(boat.liste)<1000:
                         if self.Compter_cartes(equipage,self.active_card_i,self.influence):
                             a=0
+                            prec_couleurs=[]
+                            p_pioche=False
                             for cout in self.influence[self.active_card_i].cout_coul:
                                 print(self.influence[self.active_card_i].cout_coul)
                                 if cout == "egal":
@@ -196,8 +200,9 @@ class Package_Destination():
                                 if cout == "different":
                                     print('different')
                                     for couleur in equipage:
-                                        if len(equipage[couleur])!=0:
+                                        if equipage[couleur] and couleur not in prec_couleurs:
                                             del equipage[couleur][0]
+                                            prec_couleurs.append(couleur)
                                     a+=1
 
                                 if cout != "egal" and cout != "different":
@@ -209,7 +214,7 @@ class Package_Destination():
 
                                     for gain in self.influence[self.active_card_i].gain:
                                         if gain == "pioche":
-                                            print("pioche")
+                                            p_pioche=True
                                         if gain == "recrue":
                                             player.add_recrue(1)
                                         if gain == "bracelet":
@@ -220,7 +225,7 @@ class Package_Destination():
                                             player.add_score(1)
                                     del self.influence[self.active_card_i]
                                     self.active_card_i=None
-                                    return True
+                                    return True,p_pioche
                     self.active_card_i=None
                 else:
                     self.active_card_i=None
@@ -237,4 +242,4 @@ class Package_Destination():
         if self.active_card_i !=None:
             self.influence[self.active_card_i].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
 
-        return False
+        return False,False
