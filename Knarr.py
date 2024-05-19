@@ -118,7 +118,7 @@ while running:
         #gestion du drag and drop (je vérifie si c'est le bon joeur qui essaie)
         for event in pygame.event.get():
             if jeu.players[jeu.turn%len(jeu.players)].name==name:
-                jeu.event_handler(event,screen,pioche_number)
+                pioche_number=jeu.event_handler(event,screen,pioche_number)
 
         #je le laisse icic car c'est personnel au joueur le déplacmeent de la carte pendnat le drag and drop
         if jeu.destination.active_card_e != None:
@@ -127,7 +127,8 @@ while running:
             jeu.destination.influence[jeu.destination.active_card_i].print(screen,(event.pos[0]-jeu.destination.offset_x,event.pos[1]-jeu.destination.offset_y))
         if jeu.board.active_card_b !=None:
             jeu.board.recrues[jeu.board.active_card_b].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
-            
+        if jeu.board.active_card_RE !=None:
+            jeu.board.recrues[jeu.board.active_card_RE].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
         
 
         #J'affiche la main du bon joueur...
@@ -141,7 +142,7 @@ while running:
                 if player.active_card_h != None:
                         player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
 
-                if player.asExploreOrRecrute ==True and player.asplay==False:
+                if player.asExploreOrRecrute ==True and player.asplay==False :
                     screen.blit(commerce_text,(int(screen.get_width()/2+210),screen.get_height()-choice_commerce_size-90))
                     if player.get_bracelet()==0:
                         player.asplay=True
@@ -160,6 +161,9 @@ while running:
                             player.boat.bracelet-=3
                             liste_valeurs=player.boat.Commerce(3)
                             player.asplay=True
+                    if btn_pas_commerce_boutton.draw(screen):
+                        player.asplay=True
+                        liste_valeurs=[]
                     if player.asplay==True:
                         pioche_number=jeu.liste_valeurs_to_game(player,liste_valeurs)
                         print(pioche_number)
@@ -212,7 +216,11 @@ while running:
 
             btn3_load = pygame.image.load(".\\images\\gui\\btn3.png").convert_alpha()
             btn3= pygame.transform.scale(btn3_load, (choice_commerce_size,choice_commerce_size))
-            btn3_boutton= Button(int(screen.get_width()/2+210+63+63),screen.get_height()-choice_commerce_size-20,btn3,1)
+            btn3_boutton= Button(int(screen.get_width()/2+210+63*2),screen.get_height()-choice_commerce_size-20,btn3,1)
+
+            btn_pas_commerce_load = pygame.image.load(".\\images\\gui\\btn_pas_commerce.png").convert_alpha()
+            btn_pas_commerce= pygame.transform.scale(btn_pas_commerce_load, (choice_commerce_size,choice_commerce_size))
+            btn_pas_commerce_boutton= Button(int(screen.get_width()/2+210+63*3),screen.get_height()-choice_commerce_size-20,btn_pas_commerce,1)
 
             pioche_number=0
             commerce_text=font.render("Commerce",True,TEXT_COL)

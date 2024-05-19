@@ -8,7 +8,7 @@ class Boat():
     def __init__(self):
         self.size=(400,200)#(250,400)
         self.recrue=0
-        self.bracelet=2
+        self.bracelet=3
         self.init_image()
         self.liste=[]
 
