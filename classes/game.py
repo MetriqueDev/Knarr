@@ -109,26 +109,11 @@ class Game():
         return 0
 
 
-
-
-            #print(self.players[self.turn%len(self.players)].name,self.players[self.turn%len(self.players)].asExploreOrRecrute)
-            #if self.players[self.turn%len(self.players)].asExploreOrRecrute==False:
-            #    a=self.destination.dragndrop_echange(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
-            #    b=self.destination.dragndrop_influence(screen,event,self.players[self.turn%len(self.players)].boat,self.players[self.turn%len(self.players)].equipage,self.players[self.turn%len(self.players)])
-            #    c=self.board.dragndrop_recrutement(screen,event,self.players[self.turn%len(self.players)].hand,self.package,self.players[self.turn%len(self.players)])
-            #    
-            #    #e=self.players[self.turn%len(self.players)].dragndrop_pioche(screen, event)
-            #    if a or b or c :
-            #        self.players[self.turn%len(self.players)].asExploreOrRecrute=True
-            
-
-
-
     #sert a ajouter les valeurs des cartes 
     def liste_valeurs_to_game(self,player,liste_valeurs):
         player.add_recrue(liste_valeurs.count("recrue"))
         player.add_score(liste_valeurs.count("victoire"))
-        player.add_renome(liste_valeurs.count("recnommee"))
+        player.add_renome(liste_valeurs.count("renommee"))
         print(player.get_recrue(),player.get_score(),player.get_renome())
         return liste_valeurs.count("pioche")
 
