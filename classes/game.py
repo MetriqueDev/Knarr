@@ -9,6 +9,7 @@ from classes.hand import Hand
 from classes.package_destination import Package_Destination
 import classes.game as game
 from classes.input import Button , Input
+import time
 
 
 class Game():
@@ -19,7 +20,18 @@ class Game():
         self.package.shuffle()
         self.board=Board()
         self.turn=0
+        self.v_wait=0
+        self.start=0
 
+    def wait(self,v):
+        self.v_wait=v
+        self.start=time.time()
+    
+    def wait_finish(self):
+        if time.time()-self.start>self.v_wait:
+            self.v_wait=0
+            return True
+        return False
 
     def init_image(self,screen):
         #Background
@@ -48,6 +60,7 @@ class Game():
     def update(self,screen,font,pioche_number,name):
 
         text_turn="Tour de "+self.players[self.turn%len(self.players)].name
+        print("affiche: ",self.players[self.turn%len(self.players)].name)
         self.turn_name=font.render(text_turn,True,(200,200,210))
         
         screen.blit(self.background, (0,0))
@@ -59,27 +72,31 @@ class Game():
         self.board.update_score_pos(screen,self.players)
         for player in self.players:
             if player.name ==name and pioche_number==0 and player.asplay :
-                if self.skip_boutton.draw(screen):
-                    
-                    #condition si il peut ou non skip
-                    self.turn+=1
-                    if self.turn%len(self.players) ==0:
-                        #Nouveau tour
-                        for player in self.players:
-
-                            player.Explore=False#destination et influence
-                            player.recrute=False#pioche et main 
-                            player.pioche=False#recrue 
-
-
-                            player.asplay=False
-
-                            player.couleur=None
-                            player.add_renome_to_score()
+                if player.name == self.players[self.turn%len(self.players)].name:
+                    if player.ia==False:
+                        if self.skip_boutton.draw(screen):
+                            self.wait(1)
+                            #condition si il peut ou non skip
+                            self.new_turn()
 
 
         screen.blit(self.turn_name, (10,screen.get_height()-75))
 
+    def new_turn(self):
+        self.turn+=1
+        if self.turn%len(self.players) ==0:
+            #Nouveau tour
+            for player in self.players:
+
+                player.Explore=False#destination et influence
+                player.recrute=False#pioche et main 
+                player.pioche=False#recrue 
+
+
+                player.asplay=False
+
+                player.couleur=None
+                player.add_renome_to_score()
 
     #fonction qui gere les evenements
     def event_handler(self,event,screen,pioche_number):

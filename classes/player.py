@@ -155,7 +155,7 @@ class Player():
         p_pioche=False
         for i in range(len(package_destination.echange)): #explore
             can=package_destination.Compter_cartes(self.equipage,i,package_destination.echange)
-            print(can)
+            #print(can)
             if can:
                 #je mets la carte dans mon bateau et je la retire de la destination
                 self.boat.Cartes_desti(package_destination.echange[i])
@@ -197,7 +197,7 @@ class Player():
         if p_pioche==True:
             #chosir une couleur de baord.recrue au hasard
             couleur_choice=random.choice(list(board.recrues.keys()))
-            print(board.recrues[couleur_choice].couleur)
+            #print(board.recrues[couleur_choice].couleur)
             self.add_equipage(board.recrues[couleur_choice])
             board.recrues[couleur_choice]=None
             p_pioche=False
@@ -220,7 +220,7 @@ class Player():
 
             #Je pioche pour mettre une carte dans ma main de la couleur de la carte que j'ai mis dans l'equipage
             couleur=str("p_"+self.couleur)
-            print(board.recrues)
+            #print(board.recrues)
             self.hand.main.append(board.recrues[couleur])
             board.recrues[couleur]=None
             board.recrues[couleur]=jeu.package.package[0]
@@ -248,4 +248,4 @@ class Player():
                 p_pioche=False
 
         #fini le tour
-        time.sleep(1)
+        
