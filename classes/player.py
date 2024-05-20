@@ -106,7 +106,7 @@ class Player():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.hand.main):
-                    print(num,card,card.front_rect.collidepoint(event.pos),card.front_rect.x,self.hand.main[num].front_rect.x,card.front_rect.y,self.hand.main[num].front_rect.y)
+                 
                     if card.front_rect.collidepoint(event.pos):
                         self.active_card_h=num
                         mouse_x, mouse_y = event.pos
@@ -171,7 +171,6 @@ class Player():
                     self.boat.Cartes_desti(package_destination.echange[i])
                     del package_destination.echange[i]
                     asplay = True
-        
         # Recrute
         if asplay == False:
             for i in range(len(package_destination.influence)):
