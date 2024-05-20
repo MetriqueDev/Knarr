@@ -12,7 +12,7 @@ class Board():
 
     def init_cartes(self,package):
         for card in self.recrues:
-            #print(package.package)
+
             if self.recrues[card] == None:
                 self.recrues[card] = package.package[0]
                 del package.package[0]
@@ -24,41 +24,61 @@ class Board():
         self.image_renome_piece_load = pygame.image.load(f".\\images\\renome_piece.png").convert_alpha()
         self.image_renome_piece = pygame.transform.rotate(pygame.transform.scale(self.image_renome_piece_load, (20,20)),45)
 
+        self.image_renome_piece2_load = pygame.image.load(f".\\images\\renome_piece2.png").convert_alpha()
+        self.image_renome_piece2 = pygame.transform.rotate(pygame.transform.scale(self.image_renome_piece2_load, (20,20)),45)
+
+        self.image_renome_piece3_load = pygame.image.load(f".\\images\\renome_piece3.png").convert_alpha()
+        self.image_renome_piece3 = pygame.transform.rotate(pygame.transform.scale(self.image_renome_piece3_load, (20,20)),45)
+
+        self.image_renome_piece4_load = pygame.image.load(f".\\images\\renome_piece4.png").convert_alpha()
+        self.image_renome_piece4 = pygame.transform.rotate(pygame.transform.scale(self.image_renome_piece4_load, (20,20)),45)
+
     def print(self,screen):
         screen.blit(self.image_board, (int(10),screen.get_height()-660))
 
     def update_renome_pos(self,screen,players):
+        i=0
         for player in players:
+           
+            if i==0:
+                image = self.image_renome_piece
+            elif i==1:
+                image = self.image_renome_piece2
+            elif i==2:
+                image = self.image_renome_piece3
+            elif i==3:
+                image = self.image_renome_piece4
             renome = player.get_renome()
             if renome%2 == 0:
-                screen.blit(self.image_renome_piece, (int(10)+317+15*renome,screen.get_height()-660+122))
+                screen.blit( image, (int(10)+317+15*renome,screen.get_height()-660+122))
             else:
-                screen.blit(self.image_renome_piece, (int(10)+317+15*renome,screen.get_height()-660+122-17))
+                screen.blit(image, (int(10)+317+15*renome,screen.get_height()-660+122-17))
+            i+=1
 
 
-    def update_renome_pos(self,screen,players):
-        for player in players:
-            renome = player.get_renome()
-            if renome%2 == 0:
-                screen.blit(self.image_renome_piece, (int(10)+317+15*renome,screen.get_height()-660+122))
-            else:
-                screen.blit(self.image_renome_piece, (int(10)+317+15*renome,screen.get_height()-660+122-17))
 
 
     def update_score_pos(self,screen,players):
-
+        i=0
         for player in players:
-    
+            if i==0:
+                color = (255,0,0)
+            elif i==1:
+                color = (255,255,0)
+            elif i==2:
+                color = (0,255,0)
+            elif i==3:
+                color = (0,0,255)
             score = player.get_score()
             if score <= 16:
-                pygame.draw.circle(screen, ( 169, 50, 38 ), (int(10)+20 +35*score ,screen.get_height()-660+47), 15)
+                pygame.draw.circle(screen, color, (int(10)+20 +35*score ,screen.get_height()-660+47), 15)
             elif score <=20:
-                pygame.draw.circle(screen, ( 169, 50, 38 ), (int(10)+20 +35*16 ,screen.get_height()-660+47 +40*(score-16) ), 15)
+                pygame.draw.circle(screen, color, (int(10)+20 +35*16 ,screen.get_height()-660+47 +40*(score-16) ), 15)
             elif score <= 36:
-                pygame.draw.circle(screen, ( 169, 50, 38 ), (int(10)+20 +35*16-35*(score-20) ,screen.get_height()-660+47 +40*(20-16) ), 15)
+                pygame.draw.circle(screen, color, (int(10)+20 +35*16-35*(score-20) ,screen.get_height()-660+47 +40*(20-16) ), 15)
             elif score <= 40:
-                pygame.draw.circle(screen, ( 169, 50, 38 ), (int(10)+20 +35*16-35*(36-20) ,screen.get_height()-660+47 +40*(20-16)-40*(score-36) ), 15)
-
+                pygame.draw.circle(screen, color, (int(10)+20 +35*16-35*(36-20) ,screen.get_height()-660+47 +40*(20-16)-40*(score-36) ), 15)
+            i+=1
     def recrutement_print(self,screen):
         a=0
         for couleur_card in self.recrues:
@@ -69,24 +89,19 @@ class Board():
     def dragndrop_recrutement(self,screen,event,hand,package,player): #du recrutement à la main
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                print("click")
                 for couleur in self.recrues:
                     if self.recrues[couleur].front_rect.collidepoint(event.pos):
-                        #print(type(self.equipage[card]))
-                        #print("ok")
-                        
+
                         #si la carte cliqué est de la couelur de la dernière carte du joueur
 
                         self.active_card_b=couleur
-                        print(self.active_card_b, type(self.active_card_b))
-                        print(self.recrues[self.active_card_b])
-                        print(self.recrues)
+
                         mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
-                        #print(self.equipage[card])
+
                         self.offset_x=mouse_x-self.recrues[couleur].pos[0]
                         self.offset_y=mouse_y-self.recrues[couleur].pos[1]
-                        #print(self.offset_x,self.offset_y)
+
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if (1440<event.pos[0]<1826 )and (690<event.pos[1]<910) and self.active_card_b != None:
@@ -115,11 +130,9 @@ class Board():
             self.active_card_b=None#
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_b != None:
-                #print("bouge")
+
                 self.recrues[self.active_card_b].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                #print((event.pos[0],event.pos[1]))
-                #print((screen.get_width()/2-200,screen.get_width()/2+200))
-                #print((screen.get_height()/2))
+
         return False
 
     def dragndrop_recrue_to_equipage(self,screen,event,player,package): #du recrutement à l'équipage

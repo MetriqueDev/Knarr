@@ -23,6 +23,7 @@ class Game():
         self.v_wait=0
         self.start=0
 
+
     def wait(self,v):
         self.v_wait=v
         self.start=time.time()
@@ -40,7 +41,7 @@ class Game():
 
     def init_game(self,screen):
         self.liste=[]
-        #print(self.package.package)
+
         self.board.init_cartes(self.package)
         self.destination=Package_Destination()
         for player in self.players:
@@ -60,7 +61,7 @@ class Game():
     def update(self,screen,font,pioche_number,name):
 
         text_turn="Tour de "+self.players[self.turn%len(self.players)].name
-        #print("affiche: ",self.players[self.turn%len(self.players)].name)
+
         self.turn_name=font.render(text_turn,True,(200,200,210))
         
         screen.blit(self.background, (0,0))
@@ -78,6 +79,7 @@ class Game():
                             self.wait(1)
                             #condition si il peut ou non skip
                             self.new_turn()
+                        
 
 
         screen.blit(self.turn_name, (10,screen.get_height()-75))
@@ -97,6 +99,11 @@ class Game():
 
                 player.couleur=None
                 player.add_renome_to_score()
+
+                #print(player.name," -> ",player.get_score())
+
+            return self.check_win()
+        return False
 
     #fonction qui gere les evenements
     def event_handler(self,event,screen,pioche_number):
@@ -128,10 +135,18 @@ class Game():
 
     #sert a ajouter les valeurs des cartes 
     def liste_valeurs_to_game(self,player,liste_valeurs):
+        # Ajoute le nombre de recrues à la main du joueur
         player.add_recrue(liste_valeurs.count("recrue"))
+        # Ajoute le nombre de points de victoire au score du joueur
         player.add_score(liste_valeurs.count("victoire"))
+        # Ajoute le nombre de points de renommée au total de renommée du joueur
         player.add_renome(liste_valeurs.count("renommee"))
-        print(player.get_recrue(),player.get_score(),player.get_renome())
+        # Retourne le nombre de cartes "pioche" dans la liste de valeurs
         return liste_valeurs.count("pioche")
-
-
+    
+    #verifie si un joueur a gagné
+    def check_win(self):
+        for player in self.players:
+            if player.get_score()>=40:
+                return player.name
+        return False

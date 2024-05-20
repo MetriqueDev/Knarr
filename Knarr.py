@@ -126,7 +126,7 @@ while running:
             valider_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Valider")
             retour_boutton= Button(200,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
-            
+
 
     #jeu boucle exécuté pour jouer !!!!
     if step == "play":
@@ -250,6 +250,7 @@ while running:
             step="play"
             players=[]
             players.append(Player(name,niveau))
+            
 
             for i in range(nbr_player-1):
                 players.append(Player(liste_nom_bot[i],1,True))#Robot
@@ -258,6 +259,8 @@ while running:
                 player.game_init()
                 player.info()
             
+            
+
             #for i in range(nbr_player):
             #    players.append(Player("Vladimir Ilitch",niveau))
             #    players[i].game_init()
@@ -285,13 +288,12 @@ while running:
             pioche_number=0
             commerce_text=font.render("Commerce",True,TEXT_COL)
 
-
             retour_boutton= Button(screen.get_width()-5*96-10,screen.get_height()-32*5-10,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
 
         if retour_boutton.draw(screen):
             step="menu_play"
             retour_boutton= Button(200,400,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
-            
+ 
 
     #Menu pour jouer
     if step=="menu_play":
@@ -353,7 +355,6 @@ while running:
             cur.close()
             con.close()
             if data==None:
-                #print("connais pas")
                 pygame.mixer.music.load(".\\musique\\gui_sound\\non.wav")
                 pygame.mixer.music.play()
                 step="main"
@@ -391,7 +392,6 @@ while running:
         if retour_boutton.draw(screen):
             pygame.mixer.music.load(".\\musique\\gui_sound\\retour.wav")
             pygame.mixer.music.play()
-            #print(step)
             step="main"
 
     if step == "inscription":
@@ -414,7 +414,6 @@ while running:
             existe=cur.execute("SELECT nom FROM comptes WHERE NOM = '{}'".format(name))
             #print(existe.fetchone())
             if existe.fetchone()==None:
-                print("save")
                 cur.execute("INSERT INTO 'comptes' ('nom','victoires','défaites','niveau','mdp') VALUES (?,?,?,?,?)",(name,0,0,0,mdp))
                 con.commit()
                 pygame.mixer.music.load(".\\musique\\gui_sound\\oui.wav")
@@ -461,6 +460,115 @@ while running:
             pygame.mixer.music.load(".\\musique\\gui_sound\\retour.wav")
             pygame.mixer.music.play()
 
+    #jeu boucle exécuté pour jouer !!!!
+    if step == "play":
+        screen.fill((0,0,0))
+        jeu.update(screen,font,pioche_number,name)#J'update le jeu
+
+        #gestion du drag and drop (je vérifie si c'est le bon joeur qui essaie)
+        for event in pygame.event.get():
+            if jeu.players[jeu.turn%len(jeu.players)].name==name:
+                pioche_number=jeu.event_handler(event,screen,pioche_number)
+
+        tour_passe=False
+        #J'affiche la main du bon joueur...
+        for player in jeu.players:
+            if player.name==name:
+                player.print_equipage(screen)
+                player.hand.afficher_main(screen)
+                player.boat.print(screen)
+                player.boat.print_object(screen)
+                player.boat.print_object(screen)#,jeu.destination.liste)
+            
+            if  player.ia :
+                if player.name==jeu.players[jeu.turn%len(jeu.players)].name:
+                    if jeu.wait_finish():
+                        if tour_passe==False:
+
+                            player.play_ai(jeu.destination,jeu.board,jeu)
+                            win=jeu.new_turn()
+                            if win !=False:
+                                win_label=font.render(f"{win} a gagné",True,TEXT_COL)
+                                if win == name:
+                                    #ajout a la base de donnée la victoire
+                                    con = sqlite3.connect("data.db")
+                                    cur = con.cursor()
+                                    cur.execute("UPDATE comptes SET victoires = victoires+1 WHERE nom = '{}'".format(name))
+                                    con.commit()
+                                    cur.close()
+                                    con.close()
+                                else:
+                                    #ajout a la base de donnée la défaite
+                                    con = sqlite3.connect("data.db")
+                                    cur = con.cursor()
+                                    cur.execute("UPDATE comptes SET défaites = défaites+1 WHERE nom = '{}'".format(name))
+                                    con.commit()
+                                    cur.close()
+                                    con.close()
+                                step = "win"
+                            jeu.wait(1)
+                            tour_passe=True
+
+            if player.ia==False:
+                if player.name==jeu.players[jeu.turn%len(jeu.players)].name:
+                        
+                        if player.active_card_h != None:
+                                player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
+
+                        if player.hand.main == []:
+                            player.play_equipage=True
+
+                        if (player.pioche or player.Explore) and player.asplay==False :
+                            screen.blit(commerce_text,(int(screen.get_width()/2+210),screen.get_height()-choice_commerce_size-90))
+                            if player.get_bracelet()==0:
+                                player.asplay=True
+                                liste_valeurs=[]
+                            if player.get_bracelet()>=1:
+                                if btn1_boutton.draw(screen):
+                                    player.boat.bracelet-=1
+                                    liste_valeurs=player.boat.Commerce(1)
+                                    player.asplay=True
+                            if player.get_bracelet()>=2:
+                                if btn2_boutton.draw(screen):
+                                    player.boat.bracelet-=2
+                                    liste_valeurs=player.boat.Commerce(2)
+                                    player.asplay=True
+                            if player.get_bracelet()==3:
+                                if btn3_boutton.draw(screen):
+                                    player.boat.bracelet-=3
+                                    liste_valeurs=player.boat.Commerce(3)
+                                    player.asplay=True
+                            if btn_pas_commerce_boutton.draw(screen):
+                                player.asplay=True
+                                liste_valeurs=[]
+                            if player.asplay==True:
+                                pioche_number=jeu.liste_valeurs_to_game(player,liste_valeurs)
+
+        #je le laisse icic car c'est personnel au joueur le déplacmeent de la carte pendnat le drag and drop
+        if jeu.destination.active_card_e != None:
+            jeu.destination.echange[jeu.destination.active_card_e].print(screen,(event.pos[0]-jeu.destination.offset_x,event.pos[1]-jeu.destination.offset_y))
+        if jeu.destination.active_card_i != None:
+            jeu.destination.influence[jeu.destination.active_card_i].print(screen,(event.pos[0]-jeu.destination.offset_x,event.pos[1]-jeu.destination.offset_y))
+        if jeu.board.active_card_b !=None:
+            jeu.board.recrues[jeu.board.active_card_b].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
+        if jeu.board.active_card_RE !=None:
+            jeu.board.recrues[jeu.board.active_card_RE].print(screen,(event.pos[0]-jeu.board.offset_x,event.pos[1]-jeu.board.offset_y))
+
+
+    if step == "win":
+       
+        screen.blit(main_menu_bg,(0,0))
+        
+        screen.blit(win_label,(int(screen.get_width()/2-win_label.get_width()/2),int(screen.get_height()/2-win_label.get_height()/2)))
+        if retour_boutton.draw(screen):
+            step="main"
+            
+            connexion_boutton= Button(200,200,[btn_unselect_image_load,btn_select_image_load],5,font,"Connexion")
+
+            inscription_button= Button(200,350,[btn_unselect_image_load,btn_select_image_load],5,font,"inscription")
+
+            option_boutton= Button(200,500,[btn_unselect_image_load,btn_select_image_load],5,font,"Option")
+                   
     if fermeture_boutton.draw(screen):
         break
 

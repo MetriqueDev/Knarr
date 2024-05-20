@@ -31,22 +31,18 @@ class Package():
                 elif self.nbr_player <=2:
                     if card.num ==0:
                         self.package.append(card)
-        print(self.package)
-        print(len(self.package))
+
 
     def print_package(self,screen):
         try:
-            print("1")
+
             self.package[0].face="B"
-            #print("2")
             self.package[0].print(screen,(200,200))
         except:
-            print("Oh non!")
-            print(self.package)
             pass
 
     def pioche_hand(self,hand):
-        print(self.package)
+   
         if len(self.package) >0:
             vik = self.package[-1]
             del self.package[-1]
@@ -56,4 +52,4 @@ class Package():
 
     def shuffle(self):
         random.shuffle(self.package)
-        print(self.package)
+   

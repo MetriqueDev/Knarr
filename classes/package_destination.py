@@ -126,18 +126,17 @@ class Package_Destination():
             if event.button == 1:
                 for num, card in enumerate(self.echange):
                     if card.front_rect.collidepoint(event.pos):
-                        print("ok")
                         self.active_card_e=num
                         mouse_x, mouse_y = event.pos
                         # position de la souris sur l'image
                         self.offset_x=mouse_x-self.echange[self.active_card_e].pos[0]
                         self.offset_y=mouse_y-self.echange[self.active_card_e].pos[1]
-                        print(self.offset_x,self.offset_y)
+        
         
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
-                    print("echange")
+
                     if len(boat.liste)<1000:
                         can =self.Compter_cartes(equipage,self.active_card_e,self.echange,player)
                         print("can =",can)
@@ -212,19 +211,17 @@ class Package_Destination():
                                 self.active_card_e=None
                                 return True, p_pioche
                         else:
-                            print("pas assez de cartes")
-                    self.active_card_e=None
+
+                            self.active_card_e=None
                 else:
                     self.active_card_e=None
             self.active_card_e=None
 
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_e != None:
-                # print("bouge")
+
                 self.echange[self.active_card_e].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                # print((event.pos[0]-offset_x,event.pos[1]-offset_y))
-                # print((screen.get_width()/2-100,screen.get_width()/2+100))
-                # print((screen.get_height()/2+100,screen.get_height()/2-100))
+
             
         # afficher l'image à la souris pendant le glisser-déposer si on ne bouge pas
         if self.active_card_e != None:
@@ -245,11 +242,11 @@ class Package_Destination():
                         # position de la souris sur l'image
                         self.offset_x=mouse_x-self.influence[self.active_card_i].pos[0]
                         self.offset_y=mouse_y-self.influence[self.active_card_i].pos[1]
-                        print(self.offset_x,self.offset_y)
+                       
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_i != None:
-                    print("influence")
+  
                     if len(boat.liste)<1000:
                         can =self.Compter_cartes(equipage,self.active_card_i,self.influence,player)
                         print("can =",can)
@@ -331,11 +328,9 @@ class Package_Destination():
         
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_i != None:
-                # print("bouge")
+
                 self.influence[self.active_card_i].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                # print((event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                # print((screen.get_width()/2-100,screen.get_width()/2+100))
-                # print((screen.get_height()/2+100,screen.get_height()/2-100))
+
             
         # afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_i !=None:

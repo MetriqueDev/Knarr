@@ -1,6 +1,0 @@
-'pioche'
-'recrue'
-'bracelet'
-'renommee'
-'victoire'
-'rien'
