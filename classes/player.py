@@ -155,25 +155,24 @@ class Player():
         p_pioche = False
         
         # Explore
-        for i in range(len(package_destination.echange)):
-            can = package_destination.Compter_cartes(self.equipage, i, package_destination.echange)
-            if can:
-                # Je mets la carte dans mon bateau et je la retire de la destination
-                self.boat.Cartes_desti(package_destination.echange[i])
-                for gain in package_destination.echange[i].gain:
-                    if gain == "pioche":
-                        p_pioche = True
-                    if gain == "recrue":
-                        self.add_recrue(1)
-                    if gain == "bracelet":
-                        self.add_bracelet(1)
-                    if gain == "renommee":
-                        self.add_renome(1)
-                    if gain == "victoire":
-                        self.add_score(1)
-                del package_destination.echange[i]
-                asplay = True
-                break
+        if asplay == False:
+            for i in range(len(package_destination.echange)):
+                can = package_destination.Compter_cartes(self.equipage, i, package_destination.echange)
+                if can:
+                    for gain in package_destination.echange[i].gain:
+                        if gain == "pioche":
+                            p_pioche = True
+                        if gain == "recrue":
+                            self.add_recrue(1)
+                        if gain == "bracelet":
+                            self.add_bracelet(1)
+                        if gain == "renommee":
+                            self.add_renome(1)
+                        if gain == "victoire":
+                            self.add_score(1)
+                    self.boat.Cartes_desti(package_destination.echange[i])
+                    del package_destination.echange[i]
+                    asplay = True
         
         # Recrute
         if asplay == False:
@@ -191,7 +190,7 @@ class Player():
                             self.add_renome(1)
                         if gain == "victoire":
                             self.add_score(1)
-                    self.boat.Cartes_desti(package_destination.influence)
+                    self.boat.Cartes_desti(package_destination.influence[i])
                     del package_destination.influence[i]
                     asplay = True
 
