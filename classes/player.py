@@ -200,6 +200,8 @@ class Player():
             #print(board.recrues[couleur_choice].couleur)
             self.add_equipage(board.recrues[couleur_choice])
             board.recrues[couleur_choice]=None
+            board.recrues[couleur_choice]=jeu.package.package[0]
+            del jeu.package.package[0]
             p_pioche=False
 
         if asplay==False:
@@ -244,7 +246,9 @@ class Player():
             for i in range(n):
                 couleur_choice=random.choice(list(board.recrues.keys()))
                 self.add_equipage(board.recrues[couleur_choice])
-                del board.recrues[couleur_choice]
+                board.recrues[couleur_choice]=None
+                board.recrues[couleur_choice]=jeu.package.package[0]
+                del jeu.package.package[0]
                 p_pioche=False
 
         #fini le tour
