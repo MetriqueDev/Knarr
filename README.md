@@ -1,6 +1,6 @@
 # Knarr
 
-Ceci est un projet informatique à l'Esigelec.
+Ceci est un projet informatique pour l'Esigelec.
 
 ## Comment faire fonctionner le programme ?
 
