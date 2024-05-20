@@ -67,25 +67,34 @@ class Package_Destination():
         self.verso[1].print(screen, (5,155))
 
     def Compter_cartes(self,equipage,active_card,liste):
+        # Cette fonction compte le nombre de cartes dans l'équipage qui correspondent aux conditions de coût de la carte active.
+        # Elle prend en paramètre l'équipage, l'indice de la carte active et la liste des cartes.
         cpt=0
         for cost in liste[active_card].cout_coul:
+            # Parcourt les différentes couleurs du coût de la carte active.
             if cost != "egal" and cost != "different":
+                # Si la couleur n'est ni "egal" ni "different", on vérifie si le nombre de cartes de cette couleur dans l'équipage est suffisant.
                 if liste[active_card].cout_coul.count(cost) <= len(equipage[cost]):
                     cpt+=liste[active_card].cout_coul.count(cost)
             if cost == "egal":
+                # Si la couleur est "egal", on vérifie si l'équipage a au moins autant de cartes que le coût de la carte active.
                 for couleur in equipage:
                     if len(equipage[couleur])>=len(liste[active_card].cout_coul):
                         cpt+=len(liste[active_card].cout_coul)
             if cost == "different":
+                # Si la couleur est "different", on vérifie si l'équipage a au moins une carte de couleur différente.
                 for couleur in equipage:
                     if len(equipage[couleur])!=0:
                         cpt+=1
             if cpt == len(liste[active_card].cout_coul):
+                # Si le nombre de cartes correspond au coût de la carte active, on retourne True.
                 return True
 
 
     def dragndrop_echange(self,screen,event,boat,equipage,player):
-        #self.echange = self.echange+self.influence
+        # Cette fonction gère le glisser-déposer des cartes d'échange.
+        # Elle prend en paramètres l'écran, l'événement, le bateau, l'équipage et le joueur.
+        
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.echange):
@@ -93,10 +102,11 @@ class Package_Destination():
                         print("ok")
                         self.active_card_e=num
                         mouse_x, mouse_y = event.pos
-                        #position de la souris sur l'image
+                        # position de la souris sur l'image
                         self.offset_x=mouse_x-self.echange[self.active_card_e].pos[0]
                         self.offset_y=mouse_y-self.echange[self.active_card_e].pos[1]
                         print(self.offset_x,self.offset_y)
+        
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
@@ -155,26 +165,29 @@ class Package_Destination():
 
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_e != None:
-                #print("bouge")
+                # print("bouge")
                 self.echange[self.active_card_e].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                #print((event.pos[0]-offset_x,event.pos[1]-offset_y))
-                #print((screen.get_width()/2-100,screen.get_width()/2+100))
-                #print((screen.get_height()/2+100,screen.get_height()/2-100))
+                # print((event.pos[0]-offset_x,event.pos[1]-offset_y))
+                # print((screen.get_width()/2-100,screen.get_width()/2+100))
+                # print((screen.get_height()/2+100,screen.get_height()/2-100))
             
-        #afficher l'image à la souris pendant le drag and drop si on bouge pas
+        # afficher l'image à la souris pendant le glisser-déposer si on ne bouge pas
         if self.active_card_e != None:
             self.echange[self.active_card_e].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
 
         return False, False
         
     def dragndrop_influence(self,screen,event,boat,equipage,player):
+        # Cette fonction gère le glisser-déposer des cartes d'influence.
+        # Elle prend en paramètres l'écran, l'événement, le bateau, l'équipage et le joueur.
+        
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 for num, card in enumerate(self.influence):
                     if card.front_rect.collidepoint(event.pos):
                         self.active_card_i=num
                         mouse_x, mouse_y = event.pos
-                        #position de la souris sur l'image
+                        # position de la souris sur l'image
                         self.offset_x=mouse_x-self.influence[self.active_card_i].pos[0]
                         self.offset_y=mouse_y-self.influence[self.active_card_i].pos[1]
                         print(self.offset_x,self.offset_y)
@@ -232,13 +245,13 @@ class Package_Destination():
             self.active_card_i=None
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_i != None:
-                #print("bouge")
+                # print("bouge")
                 self.influence[self.active_card_i].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                #print((event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                #print((screen.get_width()/2-100,screen.get_width()/2+100))
-                #print((screen.get_height()/2+100,screen.get_height()/2-100))
+                # print((event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
+                # print((screen.get_width()/2-100,screen.get_width()/2+100))
+                # print((screen.get_height()/2+100,screen.get_height()/2-100))
             
-        #afficher l'image à la souris pendant le drag and drop si on bouge pas
+        # afficher l'image à la souris pendant le drag and drop si on bouge pas
         if self.active_card_i !=None:
             self.influence[self.active_card_i].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
 

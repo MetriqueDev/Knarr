@@ -150,18 +150,19 @@ class Player():
         return False
     
     def play_ai(self,package_destination,board,jeu):
-        #choix de l'IA si elle explore ou recrute
-        asplay=False
-        p_pioche=False
-        for i in range(len(package_destination.echange)): #explore
-            can=package_destination.Compter_cartes(self.equipage,i,package_destination.echange)
-            #print(can)
+        # Choix de l'IA si elle explore ou recrute
+        asplay = False
+        p_pioche = False
+        
+        # Explore
+        for i in range(len(package_destination.echange)):
+            can = package_destination.Compter_cartes(self.equipage, i, package_destination.echange)
             if can:
-                #je mets la carte dans mon bateau et je la retire de la destination
+                # Je mets la carte dans mon bateau et je la retire de la destination
                 self.boat.Cartes_desti(package_destination.echange[i])
                 for gain in package_destination.echange[i].gain:
                     if gain == "pioche":
-                        p_pioche=True
+                        p_pioche = True
                     if gain == "recrue":
                         self.add_recrue(1)
                     if gain == "bracelet":
@@ -171,16 +172,17 @@ class Player():
                     if gain == "victoire":
                         self.add_score(1)
                 del package_destination.echange[i]
-                asplay=True
+                asplay = True
                 break
         
-        if asplay==False:
+        # Recrute
+        if asplay == False:
             for i in range(len(package_destination.influence)):
-                can=package_destination.Compter_cartes(self.equipage,i,package_destination.influence)
+                can = package_destination.Compter_cartes(self.equipage, i, package_destination.influence)
                 if can:
                     for gain in package_destination.influence[i].gain:
                         if gain == "pioche":
-                            p_pioche=True
+                            p_pioche = True
                         if gain == "recrue":
                             self.add_recrue(1)
                         if gain == "bracelet":
@@ -191,65 +193,62 @@ class Player():
                             self.add_score(1)
                     self.boat.Cartes_desti(package_destination.influence)
                     del package_destination.influence[i]
-                    asplay=True
+                    asplay = True
 
-        #pioche
-        if p_pioche==True:
-            #chosir une couleur de baord.recrue au hasard
-            couleur_choice=random.choice(list(board.recrues.keys()))
-            #print(board.recrues[couleur_choice].couleur)
+        # Pioche
+        if p_pioche == True:
+            # Choisir une couleur de board.recrue au hasard
+            couleur_choice = random.choice(list(board.recrues.keys()))
             self.add_equipage(board.recrues[couleur_choice])
-            board.recrues[couleur_choice]=None
-            board.recrues[couleur_choice]=jeu.package.package[0]
+            board.recrues[couleur_choice] = None
+            board.recrues[couleur_choice] = jeu.package.package[0]
             del jeu.package.package[0]
-            p_pioche=False
+            p_pioche = False
 
-        if asplay==False:
-            #on recrute
-            #je prend une carte de la main et je la met dans l'equipage et je retire la carte de la main
+        # Si aucune action n'a été effectuée, on recrute
+        if asplay == False:
+            # Je prends une carte de la main et je la mets dans l'équipage et je retire la carte de la main
             self.add_equipage(self.hand.main[0])
-            self.couleur=self.hand.main[0].couleur
+            self.couleur = self.hand.main[0].couleur
             for card in self.equipage[self.hand.main[0].couleur]:
                 if card.gain == "renommee":
                     self.add_renome(1)
                 elif card.gain == "recrue":
                     self.add_recrue(1)
-                elif card.gain =="victoire":
+                elif card.gain == "victoire":
                     self.add_score(1)
                 elif card.gain == "bracelet":
                     self.add_bracelet(1)
             del self.hand.main[0]
 
-            #Je pioche pour mettre une carte dans ma main de la couleur de la carte que j'ai mis dans l'equipage
-            couleur=str("p_"+self.couleur)
-            #print(board.recrues)
+            # Je pioche pour mettre une carte dans ma main de la couleur de la carte que j'ai mise dans l'équipage
+            couleur = str("p_" + self.couleur)
             self.hand.main.append(board.recrues[couleur])
-            board.recrues[couleur]=None
-            board.recrues[couleur]=jeu.package.package[0]
+            board.recrues[couleur] = None
+            board.recrues[couleur] = jeu.package.package[0]
             del jeu.package.package[0]
-            asplay=True
+            asplay = True
 
-        #commerce
-        choice=0
-        if self.boat.liste!=[]:
-            if self.boat.bracelet==3:
-                choice=random.randint(0,3)
-            elif self.boat.bracelet==2:
-                choice=random.randint(0,2)
-            elif self.boat.bracelet==1:
-                choice=random.randint(0,1)
+        # Commerce
+        choice = 0
+        if self.boat.liste != []:
+            if self.boat.bracelet == 3:
+                choice = random.randint(0, 3)
+            elif self.boat.bracelet == 2:
+                choice = random.randint(0, 2)
+            elif self.boat.bracelet == 1:
+                choice = random.randint(0, 1)
             else:
-                choice=0
-        if choice!=0:
-            liste_valeurs=self.boat.Commerce(choice)
-            n=jeu.liste_valeurs_to_game(self,liste_valeurs)
+                choice = 0
+        if choice != 0:
+            liste_valeurs = self.boat.Commerce(choice)
+            n = jeu.liste_valeurs_to_game(self, liste_valeurs)
             for i in range(n):
-                couleur_choice=random.choice(list(board.recrues.keys()))
+                couleur_choice = random.choice(list(board.recrues.keys()))
                 self.add_equipage(board.recrues[couleur_choice])
-                board.recrues[couleur_choice]=None
-                board.recrues[couleur_choice]=jeu.package.package[0]
+                board.recrues[couleur_choice] = None
+                board.recrues[couleur_choice] = jeu.package.package[0]
                 del jeu.package.package[0]
-                p_pioche=False
+                p_pioche = False
 
-        #fini le tour
-        
+        # Fini le tour

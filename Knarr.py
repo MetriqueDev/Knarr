@@ -9,7 +9,6 @@ from classes.hand import Hand
 from classes.package_destination import Package_Destination
 from classes.game import Game
 from classes.input import Button , Input
-import time
 import sqlite3
 
 
