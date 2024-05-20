@@ -138,18 +138,21 @@ while running:
         for event in pygame.event.get():
             if jeu.players[jeu.turn%len(jeu.players)].name==name:
                 pioche_number=jeu.event_handler(event,screen,pioche_number)
-        a=0
-        print("start")
+
         tour_passe=False
         #J'affiche la main du bon joueur...
         for player in jeu.players:
-            a+=1
+            if player.name==name:
+                player.print_equipage(screen)
+                player.hand.afficher_main(screen)
+                player.boat.print(screen)
+                player.boat.print_object(screen)
+                player.boat.print_object(screen)#,jeu.destination.liste)
             
             if  player.ia :
                 if player.name==jeu.players[jeu.turn%len(jeu.players)].name:
                     if jeu.wait_finish():
                         if tour_passe==False:
-                            print(a)
                             print(player.name)
                             player.play_ai(jeu.destination,jeu.board,jeu)
                             jeu.new_turn()
@@ -158,13 +161,6 @@ while running:
                             print('ia a joué')
             if player.ia==False:
                 if player.name==jeu.players[jeu.turn%len(jeu.players)].name:
-                    if player.name==name:
-                        
-                        player.print_equipage(screen)
-                        player.hand.afficher_main(screen)
-                        player.boat.print(screen)
-                        player.boat.print_object(screen)
-                        player.boat.print_object(screen)#,jeu.destination.liste)
                         
                         if player.active_card_h != None:
                                 player.hand.main[player.active_card_h].print(screen,(event.pos[0]-player.offset_x,event.pos[1]-player.offset_y))
