@@ -485,7 +485,7 @@ while running:
                     if jeu.wait_finish():
                         if tour_passe==False:
 
-                            player.play_ai(jeu.destination,jeu.board,jeu)
+                            player.play_ai(jeu.destination,jeu.board,jeu,player)
                             win=jeu.new_turn()
                             if win !=False:
                                 win_label=font.render(f"{win} a gagné",True,TEXT_COL)

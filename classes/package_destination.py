@@ -1,7 +1,6 @@
 import random
 from classes.destination import Card_bateau
 import pygame
-from boat import Boat
 class Package_Destination():
     def __init__(self):
         self.echange=[]
@@ -97,15 +96,16 @@ class Package_Destination():
                 # Si la couleur n'est ni "egal" ni "different", on vérifie si le nombre de cartes de cette couleur dans l'équipage est suffisant.
                 cpt+=len(equipage[cost])
             if cost == "egal":
-                # Si la couleur est "egal", on vérifie si l'équipage a au moins autant de cartes que le coût de la carte active.
-                cpt_egal=self.trouver_plus_grande_liste(equipage)
+                for couleur in equipage:
+                    if len(equipage[couleur])>=len(liste[active_card].cout_coul):
+                        cpt_egal+=1
             if cost == "different":
                 # Si la couleur est "different", on vérifie si l'équipage a au moins une carte de couleur différente.
                 for couleur in equipage:
                     if len(equipage[couleur])!=0:
                         cpt_diff+=1
             print('cpt=',cpt)
-            if cpt == len(liste[active_card].cout_coul) or cpt_egal == len(liste[active_card].cout_coul) or cpt_diff !=0:
+            if cpt >= len(liste[active_card].cout_coul) or cpt_egal >= len(liste[active_card].cout_coul) or cpt_diff >= len(liste[active_card].cout_coul):
                 # Si le nombre de cartes correspond au coût de la carte active, on retourne True.
                 return True
         if (cpt < len(liste[active_card].cout_coul) or cpt_egal == len(liste[active_card].cout_coul)) and joueur.ia==False:
