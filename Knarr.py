@@ -153,12 +153,12 @@ while running:
                 if player.name==jeu.players[jeu.turn%len(jeu.players)].name:
                     if jeu.wait_finish():
                         if tour_passe==False:
-                            print(player.name)
+                            #print(player.name)
                             player.play_ai(jeu.destination,jeu.board,jeu)
                             jeu.new_turn()
                             jeu.wait(1)
                             tour_passe=True
-                            print('ia a joué')
+                            #print('ia a joué')
             if player.ia==False:
                 if player.name==jeu.players[jeu.turn%len(jeu.players)].name:
                         
@@ -302,7 +302,6 @@ while running:
             retour_boutton= Button(200+20+5*96,700,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
             btnplus_boutton= Button(480,300,btnplus,1)
             btnmoins_boutton= Button(200,300,btnmoins,1)
-           
         if option_boutton.draw(screen):
             step="option"
             btnplus_boutton= Button(480,300,btnplus,1)

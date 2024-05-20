@@ -200,6 +200,8 @@ class Player():
             #print(board.recrues[couleur_choice].couleur)
             self.add_equipage(board.recrues[couleur_choice])
             board.recrues[couleur_choice]=None
+            board.recrues[couleur_choice]=jeu.package.package[0]
+            del jeu.package.package[0]
             p_pioche=False
 
         if asplay==False:
