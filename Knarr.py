@@ -17,6 +17,7 @@ pygame.init()
 screen = pygame.display.set_mode((1920,1080),pygame.RESIZABLE) #(1280, 720))
 
 pygame.display.set_caption("Knarr")
+pygame.display.set_icon(pygame.image.load(".\\images\\icon.png"))
 
 running=True
 clock = pygame.time.Clock()

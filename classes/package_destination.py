@@ -89,32 +89,41 @@ class Package_Destination():
         cpt=0
         cpt_egal=0
         cpt_diff=0
+        alr_s=[]
         for cost in liste[active_card].cout_coul:
-            print('cpt=',cpt)
+
             # Parcourt les différentes couleurs du coût de la carte active.
             if cost != "egal" and cost != "different" : #and len(equipage[cost])>cpt:
                 # Si la couleur n'est ni "egal" ni "different", on vérifie si le nombre de cartes de cette couleur dans l'équipage est suffisant.
-                cpt+=len(equipage[cost])
+                if cost not in alr_s:
+                    alr_s.append(cost)
+                    cpt+=len(equipage[cost])
             if cost == "egal":
+                #On compte le nombre de cartes de la couleur la plus présente dans l'équipage
                 for couleur in equipage:
-                    if len(equipage[couleur])>=len(liste[active_card].cout_coul):
-                        cpt_egal+=1
+                    if len(equipage[couleur])>cpt_egal and couleur not in alr_s:
+                        alr_s.append(couleur)
+                        cpt_egal=len(equipage[couleur])
             if cost == "different":
                 # Si la couleur est "different", on vérifie si l'équipage a au moins une carte de couleur différente.
                 for couleur in equipage:
-                    if len(equipage[couleur])!=0:
+                    if len(equipage[couleur])!=0 and couleur not in alr_s:
+                        alr_s.append(couleur)
                         cpt_diff+=1
             print('cpt=',cpt)
+            print('cpt_egal=',cpt_egal)
+            print('cpt_diff=',cpt_diff)
             if cpt >= len(liste[active_card].cout_coul) or cpt_egal >= len(liste[active_card].cout_coul) or cpt_diff >= len(liste[active_card].cout_coul):
                 # Si le nombre de cartes correspond au coût de la carte active, on retourne True.
                 return True
-        if (cpt < len(liste[active_card].cout_coul) or cpt_egal == len(liste[active_card].cout_coul)) and joueur.ia==False:
+        if (cpt < len(liste[active_card].cout_coul) or cpt_egal < len(liste[active_card].cout_coul) or cpt_diff < len(liste[active_card].cout_coul)) and joueur.ia==False:
+
             print("recrue")
             print(joueur.boat.recrue)
-            print(len(liste[active_card].cout_coul)-cpt)
-            if joueur.boat.recrue >= len(liste[active_card].cout_coul)-cpt:
+            print(len(liste[active_card].cout_coul)-cpt-cpt_egal-cpt_diff)
+            if joueur.boat.recrue >= len(liste[active_card].cout_coul)-cpt-cpt_egal-cpt_diff:
                 print("oui")
-                return len(liste[active_card].cout_coul)-cpt
+                return len(liste[active_card].cout_coul)-cpt-cpt_egal-cpt_diff
 
 
 
@@ -150,13 +159,12 @@ class Package_Destination():
 
                                 print(self.echange[self.active_card_e].cout_coul)
                                 if cout == "egal" and self.verif_liste_vide(equipage)==False:
-                                    if (equipage[cout]!=None or equipage[cout]!=[]):
-                                        print('egal')
-                                        for couleur in equipage:
-                                                if len(equipage[couleur])>=len(self.echange[self.active_card_e].cout_coul):
-                                                    active_card=couleur
-                                                del equipage[active_card][0]
-                                        a+=1
+                                    print('egal')
+                                    for couleur in equipage:
+                                            if len(equipage[couleur])>=len(self.echange[self.active_card_e].cout_coul):
+                                                active_card=couleur
+                                            del equipage[active_card][0]
+                                    a+=1
 
                                 if cout == "different" and self.verif_liste_vide(equipage)==False:
                                     print('different')
@@ -242,11 +250,11 @@ class Package_Destination():
                         # position de la souris sur l'image
                         self.offset_x=mouse_x-self.influence[self.active_card_i].pos[0]
                         self.offset_y=mouse_y-self.influence[self.active_card_i].pos[1]
-                       
+
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_i != None:
-  
+
                     if len(boat.liste)<1000:
                         can =self.Compter_cartes(equipage,self.active_card_i,self.influence,player)
                         print("can =",can)
@@ -260,13 +268,10 @@ class Package_Destination():
 
                                 print(self.influence[self.active_card_i].cout_coul)
                                 if cout == "egal" and self.verif_liste_vide(equipage)==False:
-                                    if (equipage[cout]!=None or equipage[cout]!=[]):
-                                        print('egal')
-                                        for couleur in equipage:
-                                            if len(equipage[couleur])>=len(self.influence[self.active_card_i].cout_coul):
-                                                active_card=couleur
-                                            del equipage[active_card][0]
-                                        a+=1
+                                    print('egal')
+                                    active_card=self.trouver_plus_grande_liste(equipage)
+                                    del equipage[active_card][0]
+                                    a+=1
 
                                 if cout == "different" and self.verif_liste_vide(equipage)==False:
                                     print('different')
