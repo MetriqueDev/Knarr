@@ -404,9 +404,24 @@ while running:
 
                             player.play_ai(jeu.destination,jeu.board,jeu)
                             win=jeu.new_turn()
-
                             if win !=False:
                                 win_label=font.render(f"{win} a gagné",True,TEXT_COL)
+                                if win == name:
+                                    #ajout a la base de donnée la victoire
+                                    con = sqlite3.connect("data.db")
+                                    cur = con.cursor()
+                                    cur.execute("UPDATE comptes SET victoires = victoires+1 WHERE nom = '{}'".format(name))
+                                    con.commit()
+                                    cur.close()
+                                    con.close()
+                                else:
+                                    #ajout a la base de donnée la défaite
+                                    con = sqlite3.connect("data.db")
+                                    cur = con.cursor()
+                                    cur.execute("UPDATE comptes SET défaites = défaites+1 WHERE nom = '{}'".format(name))
+                                    con.commit()
+                                    cur.close()
+                                    con.close()
                                 step = "win"
                             jeu.wait(1)
                             tour_passe=True
@@ -458,6 +473,7 @@ while running:
 
 
     if step == "win":
+       
         screen.blit(main_menu_bg,(0,0))
         
         screen.blit(win_label,(int(screen.get_width()/2-win_label.get_width()/2),int(screen.get_height()/2-win_label.get_height()/2)))

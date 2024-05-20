@@ -104,7 +104,7 @@ class Package_Destination():
                         # position de la souris sur l'image
                         self.offset_x=mouse_x-self.echange[self.active_card_e].pos[0]
                         self.offset_y=mouse_y-self.echange[self.active_card_e].pos[1]
-                        print(self.offset_x,self.offset_y)
+        
         
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
@@ -208,7 +208,7 @@ class Package_Destination():
                                     a+=1
 
                                 if cout == "different":
-                                    print('different')
+                                  
                                     for couleur in equipage:
                                         if equipage[couleur] and couleur not in prec_couleurs:
                                             del equipage[couleur][0]

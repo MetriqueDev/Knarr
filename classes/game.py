@@ -100,6 +100,8 @@ class Game():
                 player.couleur=None
                 player.add_renome_to_score()
 
+                #print(player.name," -> ",player.get_score())
+
             return self.check_win()
         return False
 
@@ -145,6 +147,6 @@ class Game():
     #verifie si un joueur a gagné
     def check_win(self):
         for player in self.players:
-            if player.get_score()==40:
+            if player.get_score()>=40:
                 return player.name
         return False

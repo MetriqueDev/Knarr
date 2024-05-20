@@ -154,7 +154,7 @@ class Player():
         
         # Explore
         if asplay == False:
-            for i in range(len(package_destination.echange)):
+            for i in range(3):
                 can = package_destination.Compter_cartes(self.equipage, i, package_destination.echange)
                 if can:
                     for gain in package_destination.echange[i].gain:
@@ -171,9 +171,8 @@ class Player():
                     self.boat.Cartes_desti(package_destination.echange[i])
                     del package_destination.echange[i]
                     asplay = True
-        # Recrute
         if asplay == False:
-            for i in range(len(package_destination.influence)):
+            for i in range(3):
                 can = package_destination.Compter_cartes(self.equipage, i, package_destination.influence)
                 if can:
                     for gain in package_destination.influence[i].gain:
