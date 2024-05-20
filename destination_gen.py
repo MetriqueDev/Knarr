@@ -6,7 +6,7 @@ from  classes.destination import Card_bateau
 for i in range(20):
     ok=False
     while ok == False:
-        print(f"Vous êtes à l'id {i+1}")
+  
         ide=i+1
         card=Card_bateau(ide,tuple(input("cout : rouge bleu vert violet jaune ->").split(" ")),tuple(str(input("gain->"))).split(" "),tuple(input("gain colonne: ->").split(" ")))
         card.info()

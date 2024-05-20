@@ -48,10 +48,9 @@ class Player():
             self.renome=14
 
     def add_score(self,add):
-        if ((self.score+add)>(-1)):
+        #le score ne doit pas dépasser 40 points et ne peut pas être négatif sinon on le met à 0 ou au max
+        if ((self.score + add)<=40):
             self.score+=add
-        if ((self.score + add)>40):
-            self.score=40
 
     def get_renome(self):
         return self.renome
@@ -109,20 +108,19 @@ class Player():
                 for num, card in enumerate(self.hand.main):
                     print(num,card,card.front_rect.collidepoint(event.pos),card.front_rect.x,self.hand.main[num].front_rect.x,card.front_rect.y,self.hand.main[num].front_rect.y)
                     if card.front_rect.collidepoint(event.pos):
-                        print("click_on")
                         self.active_card_h=num
                         mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
                         self.offset_x=mouse_x-self.hand.main[self.active_card_h].pos[0]
                         self.offset_y=mouse_y-self.hand.main[self.active_card_h].pos[1]
-                        print("dragndrop_hand",self.offset_x,self.offset_y)
+
 
         if event.type == pygame.MOUSEBUTTONUP:
             
             if event.button==1:
-                print("NTM",self.active_card_h)
+
                 if ((1280-10)<event.pos[0]<(1280-10+125*5+20)) and ((-410-200+int(screen.get_height() ))-self.taille )<event.pos[1]<((-410-200+int(screen.get_height() ))-self.taille +220) and self.active_card_h != None: #position à adapter à l'equipage
-                    print("hand")
+
                     self.add_equipage(self.hand.main[self.active_card_h]) 
                     self.couleur=self.hand.main[self.active_card_h].couleur
                     for card in self.equipage[self.hand.main[self.active_card_h].couleur]:

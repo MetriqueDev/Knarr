@@ -12,7 +12,7 @@ class Board():
 
     def init_cartes(self,package):
         for card in self.recrues:
-            #print(package.package)
+
             if self.recrues[card] == None:
                 self.recrues[card] = package.package[0]
                 del package.package[0]
@@ -69,24 +69,19 @@ class Board():
     def dragndrop_recrutement(self,screen,event,hand,package,player): #du recrutement à la main
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                print("click")
                 for couleur in self.recrues:
                     if self.recrues[couleur].front_rect.collidepoint(event.pos):
-                        #print(type(self.equipage[card]))
-                        #print("ok")
-                        
+
                         #si la carte cliqué est de la couelur de la dernière carte du joueur
 
                         self.active_card_b=couleur
-                        print(self.active_card_b, type(self.active_card_b))
-                        print(self.recrues[self.active_card_b])
-                        print(self.recrues)
+
                         mouse_x, mouse_y = event.pos
                         #position de la souris sur l'image
-                        #print(self.equipage[card])
+
                         self.offset_x=mouse_x-self.recrues[couleur].pos[0]
                         self.offset_y=mouse_y-self.recrues[couleur].pos[1]
-                        #print(self.offset_x,self.offset_y)
+
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button==1:
                 if (1440<event.pos[0]<1826 )and (690<event.pos[1]<910) and self.active_card_b != None:
@@ -115,11 +110,9 @@ class Board():
             self.active_card_b=None#
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_b != None:
-                #print("bouge")
+
                 self.recrues[self.active_card_b].print(screen,(event.pos[0]-self.offset_x,event.pos[1]-self.offset_y))
-                #print((event.pos[0],event.pos[1]))
-                #print((screen.get_width()/2-200,screen.get_width()/2+200))
-                #print((screen.get_height()/2))
+
         return False
 
     def dragndrop_recrue_to_equipage(self,screen,event,player,package): #du recrutement à l'équipage
