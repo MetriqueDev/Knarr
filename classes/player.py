@@ -149,15 +149,15 @@ class Player():
 
         return False
     
-    def play_ai(self,package_destination,board,jeu):
+    def play_ai(self,package_destination,board,jeu,player):
         # Choix de l'IA si elle explore ou recrute
         asplay = False
         p_pioche = False
         
         # Explore
-        if asplay == False:
-            for i in range(len(package_destination.echange)):
-                can = package_destination.Compter_cartes(self.equipage, i, package_destination.echange)
+        for i in range(3):
+            if asplay == False:
+                can = package_destination.Compter_cartes(self.equipage, i, package_destination.echange,player)
                 if can:
                     for gain in package_destination.echange[i].gain:
                         if gain == "pioche":
@@ -173,11 +173,9 @@ class Player():
                     self.boat.Cartes_desti(package_destination.echange[i])
                     del package_destination.echange[i]
                     asplay = True
-        
-        # Recrute
-        if asplay == False:
-            for i in range(len(package_destination.influence)):
-                can = package_destination.Compter_cartes(self.equipage, i, package_destination.influence)
+        for i in range(3):
+            if asplay == False:
+                can = package_destination.Compter_cartes(self.equipage, i, package_destination.influence,player)
                 if can:
                     for gain in package_destination.influence[i].gain:
                         if gain == "pioche":

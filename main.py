@@ -244,7 +244,7 @@ while running:
             con = sqlite3.connect("data.db")
             cur = con.cursor()
             existe=cur.execute("SELECT nom FROM comptes WHERE NOM = '{}'".format(name))
-            print(existe.fetchone())
+            #print(existe.fetchone())
             if existe.fetchone()==None:
                 print("save")
                 cur.execute("INSERT INTO 'comptes' ('nom','victoires','défaites','niveau','mdp') VALUES (?,?,?,?,?)",(name,0,0,0,mdp))

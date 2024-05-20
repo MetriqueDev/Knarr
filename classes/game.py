@@ -60,7 +60,7 @@ class Game():
     def update(self,screen,font,pioche_number,name):
 
         text_turn="Tour de "+self.players[self.turn%len(self.players)].name
-        print("affiche: ",self.players[self.turn%len(self.players)].name)
+        #print("affiche: ",self.players[self.turn%len(self.players)].name)
         self.turn_name=font.render(text_turn,True,(200,200,210))
         
         screen.blit(self.background, (0,0))

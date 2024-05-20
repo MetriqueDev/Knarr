@@ -153,7 +153,7 @@ while running:
                     if jeu.wait_finish():
                         if tour_passe==False:
                             #print(player.name)
-                            player.play_ai(jeu.destination,jeu.board,jeu)
+                            player.play_ai(jeu.destination,jeu.board,jeu,player)
                             jeu.new_turn()
                             jeu.wait(1)
                             tour_passe=True
@@ -412,7 +412,7 @@ while running:
             con = sqlite3.connect("data.db")
             cur = con.cursor()
             existe=cur.execute("SELECT nom FROM comptes WHERE NOM = '{}'".format(name))
-            print(existe.fetchone())
+            #print(existe.fetchone())
             if existe.fetchone()==None:
                 print("save")
                 cur.execute("INSERT INTO 'comptes' ('nom','victoires','défaites','niveau','mdp') VALUES (?,?,?,?,?)",(name,0,0,0,mdp))

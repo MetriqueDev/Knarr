@@ -21,10 +21,10 @@ class Package_Destination():
         ('jaune','jaune','bleu','bleu'),('rouge','jaune','vert','bleu','violet'),('vert','vert','vert','bleu','bleu'),
         ('rouge','rouge','vert','vert'),('jaune','jaune','jaune','vert','vert'),('bleu','bleu','rouge','rouge'),('rouge','jaune','vert','bleu','violet'),
         ('rouge','rouge','rouge','jaune','jaune'),('egal','egal','egal','egal')]
-        self.card_gain=[('pioche'),('recrue','recrue'),('bracelet','renommee'),('bracelet'),('bracelet','recrue','pioche'),
-        ('bracelet','recrue'),('bracelet'),('pioche'),('renommee'),('bracelet','renommee','pioche'),('bracelet'),('renommee','renommee'),
-        ('bracelet','pioche'),('bracelet','renommee'),('recrue','renommee','pioche'),('bracelet','pioche'),('recrue'),('recrue'),
-        ('recrue','renommee'),(''),('victoire','victoire','victoire','victoire','victoire','recrue'),('victoire','victoire','victoire','victoire','victoire','victoire','victoire','victoire','pioche'),
+        self.card_gain=[('pioche',),('recrue','recrue'),('bracelet','renommee'),('bracelet',),('bracelet','recrue','pioche'),
+        ('bracelet','recrue'),('bracelet',),('pioche',),('renommee',),('bracelet','renommee','pioche'),('bracelet',),('renommee','renommee'),
+        ('bracelet','pioche'),('bracelet','renommee'),('recrue','renommee','pioche'),('bracelet','pioche'),('recrue',),('recrue',),
+        ('recrue','renommee'),('',),('victoire','victoire','victoire','victoire','victoire','recrue'),('victoire','victoire','victoire','victoire','victoire','victoire','victoire','victoire','pioche'),
         ('victoire','victoire','victoire','victoire','victoire','victoire'),('victoire','victoire','victoire','victoire','victoire','bracelet'),('victoire','victoire','victoire','victoire','victoire','victoire'),
         ('victoire','victoire','victoire','victoire','victoire','victoire','victoire','renommee','renommee'),('victoire','victoire','victoire','victoire','victoire','victoire'),
         ('victoire','victoire','victoire','victoire','bracelet','recrue','renommee','pioche'),('victoire','victoire','victoire','victoire','victoire','victoire','victoire','victoire','recrue'),
@@ -65,30 +65,57 @@ class Package_Destination():
             self.influence[i].print(screen,(int(i*300+305),155))
         self.verso[0].print(screen, (5,5))
         self.verso[1].print(screen, (5,155))
+    
+    def trouver_plus_grande_liste(self,dictionnaire):
+        max_taille = float('-inf')  # Initialisation avec une valeur négative infinie
+        cle_max = None
+    
+        for cle, liste in dictionnaire.items():
+            taille_liste = len(liste)
+            if taille_liste > max_taille:
+                max_taille = taille_liste
+                cle_max = cle
+    
+        return cle_max
+    
+    def verif_liste_vide(self,dictionnaire):
+        for cle, liste in dictionnaire.items():
+            if liste:
+                return False
+        return True
 
-    def Compter_cartes(self,equipage,active_card,liste):
+    def Compter_cartes(self,equipage,active_card,liste,joueur):
         # Cette fonction compte le nombre de cartes dans l'équipage qui correspondent aux conditions de coût de la carte active.
         # Elle prend en paramètre l'équipage, l'indice de la carte active et la liste des cartes.
         cpt=0
+        cpt_egal=0
+        cpt_diff=0
         for cost in liste[active_card].cout_coul:
+            print('cpt=',cpt)
             # Parcourt les différentes couleurs du coût de la carte active.
-            if cost != "egal" and cost != "different":
+            if cost != "egal" and cost != "different" : #and len(equipage[cost])>cpt:
                 # Si la couleur n'est ni "egal" ni "different", on vérifie si le nombre de cartes de cette couleur dans l'équipage est suffisant.
-                if liste[active_card].cout_coul.count(cost) <= len(equipage[cost]):
-                    cpt+=liste[active_card].cout_coul.count(cost)
+                cpt+=len(equipage[cost])
             if cost == "egal":
                 # Si la couleur est "egal", on vérifie si l'équipage a au moins autant de cartes que le coût de la carte active.
-                for couleur in equipage:
-                    if len(equipage[couleur])>=len(liste[active_card].cout_coul):
-                        cpt+=len(liste[active_card].cout_coul)
+                cpt_egal=self.trouver_plus_grande_liste(equipage)
             if cost == "different":
                 # Si la couleur est "different", on vérifie si l'équipage a au moins une carte de couleur différente.
                 for couleur in equipage:
                     if len(equipage[couleur])!=0:
-                        cpt+=1
-            if cpt == len(liste[active_card].cout_coul):
+                        cpt_diff+=1
+            print('cpt=',cpt)
+            if cpt == len(liste[active_card].cout_coul) or cpt_egal == len(liste[active_card].cout_coul) or cpt_diff !=0:
                 # Si le nombre de cartes correspond au coût de la carte active, on retourne True.
                 return True
+        if (cpt < len(liste[active_card].cout_coul) or cpt_egal == len(liste[active_card].cout_coul)) and joueur.ia==False:
+            print("recrue")
+            print(joueur.boat.recrue)
+            print(len(liste[active_card].cout_coul)-cpt)
+            if joueur.boat.recrue >= len(liste[active_card].cout_coul)-cpt:
+                print("oui")
+                return len(liste[active_card].cout_coul)-cpt
+
 
 
     def dragndrop_echange(self,screen,event,boat,equipage,player):
@@ -112,50 +139,78 @@ class Package_Destination():
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_e != None:
                     print("echange")
                     if len(boat.liste)<1000:
-                        print(self.Compter_cartes(equipage,self.active_card_e,self.echange))
-                        if self.Compter_cartes(equipage,self.active_card_e,self.echange):
+                        can =self.Compter_cartes(equipage,self.active_card_e,self.echange,player)
+                        print("can =",can)
+                        if can == True or can ==1 or can ==2 or can ==3:
                             a=0
+                            b=0
                             prec_couleurs=[]
                             p_pioche=False
                             for cout in self.echange[self.active_card_e].cout_coul:
-                                print(self.echange[self.active_card_e].cout_coul)
-                                if cout == "egal":
-                                    print('egal')
-                                    for couleur in equipage:
-                                        if len(equipage[couleur])>=len(self.echange[self.active_card_e].cout_coul):
-                                            active_card=couleur
-                                    del equipage[active_card][0]
-                                    a+=1
+                                #print("équipage",equipage[cout])
 
-                                if cout == "different":
+                                print(self.echange[self.active_card_e].cout_coul)
+                                if cout == "egal" and self.verif_liste_vide(equipage)==False:
+                                    if (equipage[cout]!=None or equipage[cout]!=[]):
+                                        print('egal')
+                                        for couleur in equipage:
+                                                if len(equipage[couleur])>=len(self.echange[self.active_card_e].cout_coul):
+                                                    active_card=couleur
+                                                del equipage[active_card][0]
+                                        a+=1
+
+                                if cout == "different" and self.verif_liste_vide(equipage)==False:
                                     print('different')
                                     for couleur in equipage:
                                         if equipage[couleur] and couleur not in prec_couleurs:
+                                            if b == len(self.echange[self.active_card_e].cout_coul):
+                                                break
                                             del equipage[couleur][0]
                                             prec_couleurs.append(couleur)
+                                            b+=1
+                                            
                                     a+=1
 
-                                if cout != "egal" and cout != "different":
+                                if cout != "egal" and cout != "different" and equipage[cout] != []:
                                     print('normal')
                                     del equipage[cout][0]
                                     a+=1
-                                if a == len(self.echange[self.active_card_e].cout_coul):
-                                    boat.Cartes_desti(self.echange[self.active_card_e])
-
-                                    for gain in self.echange[self.active_card_e].gain:
-                                        if gain == "pioche":
-                                            p_pioche=True
-                                        if gain == "recrue":
-                                            player.add_recrue(1)
-                                        if gain == "bracelet":
-                                            player.add_bracelet(1)
-                                        if gain == "renommee":
-                                            player.add_renome(1)
-                                        if gain == "victoire":
-                                            player.add_score(1)
-                                    del self.echange[self.active_card_e]
-                                    self.active_card_e=None
-                                    return True, p_pioche
+                            if a == len(self.echange[self.active_card_e].cout_coul):
+                                boat.Cartes_desti(self.echange[self.active_card_e])
+                                for gain in self.echange[self.active_card_e].gain:
+                                    print(gain)
+                                    if gain == "pioche":
+                                        p_pioche=True
+                                    elif gain == "recrue":
+                                        player.add_recrue(1)
+                                    elif gain == "bracelet":
+                                        player.add_bracelet(1)
+                                    elif gain == "renommee":
+                                        player.add_renome(1)
+                                    elif gain == "victoire":
+                                        player.add_score(1)
+                                del self.echange[self.active_card_e]
+                                self.active_card_e=None
+                                return True, p_pioche
+                            elif can ==1 or can ==2 or can ==3:
+                                print("lets go !")
+                                player.add_recrue(-can)
+                                boat.Cartes_desti(self.echange[self.active_card_e])
+                                for gain in self.echange[self.active_card_e].gain:
+                                    print(gain)
+                                    if gain == "pioche":
+                                        p_pioche=True
+                                    elif gain == "recrue":
+                                        player.add_recrue(1)
+                                    elif gain == "bracelet":
+                                        player.add_bracelet(1)
+                                    elif gain == "renommee":
+                                        player.add_renome(1)
+                                    elif gain == "victoire":
+                                        player.add_score(1)
+                                del self.echange[self.active_card_e]
+                                self.active_card_e=None
+                                return True, p_pioche
                         else:
                             print("pas assez de cartes")
                     self.active_card_e=None
@@ -196,53 +251,84 @@ class Package_Destination():
                 if screen.get_width()/2-100<event.pos[0]<screen.get_width()/2+100 and event.pos[1]>screen.get_height()-200 and self.active_card_i != None:
                     print("influence")
                     if len(boat.liste)<1000:
-                        if self.Compter_cartes(equipage,self.active_card_i,self.influence):
+                        can =self.Compter_cartes(equipage,self.active_card_i,self.influence,player)
+                        print("can =",can)
+                        if can == True or can ==1 or can ==2 or can ==3:
                             a=0
+                            b=0
                             prec_couleurs=[]
                             p_pioche=False
                             for cout in self.influence[self.active_card_i].cout_coul:
-                                print(self.influence[self.active_card_i].cout_coul)
-                                if cout == "egal":
-                                    print('egal')
-                                    for card in equipage:
-                                        if len(equipage[card])>=len(self.influence[self.active_card_i].cout_coul):
-                                            active_card=card
-                                    del equipage[active_card][0]
-                                    a+=1
+                                #print("équipage",equipage[cout])
 
-                                if cout == "different":
+                                print(self.influence[self.active_card_i].cout_coul)
+                                if cout == "egal" and self.verif_liste_vide(equipage)==False:
+                                    if (equipage[cout]!=None or equipage[cout]!=[]):
+                                        print('egal')
+                                        for couleur in equipage:
+                                            if len(equipage[couleur])>=len(self.influence[self.active_card_i].cout_coul):
+                                                active_card=couleur
+                                            del equipage[active_card][0]
+                                        a+=1
+
+                                if cout == "different" and self.verif_liste_vide(equipage)==False:
                                     print('different')
                                     for couleur in equipage:
                                         if equipage[couleur] and couleur not in prec_couleurs:
+                                            if b == len(self.influence[self.active_card_i].cout_coul):
+                                                break
                                             del equipage[couleur][0]
                                             prec_couleurs.append(couleur)
+                                            b+=1
                                     a+=1
 
-                                if cout != "egal" and cout != "different":
+                                if cout != "egal" and cout != "different" and equipage[cout] != []:
                                     print('normal')
                                     del equipage[cout][0]
                                     a+=1
-                                if a == len(self.influence[self.active_card_i].cout_coul):
-                                    boat.Cartes_desti(self.influence[self.active_card_i])
-
-                                    for gain in self.influence[self.active_card_i].gain:
-                                        if gain == "pioche":
-                                            p_pioche=True
-                                        if gain == "recrue":
-                                            player.add_recrue(1)
-                                        if gain == "bracelet":
-                                            player.add_bracelet(1)
-                                        if gain == "renommee":
-                                            player.add_renome(1)
-                                        if gain == "victoire":
-                                            player.add_score(1)
-                                    del self.influence[self.active_card_i]
-                                    self.active_card_i=None
-                                    return True,p_pioche
+                            if a == len(self.influence[self.active_card_i].cout_coul):
+                                boat.Cartes_desti(self.influence[self.active_card_i])
+                                for gain in self.influence[self.active_card_i].gain:
+                                    print(gain)
+                                    if gain == "pioche":
+                                        p_pioche=True
+                                    elif gain == "recrue":
+                                        player.add_recrue(1)
+                                    elif gain == "bracelet":
+                                        player.add_bracelet(1)
+                                    elif gain == "renommee":
+                                        player.add_renome(1)
+                                    elif gain == "victoire":
+                                        player.add_score(1)
+                                del self.influence[self.active_card_i]
+                                self.active_card_i=None
+                                return True, p_pioche
+                            elif can ==1 or can ==2 or can ==3:
+                                print("lets go !")
+                                player.add_recrue(-can)
+                                boat.Cartes_desti(self.influence[self.active_card_i])
+                                for gain in self.influence[self.active_card_i].gain:
+                                    print(gain)
+                                    if gain == "pioche":
+                                        p_pioche=True
+                                    elif gain == "recrue":
+                                        player.add_recrue(1)
+                                    elif gain == "bracelet":
+                                        player.add_bracelet(1)
+                                    elif gain == "renommee":
+                                        player.add_renome(1)
+                                    elif gain == "victoire":
+                                        player.add_score(1)
+                                del self.influence[self.active_card_i]
+                                self.active_card_i=None
+                                return True, p_pioche
+                        else:
+                            print("pas assez de cartes")
                     self.active_card_i=None
                 else:
                     self.active_card_i=None
             self.active_card_i=None
+        
         elif event.type == pygame.MOUSEMOTION:
             if self.active_card_i != None:
                 # print("bouge")

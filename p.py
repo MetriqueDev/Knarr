@@ -1,9 +1,9 @@
-from classes.destination import Destination
+def verif_liste_vide(dictionnaire):
+        for cle, liste in dictionnaire.items():
+            if liste:
+                return False
+        return True
 
 
-with open("cartes_destination.txt","w") as file:
-    for i in range(15):
-        a=i+1
-        b=(Destination(str(input("influ ou ech ?")), str(input("cout en couleur")), int(input('cout en recrues'))))
-        b.image(a)
-        file.write(b)
+dico={"a":[],"b":[],"c":[]}
+print(verif_liste_vide(dico)) # False
