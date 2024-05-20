@@ -220,9 +220,13 @@ while running:
         if btnplus_boutton.draw(screen):
             if nbr_player<4:
                 nbr_player+=1
+                pygame.mixer.music.load(".\\musique\\gui_sound\\oui.wav")
+                pygame.mixer.music.play()
         if btnmoins_boutton.draw(screen):
             if nbr_player>2:
                 nbr_player-=1
+                pygame.mixer.music.load(".\\musique\\gui_sound\\non.wav")
+                pygame.mixer.music.play()
         
         #affichage du nombre de joueur
         #barre entre 2 et 4 
@@ -286,6 +290,7 @@ while running:
 
         if retour_boutton.draw(screen):
             step="menu_play"
+            retour_boutton= Button(200,400,[btn_unselect_image_load,btn_select_image_load],5,font,"Retour")
             
 
     #Menu pour jouer
@@ -293,6 +298,17 @@ while running:
         screen.blit(main_menu_bg,(0,0))
 
         user_icone_btn.draw(screen)
+
+
+        #Affichage des informations du joueur à droite dans un cadre
+        #dessin du cadre
+        pygame.draw.rect(screen, (100, 30, 22),  (1190, 120, 700, 400))
+        screen.blit(font.render("Informations du joueur",True,TEXT_COL),(1200,130))
+        screen.blit(name_label,(1200,230))
+        screen.blit(niveau_label,(1200,280))
+        screen.blit(victoires_label,(1200,330))
+        screen.blit(defaites_label,(1200,380))
+        screen.blit(pourcentage_victoire_label,(1200,430))
 
         if jouer_boutton.draw(screen):
 
@@ -352,6 +368,17 @@ while running:
                     niveau=data[4]
                     defaites=data[3]
                     victoires=data[2]
+
+                    title_label = font.render("Informations du joueur", True, TEXT_COL)
+                    name_label = font.render("Nom: {}".format(name), True, TEXT_COL)
+                    niveau_label = font.render("Niveau: {}".format(niveau), True, TEXT_COL)
+                    victoires_label = font.render("Victoires: {}".format(victoires), True, TEXT_COL)
+                    defaites_label = font.render("Défaites: {}".format(defaites), True, TEXT_COL)
+                    if victoires + defaites == 0:
+                        pourcentage_victoire_label = font.render("Pourcentage de victoire: 0%", True, TEXT_COL)
+                    else:
+                        pourcentage_victoire_label = font.render("Pourcentage de victoire: {}%".format(victoires / (victoires + defaites) * 100), True, TEXT_COL)
+
                     pygame.mixer.music.load(".\\musique\\gui_sound\\bienvenue.wav")
                     pygame.mixer.music.play()
                     log=True
